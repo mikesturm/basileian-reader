@@ -8,6 +8,7 @@
 
   const STORAGE_HIGHLIGHTS = "basileian.reader.v2.highlights";
   const STORAGE_THEME = "basileian.reader.v2.theme";
+  const STORAGE_TRANSLATION = "basileian.reader.v2.activeTranslation";
 
   const sections = DATA.sections;
   const books = DATA.books;
@@ -21,7 +22,9 @@
     currentSectionId: books[0]?.sectionIds?.[0] || null,
     chapterMode: true,
     activeSearchTerm: "",
-    highlights: loadHighlights()
+    highlights: loadHighlights(),
+    activeTranslation: "basileia", // "basileia" | "kjv" | "asv" | etc.
+    translationsLoading: {} // Track which translations are loading
   };
 
   const els = {
@@ -55,7 +58,9 @@
     modalBody: document.getElementById("modalBody"),
     modalActions: document.getElementById("modalActions"),
     modalClose: document.getElementById("modalClose"),
-    themeToggle: document.getElementById("themeToggle")
+    themeToggle: document.getElementById("themeToggle"),
+    translationSelect: document.getElementById("translationSelect"),
+    translationStatus: document.getElementById("translationStatus")
   };
 
   function init() {
@@ -63,7 +68,9 @@
     applyStoredTheme();
     bindEvents();
     renderBookSelect();
+    renderTranslationSelector();
     restoreFromHash();
+    restoreTranslationPreference();
     setCurrentSectionIfMissing();
     renderAll();
     if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
@@ -114,6 +121,13 @@
       renderAll();
     });
 
+    // Translation selector
+    els.translationSelect.addEventListener("change", () => {
+      state.activeTranslation = els.translationSelect.value;
+      localStorage.setItem(STORAGE_TRANSLATION, state.activeTranslation);
+      renderReader(); // Re-render with new translation
+    });
+
     document.addEventListener("selectionchange", debounce(updateSelectionToolbar, 120));
     document.addEventListener("mouseup", () => setTimeout(updateSelectionToolbar, 0));
     document.addEventListener("touchend", () => setTimeout(updateSelectionToolbar, 250));
@@ -133,6 +147,22 @@
       restoreFromHash();
       renderAll();
     });
+  }
+
+  function renderTranslationSelector() {
+    const translations = TranslationsModule.getAvailableTranslations();
+    
+    // Always include basileia
+    const options = [
+      { id: "basileia", name: "Basileia (Original Languages)" },
+      ...translations.map(t => ({ id: t.id, name: t.name }))
+    ];
+
+    els.translationSelect.innerHTML = options
+      .map(opt => `<option value="${escapeAttr(opt.id)}">${escapeHTML(opt.name)}</option>`)
+      .join("");
+
+    els.translationSelect.value = state.activeTranslation;
   }
 
   function setTab(tab) {
@@ -270,6 +300,7 @@
   }
 
   function attachDynamicReaderEvents() {
+    // Existing note link handlers
     els.readerContent.querySelectorAll(".note-link").forEach(button => {
       button.addEventListener("click", event => {
         event.preventDefault();
@@ -277,11 +308,21 @@
       });
     });
 
+    // Existing highlight handlers
     els.readerContent.querySelectorAll(".user-highlight").forEach(mark => {
       mark.addEventListener("click", event => {
         event.stopPropagation();
         const highlight = state.highlights.find(h => h.id === mark.dataset.highlightId);
         if (highlight) openHighlightEditor(highlight);
+      });
+    });
+
+    // NEW: Strong's word handlers
+    els.readerContent.querySelectorAll(".source-word[data-strongs]").forEach(word => {
+      word.addEventListener("click", event => {
+        event.stopPropagation();
+        const strongsNum = word.dataset.strongs;
+        if (strongsNum) openStrongsModal(strongsNum);
       });
     });
   }
@@ -306,7 +347,7 @@
       .slice(0, 20);
 
     const total = sectionResults.length + noteResults.length;
-    els.searchSummary.textContent = `${total} result${total === 1 ? "" : "s"} for “${q}”${sectionResults.length >= 80 ? " (showing first 80 passages)" : ""}.`;
+    els.searchSummary.textContent = `${total} result${total === 1 ? "" : "s"} for "${q}"${sectionResults.length >= 80 ? " (showing first 80 passages)" : ""}.`;
 
     const sectionHtml = sectionResults.map(({section, index}) => {
       return `<button class="search-result" data-section-id="${escapeAttr(section.id)}">
@@ -319,7 +360,7 @@
     const noteHtml = noteResults.map(({number, text, index}) => {
       return `<button class="search-result" data-note="${escapeAttr(number)}">
         <strong>Endnote ${escapeHTML(number)}</strong>
-        <small>Translator’s note</small>
+        <small>Translator's note</small>
         <span>${snippetHTML(text, index, q)}</span>
       </button>`;
     }).join("");
@@ -385,9 +426,76 @@
     }
   }
 
+  /**
+   * NEW: Get verse text in current translation
+   */
+  async function getVerseTextForTranslation(verseId) {
+    if (state.activeTranslation === "basileia") return null; // Source text handled separately
+    
+    try {
+      updateTranslationStatus("loading");
+      const text = await TranslationsModule.getVerseText(verseId, state.activeTranslation);
+      updateTranslationStatus("");
+      return text;
+    } catch (error) {
+      console.error("Failed to get verse text:", error);
+      updateTranslationStatus("error");
+      return null;
+    }
+  }
+
+  /**
+   * NEW: Update translation status indicator
+   */
+  function updateTranslationStatus(status) {
+    if (status === "loading") {
+      els.translationStatus.innerHTML = `<span class="translation-loading">⏳ Loading...</span>`;
+    } else if (status === "error") {
+      els.translationStatus.textContent = "❌ Error loading translation";
+    } else {
+      els.translationStatus.textContent = "";
+    }
+  }
+
+  /**
+   * NEW: Open Strong's modal
+   */
+  async function openStrongsModal(strongsNum) {
+    try {
+      const entry = await TranslationsModule.getStrongsDefinition(strongsNum);
+      
+      let bodyHTML = `
+        <div class="strongs-entry">
+          <div class="strongs-entry-number">${escapeHTML(entry.number)}</div>
+          ${entry.lemma ? `<div class="strongs-entry-lemma">${escapeHTML(entry.lemma)}</div>` : ""}
+          <div class="strongs-entry-definition">${escapeHTML(entry.definition)}</div>
+        </div>
+      `;
+
+      const actions = [
+        {
+          label: "BlueLetterBible",
+          className: "button secondary",
+          onClick: () => {
+            const url = entry.url || `https://www.blueletterbible.org/lexicon/${strongsNum}/`;
+            window.open(url, "_blank");
+          }
+        },
+        { label: "Close", className: "button", onClick: closeModal }
+      ];
+
+      openModal(`${strongsNum} — Strong's Concordance`, bodyHTML, actions);
+    } catch (error) {
+      console.error("Failed to open Strong's modal:", error);
+      openModal("Error", "<p>Could not load Strong's entry.</p>", [
+        { label: "Close", className: "button", onClick: closeModal }
+      ]);
+    }
+  }
+
   function formatParagraph(raw, section) {
     let currentChapter = section.startChapter || "";
-    const re = /\[(\d+(?::\d+)?[a-z]?)\]|([A-Za-zÀ-ÖØ-öø-ÿ\u0370-\u03ff\]\)'"”’?!;:,.—])(\d{1,3})(?![\d:–-])/g;
+    const re = /\[(\d+(?::\d+)?[a-z]?)\]|([A-Za-zÀ-ÖØ-öø-ÿ\u0370-\u03ff\]\)'""'?!;:,.—])(\d{1,3})(?![\d:–-])/g;
     let out = "";
     let last = 0;
     let match;
@@ -622,7 +730,7 @@
     if (!raw) return;
     const target = findReference(raw);
     if (!target) {
-      els.gotoMessage.textContent = "Reference not found. Try “Mark 4:21”, “John 20:24”, or “Logion 54”.";
+      els.gotoMessage.textContent = "Reference not found. Try "Mark 4:21", "John 20:24", or "Logion 54".";
       return;
     }
 
@@ -823,6 +931,16 @@
         if (anchor) scrollToAnchor(anchor);
         else scrollToSection(section.id);
       }, 100);
+    }
+  }
+
+  /**
+   * NEW: Restore translation preference from storage
+   */
+  function restoreTranslationPreference() {
+    const stored = localStorage.getItem(STORAGE_TRANSLATION);
+    if (stored) {
+      state.activeTranslation = stored;
     }
   }
 
