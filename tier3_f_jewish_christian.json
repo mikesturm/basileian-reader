@@ -1,0 +1,36 @@
+{
+  "id": "tier3_f_jewish_christian",
+  "tier": 3,
+  "letter": "F",
+  "title": "Selected Citations from the Jewish-Christian Gospels",
+  "language": "grc",
+  "source_edition": "Origen, Jerome, and Epiphanius citations preserved in the Patrologia Graeca and Patrologia Latina (Migne). Public domain. Standard scholarly compilation: A.F.J. Klijn, *Jewish-Christian Gospel Tradition* (Brill, 1992).",
+  "date_of_composition": "Citations preserved in patristic works of 3rd–4th century; underlying gospel sources 2nd century.",
+  "scope_note": "Three patristic citations: Origen's GHeb agraphon, Jerome's GHeb appearance to James, Epiphanius's Ebionite baptism account.",
+  "public_domain": true,
+  "completeness_note": "Greek/Latin text not yet sourced into this JSON corpus; pending follow-up session.",
+  "follow_up_needed": "Fetch Greek text of: (1) Origen's *Commentary on John* 2.12 and *Homilies on Jeremiah* 15.4 (PG 13); (2) Jerome's *De viris illustribus* 2 (PL 23); (3) Epiphanius's *Panarion* 30.13 (PG 41).",
+  "pericopes": [
+    {
+      "pericope_id": "gheb_origen_agraphon",
+      "reference": "Gospel of the Hebrews via Origen",
+      "title": "An agraphon (the trembling-saying)",
+      "text_status": "pending_source_fetch",
+      "verses": []
+    },
+    {
+      "pericope_id": "gheb_jerome_james",
+      "reference": "Gospel of the Hebrews via Jerome",
+      "title": "Resurrection appearance to James",
+      "text_status": "pending_source_fetch",
+      "verses": []
+    },
+    {
+      "pericope_id": "gebionite_epiphanius_baptism",
+      "reference": "Gospel of the Ebionites via Epiphanius",
+      "title": "Account of Jesus's baptism",
+      "text_status": "pending_source_fetch",
+      "verses": []
+    }
+  ]
+}

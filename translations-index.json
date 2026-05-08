@@ -1,0 +1,71 @@
+{
+  "schema_version": "2.1",
+  "note": "Runtime-loaded public-domain translations. The app first tries bundled translations/{id}.json files; if absent, it loads and normalizes a remote Scrollmapper JSON source in the browser. Current Scrollmapper files use formats/json/*.json; 2024 branch URLs are included as fallbacks for the legacy schema.",
+  "translations": [
+    {
+      "id": "kjv",
+      "name": "King James Version",
+      "file": "translations/kjv.json",
+      "license": "Public domain; Scrollmapper dataset MIT",
+      "source": "scrollmapper/bible_databases",
+      "source_url": "https://cdn.jsdelivr.net/gh/scrollmapper/bible_databases@master/formats/json/KJV.json",
+      "fallback_urls": [
+        "https://raw.githubusercontent.com/scrollmapper/bible_databases/master/formats/json/KJV.json",
+        "https://cdn.jsdelivr.net/gh/scrollmapper/bible_databases@2024/json/eng-kjv.json",
+        "https://raw.githubusercontent.com/scrollmapper/bible_databases/2024/json/eng-kjv.json"
+      ]
+    },
+    {
+      "id": "asv",
+      "name": "American Standard Version",
+      "file": "translations/asv.json",
+      "license": "Public domain; Scrollmapper dataset MIT",
+      "source": "scrollmapper/bible_databases",
+      "source_url": "https://cdn.jsdelivr.net/gh/scrollmapper/bible_databases@master/formats/json/ASV.json",
+      "fallback_urls": [
+        "https://raw.githubusercontent.com/scrollmapper/bible_databases/master/formats/json/ASV.json",
+        "https://cdn.jsdelivr.net/gh/scrollmapper/bible_databases@2024/json/eng-asv.json",
+        "https://raw.githubusercontent.com/scrollmapper/bible_databases/2024/json/eng-asv.json"
+      ]
+    },
+    {
+      "id": "web",
+      "name": "World English Bible",
+      "file": "translations/web.json",
+      "license": "Public domain (World English Bible); Scrollmapper dataset MIT",
+      "source": "scrollmapper/bible_databases",
+      "source_url": "https://cdn.jsdelivr.net/gh/scrollmapper/bible_databases@master/formats/json/WEB.json",
+      "fallback_urls": [
+        "https://raw.githubusercontent.com/scrollmapper/bible_databases/master/formats/json/WEB.json",
+        "https://cdn.jsdelivr.net/gh/scrollmapper/bible_databases@2024/json/eng-web.json",
+        "https://raw.githubusercontent.com/scrollmapper/bible_databases/2024/json/eng-web.json"
+      ]
+    },
+    {
+      "id": "ylt",
+      "name": "Young's Literal Translation",
+      "file": "translations/ylt.json",
+      "license": "Public domain; Scrollmapper dataset MIT",
+      "source": "scrollmapper/bible_databases",
+      "source_url": "https://cdn.jsdelivr.net/gh/scrollmapper/bible_databases@master/formats/json/YLT.json",
+      "fallback_urls": [
+        "https://raw.githubusercontent.com/scrollmapper/bible_databases/master/formats/json/YLT.json",
+        "https://cdn.jsdelivr.net/gh/scrollmapper/bible_databases@2024/json/eng-ylt.json",
+        "https://raw.githubusercontent.com/scrollmapper/bible_databases/2024/json/eng-ylt.json"
+      ]
+    },
+    {
+      "id": "darby",
+      "name": "Darby Bible Translation",
+      "file": "translations/darby.json",
+      "license": "Public domain; Scrollmapper dataset MIT",
+      "source": "scrollmapper/bible_databases",
+      "source_url": "https://cdn.jsdelivr.net/gh/scrollmapper/bible_databases@master/formats/json/Darby.json",
+      "fallback_urls": [
+        "https://raw.githubusercontent.com/scrollmapper/bible_databases/master/formats/json/Darby.json",
+        "https://cdn.jsdelivr.net/gh/scrollmapper/bible_databases@2024/json/eng-dby.json",
+        "https://raw.githubusercontent.com/scrollmapper/bible_databases/2024/json/eng-dby.json"
+      ]
+    }
+  ]
+}
