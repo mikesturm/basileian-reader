@@ -1,0 +1,39 @@
+{
+  "id": "tier3_a_egerton",
+  "tier": 3,
+  "letter": "A",
+  "title": "Papyrus Egerton 2",
+  "language": "grc",
+  "source_edition": "Bell & Skeat 1935, *Fragments of an Unknown Gospel and Other Early Christian Papyri* (British Museum). Public domain.",
+  "date_of_composition": "Manuscript c. 200 CE; underlying text 2nd century or earlier.",
+  "scope_note": "Three pericopes from the canon: Fragment 1 recto (controversy with religious authorities), Fragment 1 verso (healing of a leper), Fragment 2 recto (question about tribute). The Fragment 2 verso nature-miracle is excluded by the canon.",
+  "public_domain": true,
+  "completeness_note": "Greek text not yet sourced into this JSON corpus. The text is short (~200 words across 3 pericopes) and freely available; pending follow-up session.",
+  "follow_up_needed": "Fetch Greek text from Bell & Skeat 1935 (London: BM); also reproduced in Aland's Synopsis Quattuor Evangeliorum and in Klauck's Apocryphal Gospels (Eng. tr. 2003).",
+  "pericopes": [
+    {
+      "pericope_id": "egerton_frag1_recto",
+      "reference": "P.Egerton 2, Fragment 1 recto",
+      "title": "Controversy with religious authorities",
+      "form_critical_genre": "controversy dialogue",
+      "text_status": "pending_source_fetch",
+      "verses": []
+    },
+    {
+      "pericope_id": "egerton_frag1_verso",
+      "reference": "P.Egerton 2, Fragment 1 verso",
+      "title": "Healing of a leper",
+      "form_critical_genre": "healing miracle",
+      "text_status": "pending_source_fetch",
+      "verses": []
+    },
+    {
+      "pericope_id": "egerton_frag2_recto",
+      "reference": "P.Egerton 2, Fragment 2 recto",
+      "title": "Question about tribute",
+      "form_critical_genre": "controversy dialogue",
+      "text_status": "pending_source_fetch",
+      "verses": []
+    }
+  ]
+}
