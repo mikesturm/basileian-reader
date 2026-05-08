@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#251a13">
+  <title>Basileian Reader</title>
+  <link rel="manifest" href="site.webmanifest?v=20260508-fix2">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="stylesheet" href="style.css?v=20260508-fix2">
+  <link rel="stylesheet" href="style-additions.css?v=20260508-fix2">
+</head>
+<body>
+  <div id="app" class="app-shell">
+    <header class="topbar">
+      <button id="navToggle" class="icon-button nav-toggle" aria-label="Open navigation">☰</button>
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">β</span>
+        <div class="brand-copy">
+          <h1>Basileian Reader</h1>
+          <p id="docSubtitle">Jesus Tradition Canon</p>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button id="themeToggle" class="icon-button" aria-label="Toggle theme">◐</button>
+      </div>
+    </header>
+
+    <nav class="tabbar" aria-label="Main sections">
+      <button class="tab active" data-tab="reader">Reader</button>
+      <button class="tab" data-tab="notes">Notes</button>
+      <button class="tab" data-tab="source">Source</button>
+    </nav>
+
+    <div class="main-layout">
+      <aside id="sidebar" class="sidebar" aria-label="Reader navigation">
+        <div class="sidebar-header">
+          <strong>Navigate</strong>
+          <button id="closeSidebar" class="icon-button close-sidebar" aria-label="Close navigation">×</button>
+        </div>
+
+        <label class="field-label" for="bookSelect">Book / source</label>
+        <select id="bookSelect" class="control"></select>
+
+        <label class="field-label" for="translationSelect">Translation</label>
+        <select id="translationSelect" class="control"></select>
+        <span id="translationStatus" class="hint translation-status"></span>
+
+        <label class="field-label">Chapter / logion</label>
+        <div id="chapterList" class="chip-row" aria-label="Chapters"></div>
+
+        <label class="field-label" for="gotoInput">Go to reference</label>
+        <div class="inline-control">
+          <input id="gotoInput" class="control" type="search" placeholder="Mark 4:21, John 20:24, Logion 54">
+          <button id="gotoBtn" class="button">Go</button>
+        </div>
+        <p id="gotoMessage" class="hint"></p>
+
+        <div class="sidebar-section">
+          <div class="field-label">Passages in view</div>
+          <div id="passageList" class="passage-list"></div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="field-label">Verses in view</div>
+          <div id="verseList" class="chip-row small" aria-label="Verses"></div>
+        </div>
+      </aside>
+
+      <main class="content">
+        <section id="readerTab" class="tab-panel active" aria-label="Reader">
+          <section class="search-panel">
+            <label class="field-label" for="searchInput">Search the canon</label>
+            <div class="search-row">
+              <input id="searchInput" class="control search-control" type="search" placeholder="Search words, phrases, references, or endnotes">
+              <button id="clearSearch" class="button secondary">Clear</button>
+            </div>
+            <div id="searchSummary" class="hint"></div>
+            <div id="searchResults" class="search-results"></div>
+          </section>
+
+          <article class="reader-card">
+            <div class="reader-toolbar">
+              <button id="prevBtn" class="button secondary">← Previous</button>
+              <button id="chapterModeBtn" class="button secondary">Chapter view</button>
+              <button id="nextBtn" class="button secondary">Next →</button>
+            </div>
+            <div id="readerContent" class="reader-content" tabindex="-1"></div>
+          </article>
+        </section>
+
+        <section id="notesTab" class="tab-panel" aria-label="Notes">
+          <div class="reader-card">
+            <h2>Your highlights & notes</h2>
+            <p class="muted">Highlights and notes are stored only in this browser on this device.</p>
+            <div id="notesList" class="notes-list"></div>
+          </div>
+        </section>
+
+        <section id="sourceTab" class="tab-panel" aria-label="Source text">
+          <div class="reader-card">
+            <h2>Full source text</h2>
+            <p class="muted">This view preserves the full source text and translator’s endnotes in one continuous scroll.</p>
+            <pre id="sourceText" class="source-pre"></pre>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div id="selectionToolbar" class="selection-toolbar hidden" role="toolbar" aria-label="Selection actions">
+    <button id="highlightBtn" class="button">Highlight</button>
+    <button id="noteBtn" class="button">Add note</button>
+    <button id="sourceWordBtn" class="button secondary">Original</button>
+  </div>
+
+  <div id="modalBackdrop" class="modal-backdrop hidden" role="presentation"></div>
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-header">
+      <h2 id="modalTitle"></h2>
+      <button id="modalClose" class="icon-button" aria-label="Close">×</button>
+    </div>
+    <div id="modalBody" class="modal-body"></div>
+    <div id="modalActions" class="modal-actions"></div>
+  </div>
+
+  <script src="data.js?v=20260508-fix2"></script>
+  <script src="source-data.js?v=20260508-fix2"></script>
+  <script src="translations-module.js?v=20260508-fix2"></script>
+  <script src="app.js?v=20260508-fix2"></script>
+</body>
+</html>

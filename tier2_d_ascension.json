@@ -1,0 +1,120 @@
+{
+  "id": "tier2_d_ascension",
+  "tier": 2,
+  "letter": "D",
+  "title": "Ascension Narratives",
+  "language": "grc",
+  "source_edition": "SBLGNT (canon-style unaccented form).",
+  "date_of_composition": "Lukan composition c. 80–90 CE.",
+  "scope_note": "Two Lukan versions of the ascension — the longer version in Acts and the brief conclusion in the gospel. Both witness the same tradition with mild divergences (notably the timing: Acts says forty days, Luke implies same day).",
+  "public_domain": false,
+  "license_note": "SBLGNT license terms apply.",
+  "pericopes": [
+    {
+      "pericope_id": "acts_1_1-11",
+      "reference": "Acts 1:1–11",
+      "title": "Ascension narrative (Lukan-Acts version)",
+      "form_critical_genre": "transition narrative; ascension scene",
+      "verses": [
+        {
+          "verse_id": "acts.1.1",
+          "reference": "Acts 1:1",
+          "text": "τον µεν πρωτον λογον εποιησαµην περι παντων ω θεοφιλε ων ηρξατο ο ιησουσ ποιειν τε και διδασκειν",
+          "transliteration": "ton men prōton logon epoiēsamēn peri pantōn ō theophile ōn ērxato o iēsoys poiein te kai didaskein"
+        },
+        {
+          "verse_id": "acts.1.2",
+          "reference": "Acts 1:2",
+          "text": "αχρι ησ ηµερασ εντειλαµενοσ τοισ αποστολοισ δια πνευµατοσ αγιου ουσ εξελεξατο ανεληµφθη",
+          "transliteration": "achri ēs ēmeras enteilamenos tois apostolois dia pneymatos agioy oys exelexato anelēmphthē"
+        },
+        {
+          "verse_id": "acts.1.3",
+          "reference": "Acts 1:3",
+          "text": "οισ και παρεστησεν εαυτον ζωντα µετα το παθειν αυτον εν πολλοισ τεκµηριοισ δι’ ηµερων τεσσερακοντα οπτανοµενοσ αυτοισ και λεγων τα περι τησ βασιλειασ του θεου",
+          "transliteration": "ois kai parestēsen eayton zōnta meta to pathein ayton en pollois tekmēriois di’ ēmerōn tesserakonta optanomenos aytois kai legōn ta peri tēs basileias toy theoy"
+        },
+        {
+          "verse_id": "acts.1.4",
+          "reference": "Acts 1:4",
+          "text": "και συναλιζοµενοσ παρηγγειλεν αυτοισ απο ιεροσολυµων µη χωριζεσθαι αλλα περιµενειν την επαγγελιαν του πατροσ ην ηκουσατε µου",
+          "transliteration": "kai synalizomenos parēngeilen aytois apo ierosolymōn mē chōrizesthai alla perimenein tēn epangelian toy patros ēn ēkoysate moy"
+        },
+        {
+          "verse_id": "acts.1.5",
+          "reference": "Acts 1:5",
+          "text": "οτι ιωαννησ µεν εβαπτισεν υδατι υµεισ δε εν πνευµατι βαπτισθησεσθε αγιω ου µετα πολλασ ταυτασ ηµερασ",
+          "transliteration": "oti iōannēs men ebaptisen ydati ymeis de en pneymati baptisthēsesthe agiō oy meta pollas taytas ēmeras"
+        },
+        {
+          "verse_id": "acts.1.6",
+          "reference": "Acts 1:6",
+          "text": "οι µεν ουν συνελθοντεσ ηρωτων αυτον λεγοντεσ κυριε ει εν τω χρονω τουτω αποκαθιστανεισ την βασιλειαν τω ισραηλ",
+          "transliteration": "oi men oyn synelthontes ērōtōn ayton legontes kyrie ei en tō chronō toytō apokathistaneis tēn basileian tō israēl"
+        },
+        {
+          "verse_id": "acts.1.7",
+          "reference": "Acts 1:7",
+          "text": "ειπεν δε προσ αυτουσ ουχ υµων εστιν γνωναι χρονουσ η καιρουσ ουσ ο πατηρ εθετο εν τη ιδια εξουσια",
+          "transliteration": "eipen de pros aytoys oych ymōn estin gnōnai chronoys ē kairoys oys o patēr etheto en tē idia exoysia"
+        },
+        {
+          "verse_id": "acts.1.8",
+          "reference": "Acts 1:8",
+          "text": "αλλα ληµψεσθε δυναµιν επελθοντοσ του αγιου πνευµατοσ εφ’ υµασ και εσεσθε µου µαρτυρεσ εν τε ιερουσαληµ και εν παση τη ιουδαια και σαµαρεια και εωσ εσχατου τησ γησ",
+          "transliteration": "alla lēmpsesthe dynamin epelthontos toy agioy pneymatos eph’ ymas kai esesthe moy martyres en te ieroysalēm kai en pasē tē ioydaia kai samareia kai eōs eschatoy tēs gēs"
+        },
+        {
+          "verse_id": "acts.1.9",
+          "reference": "Acts 1:9",
+          "text": "και ταυτα ειπων βλεποντων αυτων επηρθη και νεφελη υπελαβεν αυτον απο των οφθαλµων αυτων",
+          "transliteration": "kai tayta eipōn blepontōn aytōn epērthē kai nephelē ypelaben ayton apo tōn ophthalmōn aytōn"
+        },
+        {
+          "verse_id": "acts.1.10",
+          "reference": "Acts 1:10",
+          "text": "και ωσ ατενιζοντεσ ησαν εισ τον ουρανον πορευοµενου αυτου και ιδου ανδρεσ δυο παρειστηκεισαν αυτοισ εν εσθησεσι λευκαισ",
+          "transliteration": "kai ōs atenizontes ēsan eis ton oyranon poreyomenoy aytoy kai idoy andres dyo pareistēkeisan aytois en esthēsesi leykais"
+        },
+        {
+          "verse_id": "acts.1.11",
+          "reference": "Acts 1:11",
+          "text": "οι και ειπαν ανδρεσ γαλιλαιοι τι εστηκατε βλεποντεσ εισ τον ουρανον ουτοσ ο ιησουσ ο αναληµφθεισ αφ’ υµων εισ τον ουρανον ουτωσ ελευσεται ον τροπον εθεασασθε αυτον πορευοµενον εισ τον ουρανον",
+          "transliteration": "oi kai eipan andres galilaioi ti estēkate blepontes eis ton oyranon oytos o iēsoys o analēmphtheis aph’ ymōn eis ton oyranon oytōs eleysetai on tropon etheasasthe ayton poreyomenon eis ton oyranon"
+        }
+      ]
+    },
+    {
+      "pericope_id": "luke_24_50-53",
+      "reference": "Luke 24:50–53",
+      "title": "Ascension narrative (Lukan Gospel version)",
+      "form_critical_genre": "ascension scene; concluding pericope",
+      "verses": [
+        {
+          "verse_id": "luke.24.50",
+          "reference": "Luke 24:50",
+          "text": "εξηγαγεν δε αυτουσ εωσ προσ βηθανιαν και επαρασ τασ χειρασ αυτου ευλογησεν αυτουσ",
+          "transliteration": "exēgagen de aytoys eōs pros bēthanian kai eparas tas cheiras aytoy eylogēsen aytoys"
+        },
+        {
+          "verse_id": "luke.24.51",
+          "reference": "Luke 24:51",
+          "text": "και εγενετο εν τω ευλογειν αυτον αυτουσ διεστη απ’ αυτων και ανεφερετο εισ τον ουρανον",
+          "transliteration": "kai egeneto en tō eylogein ayton aytoys diestē ap’ aytōn kai anephereto eis ton oyranon"
+        },
+        {
+          "verse_id": "luke.24.52",
+          "reference": "Luke 24:52",
+          "text": "και αυτοι προσκυνησαντεσ αυτον υπεστρεψαν εισ ιερουσαληµ µετα χαρασ µεγαλησ",
+          "transliteration": "kai aytoi proskynēsantes ayton ypestrepsan eis ieroysalēm meta charas megalēs"
+        },
+        {
+          "verse_id": "luke.24.53",
+          "reference": "Luke 24:53",
+          "text": "και ησαν δια παντοσ εν τω ιερω ευλογουντεσ τον θεον",
+          "transliteration": "kai ēsan dia pantos en tō ierō eylogoyntes ton theon"
+        }
+      ]
+    }
+  ]
+}
