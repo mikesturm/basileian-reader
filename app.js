@@ -68,13 +68,25 @@
     applyStoredTheme();
     bindEvents();
     renderBookSelect();
+    restoreTranslationPreference();
     renderTranslationSelector();
     restoreFromHash();
-    restoreTranslationPreference();
     setCurrentSectionIfMissing();
     renderAll();
+
+    // Translation metadata loads asynchronously from translations-index.json.
+    // Render once immediately, then refresh the selector when metadata finishes loading.
+    if (window.TranslationsModule && typeof TranslationsModule.init === "function") {
+      Promise.resolve(TranslationsModule.init()).then(() => {
+        renderTranslationSelector();
+        els.translationSelect.value = state.activeTranslation;
+      }).catch(error => {
+        console.warn("Translations module did not finish initializing:", error);
+      });
+    }
+
     if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-      navigator.serviceWorker.register("sw.js").catch(() => {});
+      navigator.serviceWorker.register("sw.js?v=20260508-fix1").catch(() => {});
     }
   }
 
@@ -150,7 +162,9 @@
   }
 
   function renderTranslationSelector() {
-    const translations = TranslationsModule.getAvailableTranslations();
+    const translations = window.TranslationsModule && typeof TranslationsModule.getAvailableTranslations === "function"
+      ? TranslationsModule.getAvailableTranslations()
+      : [];
     
     // Always include basileia
     const options = [
@@ -434,6 +448,7 @@
     
     try {
       updateTranslationStatus("loading");
+      if (!window.TranslationsModule || typeof TranslationsModule.getVerseText !== "function") return null;
       const text = await TranslationsModule.getVerseText(verseId, state.activeTranslation);
       updateTranslationStatus("");
       return text;
@@ -462,6 +477,9 @@
    */
   async function openStrongsModal(strongsNum) {
     try {
+      if (!window.TranslationsModule || typeof TranslationsModule.getStrongsDefinition !== "function") {
+        throw new Error("TranslationsModule is unavailable");
+      }
       const entry = await TranslationsModule.getStrongsDefinition(strongsNum);
       
       let bodyHTML = `
@@ -730,7 +748,7 @@
     if (!raw) return;
     const target = findReference(raw);
     if (!target) {
-      els.gotoMessage.textContent = "Reference not found. Try "Mark 4:21", "John 20:24", or "Logion 54".";
+      els.gotoMessage.textContent = 'Reference not found. Try "Mark 4:21", "John 20:24", or "Logion 54".';
       return;
     }
 

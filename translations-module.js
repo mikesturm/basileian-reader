@@ -15,25 +15,31 @@ const TranslationsModule = (() => {
   let translationsCache = {};
   let strongsCache = {};
   let translationsMetadata = null;
+  let initPromise = null;
 
   /**
    * Initialize: Load metadata and cached translations
    */
   async function init() {
-    try {
-      // Load translations metadata
-      translationsMetadata = await fetchJSON("translations-index.json");
-      console.log("✓ Translations index loaded");
+    if (initPromise) return initPromise;
+    initPromise = (async () => {
+      try {
+        // Load translations metadata
+        translationsMetadata = await fetchJSON("translations-index.json");
+        console.log("✓ Translations index loaded");
 
-      // Load cached translations from localStorage
-      loadFromCache();
+        // Load cached translations from localStorage
+        loadFromCache();
 
-      // Preload the default translation (basileia, if needed) and first alt translation
-      // Don't block on this, but do it in background
-      preloadDefaultTranslations();
-    } catch (error) {
-      console.warn("Translations module init failed:", error);
-    }
+        // Preload the default translation (basileia, if needed) and first alt translation
+        // Don't block on this, but do it in background
+        preloadDefaultTranslations();
+      } catch (error) {
+        console.warn("Translations module init failed:", error);
+      }
+      return translationsMetadata;
+    })();
+    return initPromise;
   }
 
   /**
@@ -227,6 +233,8 @@ const TranslationsModule = (() => {
     getLoadedTranslations
   };
 })();
+
+window.TranslationsModule = TranslationsModule;
 
 // Initialize on page load if available
 if (document.readyState === "loading") {
