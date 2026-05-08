@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "note": "Run `npm run fetch-translations` to populate the translations/ directory and regenerate this file with live verse counts.",
+  "translations": [
+    {
+      "id": "kjv",
+      "name": "King James Version",
+      "file": "translations/kjv.json",
+      "license": "Public domain",
+      "source_url": "https://raw.githubusercontent.com/openbibledata/kjv/master/kjv.json"
+    },
+    {
+      "id": "asv",
+      "name": "American Standard Version",
+      "file": "translations/asv.json",
+      "license": "Public domain",
+      "source_url": "https://raw.githubusercontent.com/scrollmapper/bible_databases/master/json/eng-asv.json"
+    },
+    {
+      "id": "web",
+      "name": "World English Bible",
+      "file": "translations/web.json",
+      "license": "Public domain (World English Bible)",
+      "source_url": "https://raw.githubusercontent.com/scrollmapper/bible_databases/master/json/eng-web.json"
+    },
+    {
+      "id": "ylt",
+      "name": "Young's Literal Translation",
+      "file": "translations/ylt.json",
+      "license": "Public domain",
+      "source_url": "https://raw.githubusercontent.com/scrollmapper/bible_databases/master/json/eng-ylt.json"
+    },
+    {
+      "id": "darby",
+      "name": "Darby Bible Translation",
+      "file": "translations/darby.json",
+      "license": "Public domain",
+      "source_url": "https://raw.githubusercontent.com/scrollmapper/bible_databases/master/json/eng-dby.json"
+    }
+  ]
+}
