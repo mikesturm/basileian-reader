@@ -1,0 +1,38 @@
+{
+  "id": "tier3_d_poxy_5575",
+  "tier": 3,
+  "letter": "D",
+  "title": "Papyrus Oxyrhynchus 5575",
+  "language": "grc",
+  "source_edition": "Fish, Wallace & Holmes 2023, *The Oxyrhynchus Papyri* LXXXVII (Egypt Exploration Society).",
+  "date_of_composition": "Manuscript late 2nd or early 3rd century CE.",
+  "scope_note": "A sayings fragment interweaving Mt 6:25–26, Lk 12:22–24, and Thomas Logion 27. Holmes (the editor) suggests it may witness a sayings-source behind both canonical Q and Thomas — making it a potentially significant textual witness if so.",
+  "public_domain": false,
+  "license_note": "Source-text transcription is © 2023 Egypt Exploration Society and Holmes/Fish/Wallace. Cannot be reproduced here without license. The papyrus itself (a 2nd-3rd century artifact) is in the public domain.",
+  "external_resource_url": "https://www.ees.ac.uk/published-volumes",
+  "additional_information_url": "https://textandcanon.org/has-a-new-papyrus-fragment-changed-our-view-of-the-gospel-of-thomas/",
+  "completeness_note": "Source text cannot be reproduced (copyrighted). The Basileian translation in the canon was made under fair-use research justification and is not redistributable as a parallel-text without separate licensing.",
+  "pericopes": [
+    {
+      "pericope_id": "poxy_5575_recto_v1",
+      "reference": "P.Oxy 5575 recto",
+      "title": "The rich fool ending",
+      "text_status": "copyrighted_external",
+      "verses": []
+    },
+    {
+      "pericope_id": "poxy_5575_recto_v3",
+      "reference": "P.Oxy 5575 recto (Thomas 27 parallel)",
+      "title": "Fasting from the kosmos / keeping the Sabbath",
+      "text_status": "copyrighted_external",
+      "verses": []
+    },
+    {
+      "pericope_id": "poxy_5575_verso_v5",
+      "reference": "P.Oxy 5575 verso",
+      "title": "Adding a cubit to one's stature",
+      "text_status": "copyrighted_external",
+      "verses": []
+    }
+  ]
+}

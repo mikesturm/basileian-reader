@@ -1,0 +1,23 @@
+{
+  "id": "tier3_c_poxy_840",
+  "tier": 3,
+  "letter": "C",
+  "title": "Papyrus Oxyrhynchus 840",
+  "language": "grc",
+  "source_edition": "Grenfell & Hunt 1908, *The Oxyrhynchus Papyri* V. Public domain.",
+  "date_of_composition": "Manuscript late 4th or early 5th century CE; underlying text 2nd century.",
+  "scope_note": "A single-pericope fragment depicting Jesus debating temple purity with a Pharisee. Genuinely controversial regarding historicity but preserved in the canon for its synoptic-style controversy form.",
+  "public_domain": true,
+  "completeness_note": "Greek text not yet sourced into this JSON corpus; pending follow-up session.",
+  "follow_up_needed": "Fetch Greek text from Grenfell & Hunt 1908; widely reprinted including in Bovon & Geoltrain *Écrits apocryphes chrétiens* I.",
+  "pericopes": [
+    {
+      "pericope_id": "poxy_840",
+      "reference": "P.Oxy 840",
+      "title": "Temple purity controversy",
+      "form_critical_genre": "controversy dialogue",
+      "text_status": "pending_source_fetch",
+      "verses": []
+    }
+  ]
+}
