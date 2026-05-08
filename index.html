@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basileian Web Reader</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Basileian Reader</h1>
+        <nav>
+            <button data-tab="reader" class="active">Reader</button>
+            <button data-tab="notes">Notes</button>
+            <button data-tab="source">Source</button>
+        </nav>
+    </header>
+    <main>
+        <section id="reader" class="tab-content">
+            <div id="reader-content"></div>
+            <div id="selection-toolbar" class="hidden">
+                <button id="highlight-btn">Highlight</button>
+                <button id="add-note-btn">Add Note</button>
+            </div>
+        </section>
+        <section id="notes" class="tab-content hidden">
+            <h2>Your Notes</h2>
+            <ul id="notes-list"></ul>
+        </section>
+        <section id="source" class="tab-content hidden">
+            <h2>Source Text</h2>
+            <iframe id="source-frame" src="canon.html" title="Source"></iframe>
+        </section>
+    </main>
+    <div id="note-modal" class="modal hidden">
+        <div class="modal-content">
+            <span id="close-note-modal" class="close">&times;</span>
+            <h3 id="note-title"></h3>
+            <p id="note-text"></p>
+        </div>
+    </div>
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
