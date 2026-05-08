@@ -806,3 +806,14 @@ button {
     max-height: 86dvh;
   }
 }
+
+/* Translation selector & status */
+.translation-status {
+  display: block;
+  min-height: 1.2em;
+  font-size: 0.78rem;
+  color: var(--text-muted, #888);
+}
+.translation-loading {
+  opacity: 0.7;
+}
