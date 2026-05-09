@@ -9,6 +9,7 @@
   const STORAGE_HIGHLIGHTS = "basileian.reader.v2.highlights";
   const STORAGE_THEME = "basileian.reader.v2.theme";
   const STORAGE_TRANSLATION = "basileian.reader.v2.activeTranslation";
+  const STORAGE_BOOKMARK = "basileian.reader.v2.lastPosition";
 
   const sections = DATA.sections;
   const books = DATA.books;
@@ -71,6 +72,7 @@
     renderBookSelect();
     restoreTranslationPreference();
     renderTranslationSelector();
+    restoreLastPosition();
     restoreFromHash();
     setCurrentSectionIfMissing();
     renderAll();
@@ -1060,6 +1062,34 @@
     const target = anchor || state.currentSectionId;
     if (target) {
       history.replaceState(null, "", `#${encodeURIComponent(target)}`);
+    }
+    saveLastPosition();
+  }
+
+  function saveLastPosition() {
+    if (!state.currentSectionId) return;
+    localStorage.setItem(STORAGE_BOOKMARK, JSON.stringify({
+      book: state.book,
+      chapter: state.chapter,
+      currentSectionId: state.currentSectionId,
+      chapterMode: state.chapterMode
+    }));
+  }
+
+  function restoreLastPosition() {
+    if (location.hash) return;
+    try {
+      const stored = JSON.parse(localStorage.getItem(STORAGE_BOOKMARK));
+      if (!stored || !stored.currentSectionId) return;
+      if (!sectionById.has(stored.currentSectionId)) return;
+      const section = sectionById.get(stored.currentSectionId);
+      state.book = stored.book || section.book;
+      state.chapter = stored.chapter || section.startChapter || "All";
+      state.currentSectionId = stored.currentSectionId;
+      state.chapterMode = stored.chapterMode !== undefined ? stored.chapterMode : true;
+      setTimeout(() => scrollToSection(stored.currentSectionId), 100);
+    } catch {
+      // ignore corrupt storage
     }
   }
 
