@@ -147,6 +147,8 @@
     document.addEventListener("mouseup", () => setTimeout(updateSelectionToolbar, 0));
     document.addEventListener("touchend", () => setTimeout(updateSelectionToolbar, 250));
 
+    // Prevent mousedown from collapsing the text selection before click fires.
+    els.selectionToolbar.addEventListener("mousedown", event => event.preventDefault());
     els.highlightBtn.addEventListener("click", () => createHighlightFromSelection(false));
     els.noteBtn.addEventListener("click", () => createHighlightFromSelection(true));
 
