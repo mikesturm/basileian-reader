@@ -133,54 +133,60 @@ function loadOpenGNTWordMap() {
   console.log(`  Loading ${OPENGNT_CSV}…`);
   const csv = fs.readFileSync(OPENGNT_CSV, 'utf8');
   const lines = csv.split('\n');
-  const wordMap = {}; // normalised word form → Strong's number
+  const wordMap = {};   // normalised word form → Strong's number
+  const glossMap = {};  // Strong's number → TBESG short gloss
+
+  function parseCompound(col) {
+    const start = col.indexOf(COMPOUND_START);
+    const end = col.lastIndexOf(COMPOUND_END);
+    if (start < 0 || end < 0) return [];
+    return col.slice(start + 1, end).split(FIELD_SEP);
+  }
 
   for (let i = 1; i < lines.length; i++) { // skip header
     const line = lines[i];
     if (!line) continue;
     const cols = line.split('\t');
-    if (cols.length < 8) continue;
+    if (cols.length < 11) continue;
 
     // col[7] = 〔OGNTk｜OGNTu｜OGNTa｜lexeme｜rmac｜sn〕
-    const compound = cols[7];
-    if (!compound) continue;
-    const inner = compound.slice(
-      compound.indexOf(COMPOUND_START) + 1,
-      compound.lastIndexOf(COMPOUND_END)
-    );
-    const parts = inner.split(FIELD_SEP);
-    if (parts.length < 6) continue;
+    const parts7 = parseCompound(cols[7]);
+    if (parts7.length < 6) continue;
 
-    const ogntu = parts[1]?.trim(); // unaccented form (OGNTu)
-    const ognta = parts[2]?.trim(); // accented form (OGNTa)
-    const lexeme = parts[3]?.trim();
-    let sn = parts[5]?.trim();      // Strong's number
+    const ogntu = parts7[1]?.trim(); // unaccented form (OGNTu)
+    const ognta = parts7[2]?.trim(); // accented form (OGNTa)
+    const lexeme = parts7[3]?.trim();
+    let sn = parts7[5]?.trim();      // Strong's number
 
     if (!sn || !sn.startsWith('G')) continue;
-    // Extended Strong's sometimes appends a letter (G1234a); strip it
-    sn = sn.replace(/^(G\d+)[a-z]$/, '$1');
+    sn = sn.replace(/^(G\d+)[a-z]$/, '$1'); // strip extended suffix
 
     // Index all forms: OGNTu (already unaccented), OGNTa (accented), lexeme
     for (const form of [ogntu, ognta, lexeme]) {
       if (!form) continue;
       const norm = normalizeGreek(form);
-      if (norm && !wordMap[norm]) {
-        wordMap[norm] = sn;
-      }
+      if (norm && !wordMap[norm]) wordMap[norm] = sn;
+    }
+
+    // col[10] = 〔TBESG｜IT｜LT｜ST｜Español〕
+    if (!glossMap[sn]) {
+      const parts10 = parseCompound(cols[10]);
+      const tbesg = parts10[0]?.trim();
+      if (tbesg) glossMap[sn] = tbesg;
     }
   }
 
   console.log(`  ✓ OpenGNT: ${Object.keys(wordMap).length} form→Strong's entries`);
-  return wordMap;
+  console.log(`  ✓ OpenGNT: ${Object.keys(glossMap).length} Strong's→gloss entries`);
+  return { wordMap, glossMap };
 }
 
 // ---------------------------------------------------------------------------
 // Tokenise corpus tier files → verse-words map
 // ---------------------------------------------------------------------------
 
-function tokeniseVerse(text, wordStrongsMap) {
+function tokeniseVerse(text, wordStrongsMap, glossMap) {
   if (!text) return [];
-  // Split on whitespace; strip punctuation wrappers but keep the word.
   return text
     .split(/\s+/)
     .filter(w => w.length > 0)
@@ -189,12 +195,18 @@ function tokeniseVerse(text, wordStrongsMap) {
       const norm = normalizeGreek(clean || raw);
       const strongs = wordStrongsMap[norm] || null;
       const token = { text: clean || raw };
-      if (strongs) token.strongs = strongs;
+      if (strongs) {
+        token.strongs = strongs;
+        const gloss = glossMap && glossMap[strongs];
+        if (gloss) token.gloss = gloss;
+      }
       return token;
     });
 }
 
-function buildVerseWordsMap(wordStrongsMap, openGNTMap) {
+function buildVerseWordsMap(wordStrongsMap, openGNTResult) {
+  const openGNTMap  = openGNTResult?.wordMap  || null;
+  const glossMap    = openGNTResult?.glossMap  || null;
   // Merge: OpenGNT inflected-form entries take precedence over lemma-only entries
   const combinedMap = openGNTMap
     ? Object.assign({}, wordStrongsMap, openGNTMap)
@@ -218,10 +230,10 @@ function buildVerseWordsMap(wordStrongsMap, openGNTMap) {
         if (!verse.verse_id || !verse.text) continue;
         totalVerses++;
 
-        // Prefer existing .words array (pre-tokenised); otherwise use combined map.
+        // Prefer existing .words array if pre-tokenised; otherwise use combined map.
         const words = Array.isArray(verse.words) && verse.words.length > 0
           ? verse.words
-          : tokeniseVerse(verse.text, combinedMap);
+          : tokeniseVerse(verse.text, combinedMap, glossMap);
 
         verseWords[verse.verse_id] = words;
         totalWords += words.length;
@@ -263,10 +275,10 @@ function main() {
   const { strongsIndex, wordStrongsMap } = buildFromStrongsPackage();
 
   console.log('\n📖 Loading OpenGNT inflected-form data...');
-  const openGNTMap = loadOpenGNTWordMap();
+  const openGNTResult = loadOpenGNTWordMap();
 
   console.log('\n📖 Tokenising corpus...');
-  const verseWords = buildVerseWordsMap(wordStrongsMap, openGNTMap);
+  const verseWords = buildVerseWordsMap(wordStrongsMap, openGNTResult);
 
   console.log('\n💾 Writing lexicon files...');
   writeJSON(path.join(LEXICONS_DIR, 'strongs-index.json'), strongsIndex);
