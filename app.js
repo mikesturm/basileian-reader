@@ -27,7 +27,8 @@
     activeTranslation: "basileia", // "basileia" | "kjv" | "asv" | etc.
     translationsLoading: {}, // Track which translations are loading
     translationRenderRequest: 0,
-    verseWords: null // lazy-loaded from lexicons/verse-words.json; null = not yet attempted
+    verseWords: null, // lazy-loaded from lexicons/verse-words.json; null = not yet attempted
+    lastGreekVerses: null
   };
 
   const els = {
@@ -428,14 +429,16 @@
     if (!Array.isArray(verseWords) || verseWords.length === 0) return "";
     return verseWords.map(w => {
       if (!w || !w.text) return "";
-      const word = escapeHTML(w.text);
+      const greek = `<span class="sw-greek">${escapeHTML(w.text)}</span>`;
+      const gloss = w.gloss ? `<span class="sw-gloss">${escapeHTML(w.gloss)}</span>` : `<span class="sw-gloss"></span>`;
       return w.strongs
-        ? `<span class="source-word" data-strongs="${escapeAttr(w.strongs)}">${word}</span>`
-        : `<span class="source-word">${word}</span>`;
+        ? `<span class="source-word" data-strongs="${escapeAttr(w.strongs)}">${greek}${gloss}</span>`
+        : `<span class="source-word">${greek}${gloss}</span>`;
     }).filter(Boolean).join(" ");
   }
 
   function openGreekVersesModal(verses) {
+    state.lastGreekVerses = verses;
     const body = verses.map(v => {
       const words = state.verseWords[v.verseId];
       const greekHTML = Array.isArray(words) && words.length
@@ -451,12 +454,10 @@
       { label: "Close", className: "button", onClick: closeModal }
     ]);
 
-    // The reader-content click handler doesn't cover modal content, so wire
-    // .source-word clicks here.
     els.modalBody.querySelectorAll(".source-word[data-strongs]").forEach(word => {
       word.addEventListener("click", event => {
         event.stopPropagation();
-        openStrongsModal(word.dataset.strongs);
+        openStrongsModal(word.dataset.strongs, verses);
       });
     });
   }
@@ -743,14 +744,14 @@
   /**
    * NEW: Open Strong's modal
    */
-  async function openStrongsModal(strongsNum) {
+  async function openStrongsModal(strongsNum, backVerses) {
     try {
       if (!window.TranslationsModule || typeof TranslationsModule.getStrongsDefinition !== "function") {
         throw new Error("TranslationsModule is unavailable");
       }
       const entry = await TranslationsModule.getStrongsDefinition(strongsNum);
-      
-      let bodyHTML = `
+
+      const bodyHTML = `
         <div class="strongs-entry">
           <div class="strongs-entry-number">${escapeHTML(entry.number)}</div>
           ${entry.lemma ? `<div class="strongs-entry-lemma">${escapeHTML(entry.lemma)}</div>` : ""}
@@ -758,17 +759,23 @@
         </div>
       `;
 
-      const actions = [
-        {
-          label: "BlueLetterBible",
+      const actions = [];
+      if (backVerses) {
+        actions.push({
+          label: "← Back",
           className: "button secondary",
-          onClick: () => {
-            const url = entry.url || `https://www.blueletterbible.org/lexicon/${strongsNum}/`;
-            window.open(url, "_blank");
-          }
-        },
-        { label: "Close", className: "button", onClick: closeModal }
-      ];
+          onClick: () => openGreekVersesModal(backVerses)
+        });
+      }
+      actions.push({
+        label: "BlueLetterBible",
+        className: "button secondary",
+        onClick: () => {
+          const url = entry.url || `https://www.blueletterbible.org/lexicon/${strongsNum}/`;
+          window.open(url, "_blank");
+        }
+      });
+      actions.push({ label: "Close", className: "button", onClick: closeModal });
 
       openModal(`${strongsNum} — Strong's Concordance`, bodyHTML, actions);
     } catch (error) {
