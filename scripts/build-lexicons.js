@@ -34,6 +34,12 @@ const fs = require('fs');
 const path = require('path');
 
 const LEXICONS_DIR = 'lexicons';
+// OpenGNT_version3_3.csv (downloaded by fetch-opengnt.js)
+const OPENGNT_CSV = 'scripts/cache/OpenGNT_version3_3.csv';
+// Unicode separators used in compound columns of the OpenGNT CSV
+const COMPOUND_START = '〔'; // 〔
+const COMPOUND_END   = '〕'; // 〕
+const FIELD_SEP      = '｜'; // ｜
 const TIER_FILES = [
   'tier1_a_mark.json',
   'tier1_b_q.json',
@@ -64,14 +70,12 @@ const TIER_FILES = [
 // and the Combining Diacritical Marks block (0300-036F).
 function normalizeGreek(str) {
   if (!str) return '';
-  // NFD decomposes precomposed characters into base + combining marks.
-  // Then we strip all combining marks (U+0300–U+036F) and the Greek-Extended
-  // combining characters (U+1DC0–U+1DFF, U+20D0–U+20FF).
   const decomposed = str.normalize('NFD')
     .replace(/[̀-ͯ᷀-᷿⃐-⃿]/g, '');
   return decomposed
     .toLowerCase()
-    .replace(/ς/g, 'σ'); // treat final and medial sigma identically
+    .replace(/ς/g, 'σ')  // treat final and medial sigma identically
+    .replace(/ϲ/g, 'σ'); // OpenGNT uses lunate sigma ϲ (U+03F2)
 }
 
 // ---------------------------------------------------------------------------
@@ -117,6 +121,60 @@ function buildFromStrongsPackage() {
 }
 
 // ---------------------------------------------------------------------------
+// Load OpenGNT word-form → Strong's map (if CSV is available)
+// ---------------------------------------------------------------------------
+
+function loadOpenGNTWordMap() {
+  if (!fs.existsSync(OPENGNT_CSV)) {
+    console.log('  (OpenGNT CSV not found — using lemma-only fallback)');
+    return null;
+  }
+
+  console.log(`  Loading ${OPENGNT_CSV}…`);
+  const csv = fs.readFileSync(OPENGNT_CSV, 'utf8');
+  const lines = csv.split('\n');
+  const wordMap = {}; // normalised word form → Strong's number
+
+  for (let i = 1; i < lines.length; i++) { // skip header
+    const line = lines[i];
+    if (!line) continue;
+    const cols = line.split('\t');
+    if (cols.length < 8) continue;
+
+    // col[7] = 〔OGNTk｜OGNTu｜OGNTa｜lexeme｜rmac｜sn〕
+    const compound = cols[7];
+    if (!compound) continue;
+    const inner = compound.slice(
+      compound.indexOf(COMPOUND_START) + 1,
+      compound.lastIndexOf(COMPOUND_END)
+    );
+    const parts = inner.split(FIELD_SEP);
+    if (parts.length < 6) continue;
+
+    const ogntu = parts[1]?.trim(); // unaccented form (OGNTu)
+    const ognta = parts[2]?.trim(); // accented form (OGNTa)
+    const lexeme = parts[3]?.trim();
+    let sn = parts[5]?.trim();      // Strong's number
+
+    if (!sn || !sn.startsWith('G')) continue;
+    // Extended Strong's sometimes appends a letter (G1234a); strip it
+    sn = sn.replace(/^(G\d+)[a-z]$/, '$1');
+
+    // Index all forms: OGNTu (already unaccented), OGNTa (accented), lexeme
+    for (const form of [ogntu, ognta, lexeme]) {
+      if (!form) continue;
+      const norm = normalizeGreek(form);
+      if (norm && !wordMap[norm]) {
+        wordMap[norm] = sn;
+      }
+    }
+  }
+
+  console.log(`  ✓ OpenGNT: ${Object.keys(wordMap).length} form→Strong's entries`);
+  return wordMap;
+}
+
+// ---------------------------------------------------------------------------
 // Tokenise corpus tier files → verse-words map
 // ---------------------------------------------------------------------------
 
@@ -136,7 +194,11 @@ function tokeniseVerse(text, wordStrongsMap) {
     });
 }
 
-function buildVerseWordsMap(wordStrongsMap) {
+function buildVerseWordsMap(wordStrongsMap, openGNTMap) {
+  // Merge: OpenGNT inflected-form entries take precedence over lemma-only entries
+  const combinedMap = openGNTMap
+    ? Object.assign({}, wordStrongsMap, openGNTMap)
+    : wordStrongsMap;
   const verseWords = {};
   let totalVerses = 0;
   let tokenisedVerses = 0;
@@ -156,11 +218,10 @@ function buildVerseWordsMap(wordStrongsMap) {
         if (!verse.verse_id || !verse.text) continue;
         totalVerses++;
 
-        // Prefer existing .words array (populated by tokenize-with-strongs.js
-        // if OpenGNT data is available) — fall back to our lemma-matching.
+        // Prefer existing .words array (pre-tokenised); otherwise use combined map.
         const words = Array.isArray(verse.words) && verse.words.length > 0
           ? verse.words
-          : tokeniseVerse(verse.text, wordStrongsMap);
+          : tokeniseVerse(verse.text, combinedMap);
 
         verseWords[verse.verse_id] = words;
         totalWords += words.length;
@@ -175,8 +236,7 @@ function buildVerseWordsMap(wordStrongsMap) {
   console.log(`✓ Verse-words map: ${Object.keys(verseWords).length} verses`);
   console.log(`  ${wordsWithStrongs} / ${totalWords} words matched to a Strong's number (${pct}%)`);
   if (pct < 60) {
-    console.warn(`  ⚠  Coverage is low. For better results run scripts/fetch-opengnt.js`);
-    console.warn(`     (once a working OpenGNT URL is available) and then re-run this script.`);
+    console.warn(`  ⚠  Coverage is low. Run scripts/fetch-opengnt.js then re-run this script.`);
   }
 
   return verseWords;
@@ -202,8 +262,11 @@ function main() {
 
   const { strongsIndex, wordStrongsMap } = buildFromStrongsPackage();
 
+  console.log('\n📖 Loading OpenGNT inflected-form data...');
+  const openGNTMap = loadOpenGNTWordMap();
+
   console.log('\n📖 Tokenising corpus...');
-  const verseWords = buildVerseWordsMap(wordStrongsMap);
+  const verseWords = buildVerseWordsMap(wordStrongsMap, openGNTMap);
 
   console.log('\n💾 Writing lexicon files...');
   writeJSON(path.join(LEXICONS_DIR, 'strongs-index.json'), strongsIndex);

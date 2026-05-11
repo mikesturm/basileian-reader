@@ -30,7 +30,7 @@ const path = require('path');
 // Configuration
 // ---------------------------------------------------------------------------
 
-const OPENGNT_CSV = 'scripts/cache/OpenGNT.csv';
+const OPENGNT_CSV = 'scripts/cache/OpenGNT_version3_3.csv';
 const CORPUS_DIR = '.';
 const LEXICONS_DIR = 'lexicons';
 const TIER_FILES = [
@@ -73,19 +73,29 @@ function loadOpenGNTMappings() {
   const definitions = {};   // Strong's number → definition
   const lemmaMap = {};      // lemma → Strong's number
 
-  // Parse CSV: columns vary, but typically include:
-  // Book | Chapter | Verse | BGBsort | WordOrder | Greek(unaccented) | Lemma | Strong's | RMAC | ...
-  
+  // OpenGNT_BASE_TEXT.csv column layout (tab-delimited):
+  // [0] OGNTsort  [1] TANTTsort  [2] FEATURESsort1  [3] LevinsohnClauseID
+  // [4] BGBsort|LTsort|STsort  [5] Book|Chapter|Verse
+  // [6] OGNTk|OGNTu|OGNTa|lexeme|sn|rmac  (pipe-delimited compound)
+  // [7] BDAG|EDNT|Mounce|GK|LN  ...
+
   for (const line of lines) {
     const cols = line.split('\t');
-    if (cols.length < 8) continue;
+    if (cols.length < 7) continue;
 
-    const greekWord = cols[5]?.trim();   // unaccented Greek form
-    const lemma = cols[6]?.trim();
-    const strongs = cols[7]?.trim();     // Extended Strong's number
+    const compound = cols[6]?.trim();
+    if (!compound) continue;
+    const parts = compound.split('|');
+    // parts: [OGNTk, OGNTu, OGNTa, lexeme, sn, rmac]
+    const greekWord = parts[1]?.trim();  // OGNTu = unaccented form
+    const lemma = parts[3]?.trim();      // lexeme
+    let strongs = parts[4]?.trim();      // sn = Extended Strong's (e.g. G3056a)
+
+    if (!strongs) continue;
+    // Normalize extended Strong's to base G-number (strip trailing letter)
+    strongs = strongs.replace(/([A-Z]\d+)[a-z]$/, '$1');
 
     if (greekWord && strongs) {
-      // Map word form to Strong's
       if (!wordMap[greekWord]) {
         wordMap[greekWord] = strongs;
       }

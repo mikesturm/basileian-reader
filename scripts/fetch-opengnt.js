@@ -24,9 +24,10 @@ const https = require('https');
 const { execSync } = require('child_process');
 
 const CACHE_DIR = 'scripts/cache';
-const OPENGNT_ZIP_URL = 'https://github.com/eliranwong/OpenGNT/raw/master/OpenGNT.csv.zip';
-const OPENGNT_ZIP_FILE = path.join(CACHE_DIR, 'OpenGNT.csv.zip');
-const OPENGNT_CSV_FILE = path.join(CACHE_DIR, 'OpenGNT.csv');
+const OPENGNT_ZIP_URL = 'https://github.com/eliranwong/OpenGNT/raw/refs/heads/master/OpenGNT_BASE_TEXT.zip';
+const OPENGNT_ZIP_FILE = path.join(CACHE_DIR, 'OpenGNT_BASE_TEXT.zip');
+// The zip extracts to OpenGNT_version3_3.csv
+const OPENGNT_CSV_FILE = path.join(CACHE_DIR, 'OpenGNT_version3_3.csv');
 
 // ---------------------------------------------------------------------------
 // HTTP download helper
@@ -97,14 +98,14 @@ async function main() {
     return;
   }
 
-  console.log(`📦 Downloading OpenGNT.csv.zip from GitHub...`);
+  console.log(`📦 Downloading OpenGNT_BASE_TEXT.zip from GitHub...`);
   console.log(`   URL: ${OPENGNT_ZIP_URL}\n`);
 
   try {
     await downloadFile(OPENGNT_ZIP_URL, OPENGNT_ZIP_FILE);
     console.log(`✓ Downloaded to ${OPENGNT_ZIP_FILE}\n`);
 
-    console.log(`🔧 Extracting OpenGNT.csv.zip...\n`);
+    console.log(`🔧 Extracting OpenGNT_BASE_TEXT.zip...\n`);
     const success = unzipFile(OPENGNT_ZIP_FILE, CACHE_DIR);
 
     if (!success) {
@@ -115,6 +116,8 @@ async function main() {
     // Verify extraction
     if (!fs.existsSync(OPENGNT_CSV_FILE)) {
       console.error(`\n❌ Expected file not found: ${OPENGNT_CSV_FILE}\n`);
+      console.error('  Contents of cache dir:');
+      fs.readdirSync(CACHE_DIR).forEach(f => console.error('   ', f));
       process.exit(1);
     }
 
