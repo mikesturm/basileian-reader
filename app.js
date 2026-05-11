@@ -324,7 +324,7 @@
     if (state.activeTranslation !== "basileia" && canTranslateSection(section)) {
       return renderTranslatedPassage(section);
     }
-    return renderOriginalPassage(section, state.activeTranslation !== "basileia");
+    return renderOriginalPassageWithTokens(section, state.activeTranslation !== "basileia");
   }
 
   function renderOriginalPassage(section, withNotice = false) {
@@ -340,6 +340,75 @@
       ${notice}
       <div class="passage-body" data-section-id="${escapeAttr(section.id)}">${paragraphs}</div>
     </section>`;
+  }
+
+  // Renders a passage with word-level Strong's tokens when verse.words data is
+  // available (populated by scripts/tokenize-with-strongs.js). When no token
+  // data is present, falls back to the prose-paragraph renderer so behaviour
+  // is unchanged. The click handler in attachDynamicReaderEvents() picks up
+  // any .source-word[data-strongs] elements emitted here.
+  function renderOriginalPassageWithTokens(section, withNotice = false) {
+    if (!sectionHasWordTokens(section)) {
+      return renderOriginalPassage(section, withNotice);
+    }
+
+    const source = section.source ? `<span class="source-pill">${escapeHTML(section.source)}</span>` : "";
+    const tier = section.tier ? `<span class="source-pill">${escapeHTML(section.tier.replace(/^Tier /, "Tier "))}</span>` : "";
+
+    const tokenisedVerses = [];
+    for (const pericope of section.pericopes || []) {
+      for (const verse of pericope.verses || []) {
+        if (!Array.isArray(verse.words) || verse.words.length === 0) continue;
+        tokenisedVerses.push(renderTokenisedVerse(section, verse));
+      }
+    }
+
+    const notice = withNotice
+      ? `<p class="translation-notice">This passage does not map cleanly to a standard Bible translation, so the Basileian text is shown.</p>`
+      : "";
+
+    return `<section class="passage passage-with-tokens" id="${escapeAttr(section.id)}" data-section-id="${escapeAttr(section.id)}">
+      <h3>${escapeHTML(displayRef(section))}${section.title ? ` — ${escapeHTML(section.title)}` : ""}</h3>
+      <div class="passage-meta">${source}${tier}</div>
+      ${notice}
+      <div class="passage-body tokens-body" data-section-id="${escapeAttr(section.id)}">${tokenisedVerses.join("")}</div>
+    </section>`;
+  }
+
+  function sectionHasWordTokens(section) {
+    if (!Array.isArray(section.pericopes)) return false;
+    for (const pericope of section.pericopes) {
+      for (const verse of pericope.verses || []) {
+        if (Array.isArray(verse.words) && verse.words.length > 0) return true;
+      }
+    }
+    return false;
+  }
+
+  function renderTokenisedVerse(section, verse) {
+    const verseId = verse.verse_id || "";
+    const label = verse.reference || verseId;
+    const anchor = `v-${section.id}-${verseId}`.toLowerCase().replace(/[^a-z0-9_-]+/g, "-");
+    const tokens = formatParagraphWithTokenizedWords(verse.words);
+    return `<p id="${escapeAttr(anchor)}" class="verse-with-tokens" data-verse-id="${escapeAttr(verseId)}">
+      <span class="verse-number">${escapeHTML(label)}</span>
+      <span class="verse-tokens">${tokens}</span>
+    </p>`;
+  }
+
+  function formatParagraphWithTokenizedWords(verseWords) {
+    if (!Array.isArray(verseWords) || verseWords.length === 0) return "";
+    const parts = [];
+    for (const wordData of verseWords) {
+      if (!wordData || !wordData.text) continue;
+      const word = escapeHTML(wordData.text);
+      if (wordData.strongs) {
+        parts.push(`<span class="source-word" data-strongs="${escapeAttr(wordData.strongs)}">${word}</span>`);
+      } else {
+        parts.push(`<span class="source-word">${word}</span>`);
+      }
+    }
+    return parts.join(" ");
   }
 
   function renderTranslatedPassage(section) {
