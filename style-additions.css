@@ -57,6 +57,26 @@
   to { transform: rotate(360deg); }
 }
 
+/* Word-level token rendering (active when verse.words is populated) */
+.verse-with-tokens {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.verse-with-tokens .verse-number {
+  font-weight: 600;
+  color: var(--muted, #666);
+  min-width: 3rem;
+}
+
+.verse-tokens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
 /* Source words with Strong's numbers */
 .source-word {
   cursor: pointer;
