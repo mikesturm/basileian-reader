@@ -60,6 +60,7 @@
     selectionMenu: document.getElementById("selectionMenu"),
     menuInterlinearBtn: document.getElementById("menuInterlinearBtn"),
     menuBibleVersesBtn: document.getElementById("menuBibleVersesBtn"),
+    menuCommentaryBtn: document.getElementById("menuCommentaryBtn"),
     menuHighlightBtn: document.getElementById("menuHighlightBtn"),
     menuNoteBtn: document.getElementById("menuNoteBtn"),
     modalBackdrop: document.getElementById("modalBackdrop"),
@@ -175,6 +176,7 @@
     els.menuNoteBtn.addEventListener("click", () => { hideSelectionMenu(); createHighlightFromSelection(true); });
     els.menuInterlinearBtn.addEventListener("click", showInterlinearForCurrentSelection);
     els.menuBibleVersesBtn.addEventListener("click", showBibleVersesForCurrentSelection);
+    els.menuCommentaryBtn.addEventListener("click", showCommentaryForCurrentSelection);
 
     // Dismiss menu on click outside.
     document.addEventListener("mousedown", event => {
@@ -528,6 +530,33 @@
     if (verses.length) openBibleVersesModal(verses);
   }
 
+  function showCommentaryForCurrentSelection() {
+    const verses = _menuSelectionVerses;
+    hideSelectionMenu();
+    if (verses.length) openCommentaryModal(verses);
+  }
+
+  async function openCommentaryModal(verses) {
+    const placeholderHTML = verses.map(v =>
+      `<div class="commentary-entry">
+        <p class="commentary-ref">${escapeHTML(v.reference)}</p>
+        <p class="commentary-text loading" data-verse-id="${escapeAttr(v.verseId)}">Loading…</p>
+      </div>`
+    ).join("");
+
+    openModal("Commentary (JFB)", placeholderHTML, [
+      { label: "Close", className: "button", onClick: closeModal }
+    ]);
+
+    for (const v of verses) {
+      const el = els.modalBody.querySelector(`.commentary-text[data-verse-id="${CSS.escape(v.verseId)}"]`);
+      if (!el) continue;
+      const text = await CommentaryModule.getVerseComment(v.verseId, "jfb").catch(() => null);
+      el.textContent = text || "(No commentary found for this reference)";
+      el.classList.remove("loading");
+    }
+  }
+
   async function openBibleVersesModal(verses) {
     const bodyId = "bibleVersesBody";
     const placeholderHTML = verses.map(v =>
@@ -571,7 +600,7 @@
     return null;
   }
 
-  function openCorpusConcordance(strongsNum, backVerses) {
+  async function openCorpusConcordance(strongsNum, backVerses) {
     if (!state.verseWords) {
       openModal("Corpus Concordance", "<p>Lexical data not loaded.</p>", [
         { label: "Close", className: "button", onClick: closeModal }
@@ -605,6 +634,7 @@
       return `<button class="cc-result" data-verse-id="${escapeAttr(verseId)}">
         <span class="cc-ref">${escapeHTML(ref)}</span>
         <span class="cc-words">${wordsHTML}</span>
+        <span class="cc-kjv loading" data-verse-id="${escapeAttr(verseId)}">Loading KJV…</span>
       </button>`;
     }).join("");
 
@@ -631,6 +661,16 @@
         }
       });
     });
+
+    for (const { verseId } of matches) {
+      const el = els.modalBody.querySelector(`.cc-kjv[data-verse-id="${CSS.escape(verseId)}"]`);
+      if (!el) continue;
+      try {
+        const text = await TranslationsModule.getVerseText(verseId, "kjv");
+        if (text) { el.textContent = text; el.classList.remove("loading"); }
+        else el.remove();
+      } catch { el.remove(); }
+    }
   }
 
   function renderTranslatedPassage(section) {
@@ -1279,6 +1319,10 @@
     // Show Bible Verses only when the section maps to a standard Bible reference.
     if (els.menuBibleVersesBtn) {
       els.menuBibleVersesBtn.hidden = !(_menuSelectionSection && canTranslateSection(_menuSelectionSection));
+    }
+    // Show Commentary whenever text is selected in any passage.
+    if (els.menuCommentaryBtn) {
+      els.menuCommentaryBtn.hidden = !(_menuSelectionVerses && _menuSelectionVerses.length > 0);
     }
 
     // Position on desktop (position: fixed, so rect coords are viewport-relative).
