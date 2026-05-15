@@ -567,6 +567,52 @@
   padding: 0.5rem 0;
 }
 
+.cc-kjv {
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--muted);
+  display: block;
+  margin-top: 0.2rem;
+}
+
+.cc-kjv.loading {
+  font-style: italic;
+  opacity: 0.6;
+}
+
+/* =========================================================================
+   Commentary modal
+   ========================================================================= */
+
+.commentary-entry {
+  margin-bottom: 1.1rem;
+}
+
+.commentary-entry:last-child {
+  margin-bottom: 0;
+}
+
+.commentary-ref {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--muted);
+  margin: 0 0 0.35rem;
+}
+
+.commentary-text {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--ink);
+  margin: 0;
+}
+
+.commentary-text.loading {
+  color: var(--muted);
+  font-style: italic;
+}
+
 .translated-verse {
   margin: 0;
   padding: 0.75rem 0.85rem;
