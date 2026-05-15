@@ -29,7 +29,8 @@
     activeTranslation: "basileia", // "basileia" | "kjv" | "asv" | etc.
     translationsLoading: {}, // Track which translations are loading
     translationRenderRequest: 0,
-    verseWords: null, // lazy-loaded from lexicons/verse-words.json; null = not yet attempted
+    verseWords: null,     // lazy-loaded from lexicons/verse-words.json; null = not yet attempted
+    ntConcordance: null,  // lazy-loaded from lexicons/strongs-nt-concordance.json
     lastGreekVerses: null,
     crossRefEnabled: false,
     activeCommentary: 'jfb'
@@ -408,6 +409,18 @@
     }
   }
 
+  async function loadNtConcordance() {
+    if (state.ntConcordance !== null) return state.ntConcordance;
+    state.ntConcordance = {};
+    try {
+      const resp = await fetch("lexicons/strongs-nt-concordance.json", { cache: "default" });
+      if (resp.ok) state.ntConcordance = await resp.json();
+    } catch {
+      // file not yet generated; Bible button will show a graceful message
+    }
+    return state.ntConcordance;
+  }
+
   // Convert a runtime section.book name to the dot-delimited prefix used in
   // verse_id values (e.g. "Mark" → "mark", "1 Corinthians" → "1corinthians").
   function bookToVerseIdPrefix(bookName) {
@@ -663,6 +676,102 @@
     });
 
     for (const { verseId } of matches) {
+      const el = els.modalBody.querySelector(`.cc-kjv[data-verse-id="${CSS.escape(verseId)}"]`);
+      if (!el) continue;
+      try {
+        const text = await TranslationsModule.getVerseText(verseId, "kjv");
+        if (text) { el.textContent = text; el.classList.remove("loading"); }
+        else el.remove();
+      } catch { el.remove(); }
+    }
+  }
+
+  const BOOK_DISPLAY_NAMES = {
+    genesis:'Genesis',exodus:'Exodus',leviticus:'Leviticus',numbers:'Numbers',
+    deuteronomy:'Deuteronomy',joshua:'Joshua',judges:'Judges',ruth:'Ruth',
+    '1samuel':'1 Samuel','2samuel':'2 Samuel','1kings':'1 Kings','2kings':'2 Kings',
+    '1chronicles':'1 Chronicles','2chronicles':'2 Chronicles',ezra:'Ezra',
+    nehemiah:'Nehemiah',esther:'Esther',job:'Job',psalms:'Psalms',
+    proverbs:'Proverbs',ecclesiastes:'Ecclesiastes',songofsolomon:'Song of Solomon',
+    isaiah:'Isaiah',jeremiah:'Jeremiah',lamentations:'Lamentations',
+    ezekiel:'Ezekiel',daniel:'Daniel',hosea:'Hosea',joel:'Joel',amos:'Amos',
+    obadiah:'Obadiah',jonah:'Jonah',micah:'Micah',nahum:'Nahum',
+    habakkuk:'Habakkuk',zephaniah:'Zephaniah',haggai:'Haggai',
+    zechariah:'Zechariah',malachi:'Malachi',
+    matthew:'Matthew',mark:'Mark',luke:'Luke',john:'John',acts:'Acts',
+    romans:'Romans','1corinthians':'1 Corinthians','2corinthians':'2 Corinthians',
+    galatians:'Galatians',ephesians:'Ephesians',philippians:'Philippians',
+    colossians:'Colossians','1thessalonians':'1 Thessalonians','2thessalonians':'2 Thessalonians',
+    '1timothy':'1 Timothy','2timothy':'2 Timothy',titus:'Titus',philemon:'Philemon',
+    hebrews:'Hebrews',james:'James','1peter':'1 Peter','2peter':'2 Peter',
+    '1john':'1 John','2john':'2 John','3john':'3 John',jude:'Jude',revelation:'Revelation'
+  };
+
+  function verseIdToRef(verseId) {
+    const [book, ch, v] = verseId.split('.');
+    return `${BOOK_DISPLAY_NAMES[book] || book} ${ch}:${v}`;
+  }
+
+  async function openBibleConcordance(strongsNum, backVerses) {
+    const backAction = backVerses
+      ? [{ label: "← Back", className: "button secondary", onClick: () => openInterlinearModal(backVerses) }]
+      : [];
+    const closeAction = [{ label: "Close", className: "button", onClick: closeModal }];
+
+    openModal(`Bible: ${strongsNum}`, `<p class="cc-no-results">Loading…</p>`, [...backAction, ...closeAction]);
+
+    const concordance = await loadNtConcordance();
+    const verseIds = concordance[strongsNum] || [];
+
+    if (verseIds.length === 0) {
+      openModal(
+        `Bible: ${strongsNum}`,
+        `<p class="cc-no-results">No NT occurrences of ${escapeHTML(strongsNum)} in index.</p>`,
+        [...backAction, ...closeAction]
+      );
+      return;
+    }
+
+    const MAX = 250;
+    const shown = verseIds.slice(0, MAX);
+
+    const rows = shown.map(verseId => {
+      const ref = verseIdToRef(verseId);
+      const inCorpus = findSectionByVerseId(verseId) !== null;
+      return `<button class="cc-result" data-verse-id="${escapeAttr(verseId)}"${!inCorpus ? ' style="cursor:default"' : ''}>
+        <span class="cc-ref">${escapeHTML(ref)}</span>
+        <span class="cc-kjv loading" data-verse-id="${escapeAttr(verseId)}">Loading…</span>
+      </button>`;
+    }).join("");
+
+    const footer = verseIds.length > MAX
+      ? `<p class="cc-no-results">Showing ${MAX} of ${verseIds.length} occurrences.</p>` : "";
+
+    openModal(
+      `Bible: ${strongsNum} (${verseIds.length})`,
+      `<div class="concordance-results">${rows}${footer}</div>`,
+      [...backAction, ...closeAction]
+    );
+
+    // Click to navigate for corpus verses
+    els.modalBody.querySelectorAll(".cc-result[data-verse-id]").forEach(btn => {
+      const vid = btn.dataset.verseId;
+      const section = findSectionByVerseId(vid);
+      if (!section) return;
+      btn.addEventListener("click", () => {
+        closeModal();
+        state.book = section.book;
+        state.chapter = section.startChapter || "All";
+        state.currentSectionId = section.id;
+        state.chapterMode = false;
+        updateHash();
+        renderAll();
+        setTimeout(() => scrollToSection(section.id), 50);
+      });
+    });
+
+    // Async hydrate KJV text
+    for (const verseId of shown) {
       const el = els.modalBody.querySelector(`.cc-kjv[data-verse-id="${CSS.escape(verseId)}"]`);
       if (!el) continue;
       try {
@@ -1067,7 +1176,12 @@
         });
       }
       actions.push({
-        label: "BlueLetterBible",
+        label: "Bible",
+        className: "button secondary",
+        onClick: () => openBibleConcordance(strongsNum, backVerses)
+      });
+      actions.push({
+        label: "BLB",
         className: "button secondary",
         onClick: () => {
           const url = entry.url || `https://www.blueletterbible.org/lexicon/${strongsNum}/`;
