@@ -1,4 +1,4 @@
-const CACHE_NAME = "basileian-reader-v4-20260508-fix4";
+const CACHE_NAME = "basileian-reader-v4-20260515-crossref1";
 const ASSETS = [
   "./",
   "./index.html",
@@ -7,12 +7,19 @@ const ASSETS = [
   "./app.js",
   "./data.js",
   "./translations-module.js",
+  "./commentary-module.js",
   "./translations-index.json",
   "./canon.html",
   "./icon-192.png",
   "./icon-512.png",
   "./site.webmanifest"
 ];
+
+// Commentary and translation JSON files are cached on first request by the
+// fetch handler below. Add them to ASSETS only after running the fetch scripts,
+// since they are generated (not committed to the repository).
+// e.g. "./commentary/jfb.json", "./commentary/mhcc.json",
+//      "./translations/kjv.json", etc.
 
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS)).catch(() => {}));
