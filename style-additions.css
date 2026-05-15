@@ -258,6 +258,126 @@
   gap: 0.75rem;
 }
 
+/* =========================================================================
+   Cross-Reference Panel
+   Shown below a passage when "Bible ref." is toggled on.
+   Displays KJV verse text + optional commentary per verse.
+   ========================================================================= */
+
+.crossref-panel {
+  margin-top: 0.5rem;
+  border-radius: 0.9rem;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 94%, var(--accent) 6%);
+  overflow: hidden;
+}
+
+.crossref-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0.55rem 0.85rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 80%, var(--accent) 20%);
+}
+
+.crossref-heading-label {
+  opacity: 0.8;
+}
+
+.crossref-heading-btn {
+  font-size: 0.85rem;
+  line-height: 1;
+  padding: 0.1rem 0.3rem;
+  transition: transform 0.2s ease;
+  color: var(--muted);
+}
+
+.crossref-panel.collapsed .crossref-heading-btn {
+  transform: rotate(-90deg);
+}
+
+.crossref-body {
+  display: grid;
+  gap: 0;
+}
+
+.crossref-panel.collapsed .crossref-body {
+  display: none;
+}
+
+.crossref-verse {
+  padding: 0.6rem 0.85rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.crossref-verse:last-child {
+  border-bottom: none;
+}
+
+.crossref-ref {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  margin-bottom: 0.3rem;
+}
+
+.crossref-bible-text {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.crossref-commentary {
+  margin: 0.45rem 0 0;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--muted);
+  font-style: italic;
+  border-left: 2px solid var(--border);
+  padding-left: 0.6rem;
+}
+
+.crossref-commentary.hidden,
+.crossref-bible-text.hidden {
+  display: none;
+}
+
+/* Active state for the Bible ref. toolbar button */
+#crossRefBtn.active {
+  background: color-mix(in srgb, var(--accent) 20%, var(--surface) 80%);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+[data-theme="dark"] #crossRefBtn.active {
+  background: color-mix(in srgb, var(--accent) 25%, #1a1a1a 75%);
+}
+
+@media (max-width: 600px) {
+  .crossref-verse {
+    padding: 0.5rem 0.65rem;
+  }
+
+  .crossref-bible-text {
+    font-size: 0.83rem;
+  }
+
+  .crossref-commentary {
+    font-size: 0.75rem;
+  }
+}
+
 .translated-verse {
   margin: 0;
   padding: 0.75rem 0.85rem;

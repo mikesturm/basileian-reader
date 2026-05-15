@@ -5,9 +5,10 @@
   "private": true,
   "scripts": {
     "fetch-translations": "node scripts/fetch-translations.js",
+    "fetch-commentary": "node scripts/fetch-commentary.js",
     "fetch-strongs": "node scripts/fetch-strongs.js",
     "build-lexicons": "node scripts/build-lexicons.js",
-    "setup-data": "npm run fetch-translations && npm run build-lexicons"
+    "setup-data": "npm run fetch-translations && npm run fetch-commentary && npm run build-lexicons"
   },
   "engines": {
     "node": ">=16"

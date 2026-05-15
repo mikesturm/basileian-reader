@@ -10,6 +10,8 @@
   const STORAGE_THEME = "basileian.reader.v2.theme";
   const STORAGE_TRANSLATION = "basileian.reader.v2.activeTranslation";
   const STORAGE_BOOKMARK = "basileian.reader.v2.lastPosition";
+  const STORAGE_CROSSREF = "basileian.reader.v2.crossRef";
+  const STORAGE_COMMENTARY = "basileian.reader.v2.commentary";
 
   const sections = DATA.sections;
   const books = DATA.books;
@@ -28,7 +30,9 @@
     translationsLoading: {}, // Track which translations are loading
     translationRenderRequest: 0,
     verseWords: null, // lazy-loaded from lexicons/verse-words.json; null = not yet attempted
-    lastGreekVerses: null
+    lastGreekVerses: null,
+    crossRefEnabled: false,
+    activeCommentary: 'jfb'
   };
 
   const els = {
@@ -65,7 +69,8 @@
     modalClose: document.getElementById("modalClose"),
     themeToggle: document.getElementById("themeToggle"),
     translationSelect: document.getElementById("translationSelect"),
-    translationStatus: document.getElementById("translationStatus")
+    translationStatus: document.getElementById("translationStatus"),
+    crossRefBtn: document.getElementById("crossRefBtn")
   };
 
   function init() {
@@ -74,6 +79,7 @@
     bindEvents();
     renderBookSelect();
     restoreTranslationPreference();
+    restoreCrossRefPreference();
     renderTranslationSelector();
     restoreLastPosition();
     restoreFromHash();
@@ -140,6 +146,15 @@
       state.chapterMode = !state.chapterMode;
       renderAll();
     });
+
+    if (els.crossRefBtn) {
+      els.crossRefBtn.addEventListener("click", () => {
+        state.crossRefEnabled = !state.crossRefEnabled;
+        localStorage.setItem(STORAGE_CROSSREF, state.crossRefEnabled ? "1" : "");
+        updateCrossRefButton();
+        renderReader();
+      });
+    }
 
     // Translation selector
     els.translationSelect.addEventListener("change", () => {
@@ -323,13 +338,23 @@
     } else {
       updateTranslationStatus("");
     }
+
+    if (state.crossRefEnabled) {
+      hydrateCrossRefPanels();
+    }
   }
 
   function renderPassage(section) {
+    let html;
     if (state.activeTranslation !== "basileia" && canTranslateSection(section)) {
-      return renderTranslatedPassage(section);
+      html = renderTranslatedPassage(section);
+    } else {
+      html = renderOriginalPassage(section, state.activeTranslation !== "basileia");
     }
-    return renderOriginalPassage(section, state.activeTranslation !== "basileia");
+    if (state.crossRefEnabled && canTranslateSection(section)) {
+      html += renderCrossRefPanel(section);
+    }
+    return html;
   }
 
   function renderOriginalPassage(section, withNotice = false) {
@@ -602,6 +627,97 @@
         if (strongsNum) openStrongsModal(strongsNum);
       });
     });
+
+    // Cross-reference panel collapse toggles
+    els.readerContent.querySelectorAll(".crossref-heading-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const panel = btn.closest(".crossref-panel");
+        if (panel) panel.classList.toggle("collapsed");
+      });
+    });
+  }
+
+  // ---------------------------------------------------------------------------
+  // Cross-reference panel
+  // ---------------------------------------------------------------------------
+
+  function restoreCrossRefPreference() {
+    state.crossRefEnabled = !!localStorage.getItem(STORAGE_CROSSREF);
+    const stored = localStorage.getItem(STORAGE_COMMENTARY);
+    if (stored) state.activeCommentary = stored;
+    updateCrossRefButton();
+  }
+
+  function updateCrossRefButton() {
+    if (!els.crossRefBtn) return;
+    els.crossRefBtn.classList.toggle("active", state.crossRefEnabled);
+    els.crossRefBtn.textContent = state.crossRefEnabled ? "Bible ref. ✓" : "Bible ref.";
+  }
+
+  function renderCrossRefPanel(section) {
+    const markers = uniqueVerseMarkers(section);
+    if (!markers.length) return "";
+
+    const verseRows = markers.map(marker => {
+      const verseId = translationVerseId(section, marker);
+      const label = marker.label || `${marker.chapter}:${marker.verse}`;
+      return `<div class="crossref-verse" data-verse-id="${escapeAttr(verseId)}">
+        <span class="crossref-ref">${escapeHTML(section.book)} ${escapeHTML(label)}</span>
+        <p class="crossref-bible-text">Loading…</p>
+        <p class="crossref-commentary hidden"></p>
+      </div>`;
+    }).join("");
+
+    return `<section class="crossref-panel" data-section-id="${escapeAttr(section.id)}">
+      <h4 class="crossref-heading">
+        <span class="crossref-heading-label">KJV · Cross-Reference</span>
+        <button class="crossref-heading-btn icon-button" aria-label="Collapse cross-reference">▾</button>
+      </h4>
+      <div class="crossref-body">${verseRows}</div>
+    </section>`;
+  }
+
+  async function hydrateCrossRefPanels() {
+    const verseEls = [...els.readerContent.querySelectorAll(".crossref-verse[data-verse-id]")];
+    if (!verseEls.length) return;
+
+    await Promise.all(verseEls.map(async el => {
+      const verseId = el.dataset.verseId;
+      const bibleEl = el.querySelector(".crossref-bible-text");
+      const commentEl = el.querySelector(".crossref-commentary");
+
+      // Load KJV text
+      try {
+        if (window.TranslationsModule && typeof TranslationsModule.getVerseText === "function") {
+          const text = await TranslationsModule.getVerseText(verseId, "kjv");
+          if (text) {
+            bibleEl.textContent = text;
+          } else {
+            bibleEl.textContent = "";
+            bibleEl.classList.add("hidden");
+          }
+        } else {
+          bibleEl.textContent = "";
+          bibleEl.classList.add("hidden");
+        }
+      } catch {
+        bibleEl.textContent = "";
+        bibleEl.classList.add("hidden");
+      }
+
+      // Load commentary if available
+      if (window.CommentaryModule && commentEl) {
+        try {
+          const comment = await CommentaryModule.getVerseComment(verseId, state.activeCommentary);
+          if (comment) {
+            commentEl.textContent = comment;
+            commentEl.classList.remove("hidden");
+          }
+        } catch {
+          // Commentary unavailable — silently omit
+        }
+      }
+    }));
   }
 
   function renderSearch() {
