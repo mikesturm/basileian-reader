@@ -580,16 +580,77 @@ button {
   padding: 0.02em 0;
 }
 
-.selection-toolbar {
-  position: absolute;
+/* Selection context menu — card on desktop, bottom sheet on mobile */
+.selection-menu {
+  position: fixed;
   z-index: 50;
-  display: flex;
-  gap: 0.4rem;
-  padding: 0.35rem;
+  min-width: 210px;
   background: var(--card);
   border: 1px solid var(--line);
-  border-radius: 999px;
-  box-shadow: var(--shadow);
+  border-radius: 14px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.10);
+  overflow: hidden;
+}
+
+.sm-section {
+  padding: 0.45rem 0.9rem 0.3rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--muted);
+  background: var(--bg-soft, rgba(0,0,0,0.03));
+}
+
+.sm-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.72rem 0.9rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  border: none;
+  border-top: 1px solid var(--line);
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  color: var(--ink);
+  transition: background 0.1s;
+}
+
+.sm-item:hover,
+.sm-item:focus-visible {
+  background: var(--bg-soft, rgba(0,0,0,0.04));
+  outline: none;
+}
+
+.sm-item:active {
+  background: color-mix(in srgb, var(--accent) 10%, var(--card));
+}
+
+.sm-label {
+  font-weight: 450;
+}
+
+.sm-arrow {
+  color: var(--muted);
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+/* Mobile: slide-up bottom sheet */
+@media (max-width: 640px) {
+  .selection-menu:not(.hidden) {
+    position: fixed;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    top: auto !important;
+    min-width: unset;
+    border-radius: 18px 18px 0 0;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
 }
 
 .hidden {

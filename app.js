@@ -57,10 +57,11 @@
     prevBtn: document.getElementById("prevBtn"),
     nextBtn: document.getElementById("nextBtn"),
     chapterModeBtn: document.getElementById("chapterModeBtn"),
-    selectionToolbar: document.getElementById("selectionToolbar"),
-    highlightBtn: document.getElementById("highlightBtn"),
-    noteBtn: document.getElementById("noteBtn"),
-    greekBtn: document.getElementById("greekBtn"),
+    selectionMenu: document.getElementById("selectionMenu"),
+    menuInterlinearBtn: document.getElementById("menuInterlinearBtn"),
+    menuBibleVersesBtn: document.getElementById("menuBibleVersesBtn"),
+    menuHighlightBtn: document.getElementById("menuHighlightBtn"),
+    menuNoteBtn: document.getElementById("menuNoteBtn"),
     modalBackdrop: document.getElementById("modalBackdrop"),
     modal: document.getElementById("modal"),
     modalTitle: document.getElementById("modalTitle"),
@@ -164,20 +165,28 @@
       renderReader(); // Re-render with new translation
     });
 
-    document.addEventListener("selectionchange", debounce(updateSelectionToolbar, 120));
-    document.addEventListener("mouseup", () => setTimeout(updateSelectionToolbar, 0));
-    document.addEventListener("touchend", () => setTimeout(updateSelectionToolbar, 250));
+    document.addEventListener("selectionchange", debounce(updateSelectionMenu, 120));
+    document.addEventListener("mouseup", () => setTimeout(updateSelectionMenu, 0));
+    document.addEventListener("touchend", () => setTimeout(updateSelectionMenu, 250));
 
-    // Prevent mousedown from collapsing the text selection before click fires.
-    els.selectionToolbar.addEventListener("mousedown", event => event.preventDefault());
-    els.highlightBtn.addEventListener("click", () => createHighlightFromSelection(false));
-    els.noteBtn.addEventListener("click", () => createHighlightFromSelection(true));
-    els.greekBtn.addEventListener("click", showGreekForCurrentSelection);
+    // Prevent mousedown on the menu from collapsing the selection before click fires.
+    els.selectionMenu.addEventListener("mousedown", event => event.preventDefault());
+    els.menuHighlightBtn.addEventListener("click", () => { hideSelectionMenu(); createHighlightFromSelection(false); });
+    els.menuNoteBtn.addEventListener("click", () => { hideSelectionMenu(); createHighlightFromSelection(true); });
+    els.menuInterlinearBtn.addEventListener("click", showInterlinearForCurrentSelection);
+    els.menuBibleVersesBtn.addEventListener("click", showBibleVersesForCurrentSelection);
+
+    // Dismiss menu on click outside.
+    document.addEventListener("mousedown", event => {
+      if (!els.selectionMenu.classList.contains("hidden") && !els.selectionMenu.contains(event.target)) {
+        hideSelectionMenu();
+      }
+    });
 
     els.modalClose.addEventListener("click", closeModal);
     els.modalBackdrop.addEventListener("click", closeModal);
     document.addEventListener("keydown", event => {
-      if (event.key === "Escape") closeModal();
+      if (event.key === "Escape") { closeModal(); hideSelectionMenu(); }
     });
 
     els.themeToggle.addEventListener("click", toggleTheme);
@@ -462,39 +471,166 @@
     }).filter(Boolean).join(" ");
   }
 
-  function openGreekVersesModal(verses) {
+  function buildInterlinearWordHTML(w) {
+    if (!w || !w.text) return "";
+    const greek = `<span class="iw-greek">${escapeHTML(w.text)}</span>`;
+    const gloss = `<span class="iw-gloss">${escapeHTML(w.gloss || "")}</span>`;
+    const badge = w.strongs
+      ? `<button class="iw-strongs" data-strongs="${escapeAttr(w.strongs)}">${escapeHTML(w.strongs)}</button>`
+      : "";
+    return `<span class="interlinear-word">${greek}${gloss}${badge}</span>`;
+  }
+
+  function openInterlinearModal(verses) {
     state.lastGreekVerses = verses;
     const body = verses.map(v => {
-      const words = state.verseWords[v.verseId];
-      const greekHTML = Array.isArray(words) && words.length
-        ? `<p class="verse-with-tokens"><span class="verse-tokens">${formatVerseWordsHTML(words)}</span></p>`
-        : `<p class="muted">No Greek data available for this verse.</p>`;
-      return `<section class="greek-verse">
-        <h4 class="greek-verse-ref">${escapeHTML(v.reference)}</h4>
-        ${greekHTML}
-      </section>`;
+      const words = state.verseWords ? state.verseWords[v.verseId] : null;
+      const wordsHTML = Array.isArray(words) && words.length
+        ? `<div class="interlinear-words">${words.map(buildInterlinearWordHTML).filter(Boolean).join("")}</div>`
+        : `<p class="interlinear-no-data">No interlinear data available for this passage.</p>`;
+      return `<div class="interlinear-verse">
+        <h4 class="interlinear-ref">${escapeHTML(v.reference)}</h4>
+        ${wordsHTML}
+      </div>`;
     }).join("");
 
-    openModal("Greek + Strong's", body, [
+    openModal("Interlinear", body, [
       { label: "Close", className: "button", onClick: closeModal }
     ]);
 
-    els.modalBody.querySelectorAll(".source-word[data-strongs]").forEach(word => {
-      word.addEventListener("click", event => {
+    els.modalBody.querySelectorAll(".iw-strongs[data-strongs]").forEach(badge => {
+      badge.addEventListener("click", event => {
         event.stopPropagation();
-        openStrongsModal(word.dataset.strongs, verses);
+        openStrongsModal(badge.dataset.strongs, verses);
       });
     });
   }
 
-  function showGreekForCurrentSelection() {
+  // Back-compat alias used by openStrongsModal's back button.
+  const openGreekVersesModal = (verses) => openInterlinearModal(verses);
+
+  function showInterlinearForCurrentSelection() {
     const sel = window.getSelection();
     if (!sel || !sel.rangeCount || sel.isCollapsed) return;
     const verses = findVersesInSelection(sel.getRangeAt(0));
-    if (!verses.length || !anyVerseHasGreek(verses)) return;
+    if (!verses.length) return;
     sel.removeAllRanges();
-    hideSelectionToolbar();
-    openGreekVersesModal(verses);
+    hideSelectionMenu();
+    openInterlinearModal(verses);
+  }
+
+  function showBibleVersesForCurrentSelection() {
+    const sel = window.getSelection();
+    if (!sel || !sel.rangeCount || sel.isCollapsed) return;
+    const verses = findVersesInSelection(sel.getRangeAt(0));
+    sel.removeAllRanges();
+    hideSelectionMenu();
+    if (verses.length) openBibleVersesModal(verses);
+  }
+
+  async function openBibleVersesModal(verses) {
+    const bodyId = "bibleVersesBody";
+    const placeholderHTML = verses.map(v =>
+      `<div class="bible-verse-entry">
+        <p class="bible-verse-ref">${escapeHTML(v.reference)}</p>
+        <p class="bible-verse-text loading" data-verse-id="${escapeAttr(v.verseId)}">Loading KJV…</p>
+      </div>`
+    ).join("");
+
+    openModal("Bible Verses (KJV)", `<div id="${bodyId}">${placeholderHTML}</div>`, [
+      { label: "Close", className: "button", onClick: closeModal }
+    ]);
+
+    for (const v of verses) {
+      const el = els.modalBody.querySelector(`.bible-verse-text[data-verse-id="${CSS.escape(v.verseId)}"]`);
+      if (!el) continue;
+      try {
+        const text = await TranslationsModule.getVerseText(v.verseId, "kjv");
+        if (text) {
+          el.textContent = text;
+          el.classList.remove("loading");
+        } else {
+          el.textContent = "(No KJV text found for this reference)";
+          el.classList.remove("loading");
+        }
+      } catch {
+        el.textContent = "(Could not load verse text)";
+        el.classList.remove("loading");
+      }
+    }
+  }
+
+  function findSectionByVerseId(verseId) {
+    for (const [, section] of sectionById) {
+      if (!Array.isArray(section.verseMarkers)) continue;
+      for (const marker of section.verseMarkers) {
+        const vid = translationVerseId(section, marker);
+        if (vid === verseId) return section;
+      }
+    }
+    return null;
+  }
+
+  function openCorpusConcordance(strongsNum, backVerses) {
+    if (!state.verseWords) {
+      openModal("Corpus Concordance", "<p>Lexical data not loaded.</p>", [
+        { label: "Close", className: "button", onClick: closeModal }
+      ]);
+      return;
+    }
+
+    const matches = [];
+    for (const [verseId, words] of Object.entries(state.verseWords)) {
+      if (!Array.isArray(words)) continue;
+      if (words.some(w => w.strongs === strongsNum)) {
+        matches.push({ verseId, words });
+      }
+    }
+
+    if (matches.length === 0) {
+      const body = `<p class="cc-no-results">No occurrences of ${escapeHTML(strongsNum)} found in this corpus.</p>`;
+      const actions = [];
+      if (backVerses) actions.push({ label: "← Back", className: "button secondary", onClick: () => openInterlinearModal(backVerses) });
+      actions.push({ label: "Close", className: "button", onClick: closeModal });
+      openModal(`Corpus: ${strongsNum}`, body, actions);
+      return;
+    }
+
+    const rows = matches.map(({ verseId, words }) => {
+      const section = findSectionByVerseId(verseId);
+      const ref = section ? displayRef(section) : verseId;
+      const wordsHTML = words.map(w =>
+        `<span class="cc-word${w.strongs === strongsNum ? " target" : ""}">${escapeHTML(w.text || "")}</span>`
+      ).join(" ");
+      return `<button class="cc-result" data-verse-id="${escapeAttr(verseId)}">
+        <span class="cc-ref">${escapeHTML(ref)}</span>
+        <span class="cc-words">${wordsHTML}</span>
+      </button>`;
+    }).join("");
+
+    const body = `<div class="concordance-results">${rows}</div>`;
+    const actions = [];
+    if (backVerses) actions.push({ label: "← Back", className: "button secondary", onClick: () => openInterlinearModal(backVerses) });
+    actions.push({ label: "Close", className: "button", onClick: closeModal });
+
+    openModal(`Corpus: ${strongsNum} (${matches.length})`, body, actions);
+
+    els.modalBody.querySelectorAll(".cc-result[data-verse-id]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const vid = btn.dataset.verseId;
+        const section = findSectionByVerseId(vid);
+        if (section) {
+          closeModal();
+          state.book = section.book;
+          state.chapter = section.startChapter || "All";
+          state.currentSectionId = section.id;
+          state.chapterMode = false;
+          updateHash();
+          renderAll();
+          setTimeout(() => scrollToSection(section.id), 50);
+        }
+      });
+    });
   }
 
   function renderTranslatedPassage(section) {
@@ -880,7 +1016,14 @@
         actions.push({
           label: "← Back",
           className: "button secondary",
-          onClick: () => openGreekVersesModal(backVerses)
+          onClick: () => openInterlinearModal(backVerses)
+        });
+      }
+      if (state.verseWords && Object.keys(state.verseWords).length > 0) {
+        actions.push({
+          label: "Corpus",
+          className: "button secondary",
+          onClick: () => openCorpusConcordance(strongsNum, backVerses)
         });
       }
       actions.push({
@@ -957,7 +1100,7 @@
     const body = closestPassageBody(range.commonAncestorContainer);
     if (!body || !body.contains(range.startContainer) || !body.contains(range.endContainer)) {
       alert("Please select text within a single passage.");
-      hideSelectionToolbar();
+      hideSelectionMenu();
       return;
     }
 
@@ -980,7 +1123,7 @@
     };
 
     selection.removeAllRanges();
-    hideSelectionToolbar();
+    hideSelectionMenu();
 
     if (withNote) {
       openHighlightEditor(highlight, true);
@@ -1108,34 +1251,55 @@
     return element ? element.closest(".passage-body") : null;
   }
 
-  function updateSelectionToolbar() {
+  // Cached verses from the most recent valid selection; menu buttons read this.
+  let _menuSelectionVerses = [];
+  let _menuSelectionSection = null;
+
+  function updateSelectionMenu() {
     const selection = window.getSelection();
     if (!selection || !selection.rangeCount || selection.isCollapsed) {
-      hideSelectionToolbar();
+      hideSelectionMenu();
       return;
     }
     const range = selection.getRangeAt(0);
     const body = closestPassageBody(range.commonAncestorContainer);
     if (!body || !body.contains(range.startContainer) || !body.contains(range.endContainer)) {
-      hideSelectionToolbar();
+      hideSelectionMenu();
       return;
     }
     const rect = range.getBoundingClientRect();
-    if (!rect || rect.width === 0 && rect.height === 0) {
-      hideSelectionToolbar();
+    if (!rect || (rect.width === 0 && rect.height === 0)) {
+      hideSelectionMenu();
       return;
     }
-    els.selectionToolbar.style.left = `${Math.max(8, rect.left + window.scrollX)}px`;
-    els.selectionToolbar.style.top = `${Math.max(8, rect.top + window.scrollY - 54)}px`;
-    els.selectionToolbar.classList.remove("hidden");
 
-    // Greek button only when the selection touches a verse we have Greek for.
-    const verses = findVersesInSelection(range);
-    els.greekBtn.hidden = !anyVerseHasGreek(verses);
+    _menuSelectionVerses = findVersesInSelection(range);
+    _menuSelectionSection = sectionById.get(body.dataset.sectionId) || null;
+
+    // Show Bible Verses only when the section maps to a standard Bible reference.
+    if (els.menuBibleVersesBtn) {
+      els.menuBibleVersesBtn.hidden = !(_menuSelectionSection && canTranslateSection(_menuSelectionSection));
+    }
+
+    // Position on desktop (position: fixed, so rect coords are viewport-relative).
+    const isMobile = window.innerWidth <= 640;
+    if (!isMobile) {
+      const menuW = 220;
+      const menuH = 190; // approximate
+      let left = rect.left;
+      let top = rect.top - menuH - 10;
+      if (top < 8) top = rect.bottom + 10;
+      left = Math.max(8, Math.min(left, window.innerWidth - menuW - 8));
+      top  = Math.max(8, Math.min(top,  window.innerHeight - menuH - 8));
+      els.selectionMenu.style.left = `${left}px`;
+      els.selectionMenu.style.top  = `${top}px`;
+    }
+
+    els.selectionMenu.classList.remove("hidden");
   }
 
-  function hideSelectionToolbar() {
-    els.selectionToolbar.classList.add("hidden");
+  function hideSelectionMenu() {
+    els.selectionMenu.classList.add("hidden");
   }
 
   function goToReference() {
