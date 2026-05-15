@@ -378,6 +378,195 @@
   }
 }
 
+/* =========================================================================
+   Interlinear modal
+   ========================================================================= */
+
+.interlinear-verse {
+  margin-bottom: 1.5rem;
+}
+
+.interlinear-verse:last-child {
+  margin-bottom: 0;
+}
+
+.interlinear-ref {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--muted);
+  margin: 0 0 0.65rem;
+}
+
+.interlinear-words {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.65rem;
+  direction: ltr;
+}
+
+.interlinear-word {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.12rem;
+  min-width: 2.5rem;
+  max-width: 7rem;
+}
+
+.iw-greek {
+  font-family: "SBL Greek", "Gentium Plus", "Gentium", "Noto Serif", serif;
+  font-size: 1.15rem;
+  line-height: 1.3;
+  color: var(--ink);
+  text-align: center;
+}
+
+.iw-gloss {
+  font-size: 0.68rem;
+  font-style: italic;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.2;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.iw-strongs {
+  font-size: 0.6rem;
+  font-family: "Courier New", monospace;
+  font-style: normal;
+  color: var(--accent, #0288d1);
+  background: transparent;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  padding: 0.05rem 0.35rem;
+  cursor: pointer;
+  line-height: 1.4;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.iw-strongs:hover {
+  background: color-mix(in srgb, var(--accent, #0288d1) 12%, transparent);
+}
+
+.iw-strongs:active {
+  background: color-mix(in srgb, var(--accent, #0288d1) 22%, transparent);
+}
+
+[data-theme="dark"] .iw-strongs {
+  color: #4fc3f7;
+}
+
+.interlinear-no-data {
+  color: var(--muted);
+  font-size: 0.88rem;
+  font-style: italic;
+}
+
+/* =========================================================================
+   Bible Verses modal
+   ========================================================================= */
+
+.bible-verse-entry {
+  margin-bottom: 1.1rem;
+}
+
+.bible-verse-entry:last-child {
+  margin-bottom: 0;
+}
+
+.bible-verse-ref {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--muted);
+  margin: 0 0 0.3rem;
+}
+
+.bible-verse-text {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--ink);
+  margin: 0;
+}
+
+.bible-verse-text.loading {
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* =========================================================================
+   Corpus concordance modal
+   ========================================================================= */
+
+.concordance-results {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.cc-result {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  width: 100%;
+  text-align: left;
+  padding: 0.6rem 0.75rem;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.12s;
+}
+
+.cc-result:hover {
+  background: var(--bg-soft, rgba(0,0,0,0.04));
+}
+
+.cc-ref {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.cc-words {
+  font-family: "SBL Greek", "Gentium Plus", serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.cc-words .cc-word {
+  display: inline;
+}
+
+.cc-words .cc-word.target {
+  color: var(--accent, #0288d1);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 2px;
+}
+
+[data-theme="dark"] .cc-words .cc-word.target {
+  color: #4fc3f7;
+}
+
+.cc-no-results {
+  color: var(--muted);
+  font-style: italic;
+  font-size: 0.88rem;
+  padding: 0.5rem 0;
+}
+
 .translated-verse {
   margin: 0;
   padding: 0.75rem 0.85rem;
