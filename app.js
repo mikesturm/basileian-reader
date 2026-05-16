@@ -1454,10 +1454,25 @@
     }
 
     els.selectionMenu.classList.remove("hidden");
+
+    if (isMobile) {
+      document.body.classList.add('selection-menu-open');
+      // After the menu renders, scroll so the selection is visible above it.
+      requestAnimationFrame(() => {
+        const menuH = els.selectionMenu.offsetHeight || 300;
+        const clearance = 20;
+        const selBottom = rect.bottom; // viewport-relative snapshot captured above
+        const visibleBottom = window.innerHeight - menuH - clearance;
+        if (selBottom > visibleBottom) {
+          window.scrollBy({ top: selBottom - visibleBottom, behavior: 'smooth' });
+        }
+      });
+    }
   }
 
   function hideSelectionMenu() {
     els.selectionMenu.classList.add("hidden");
+    document.body.classList.remove('selection-menu-open');
   }
 
   function goToReference() {

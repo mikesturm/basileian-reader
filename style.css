@@ -651,6 +651,11 @@ button {
     border-radius: 18px 18px 0 0;
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
+
+  /* Push page content down so users can scroll above the open menu */
+  body.selection-menu-open .main-layout {
+    padding-bottom: 340px;
+  }
 }
 
 .hidden {
