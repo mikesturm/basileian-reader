@@ -192,6 +192,15 @@
       if (event.key === "Escape") { closeModal(); hideSelectionMenu(); }
     });
 
+    // Delegated handler for NET Bible footnote buttons (added to DOM asynchronously)
+    els.readerContent.addEventListener("click", event => {
+      const btn = event.target.closest(".net-note-link");
+      if (btn) {
+        event.preventDefault();
+        openNetNote(btn.dataset.netNote, btn.dataset.bookKey);
+      }
+    });
+
     els.themeToggle.addEventListener("click", toggleTheme);
 
     window.addEventListener("hashchange", () => {
@@ -862,7 +871,11 @@
           if (requestId !== state.translationRenderRequest || translationId !== state.activeTranslation) return;
           if (text) {
             textEl.classList.remove("muted");
-            textEl.textContent = text;
+            if (translationId === "net" && text.includes("⟦")) {
+              textEl.innerHTML = renderNetVerseText(text, verseId);
+            } else {
+              textEl.textContent = text;
+            }
           } else {
             textEl.classList.add("muted");
             textEl.textContent = "No verse available for this reference in the selected translation.";
@@ -1244,6 +1257,40 @@
     openModal(`Endnote ${number}`, `<div class="note-text">${paragraphsToHTML(text)}</div>`, [
       { label: "Close", className: "button", onClick: closeModal }
     ]);
+  }
+
+  // Convert NET verse text containing ⟦N·nXXXXXX⟧ markers into HTML with
+  // clickable superscript footnote buttons.
+  function renderNetVerseText(text, verseId) {
+    const bookKey = verseId.split(".")[0];
+    const parts = text.split(/⟦(\d+[a-z]?)·(n[0-9a-z]+)⟧/);
+    let html = "";
+    for (let i = 0; i < parts.length; i += 3) {
+      html += escapeHTML(parts[i]);
+      if (i + 2 < parts.length) {
+        const num = parts[i + 1];
+        const noteId = parts[i + 2];
+        html += `<sup><button class="net-note-link" data-net-note="${escapeAttr(noteId)}" data-book-key="${escapeAttr(bookKey)}">${escapeHTML(num)}</button></sup>`;
+      }
+    }
+    return html;
+  }
+
+  async function openNetNote(noteId, bookKey) {
+    openModal(
+      "NET Bible Note",
+      `<div class="note-text"><p class="muted">Loading…</p></div>`,
+      [{ label: "Close", className: "button", onClick: closeModal }]
+    );
+    try {
+      const html = await TranslationsModule.getNetNote(noteId, bookKey);
+      const body = els.modalBody.querySelector(".note-text");
+      if (body) body.innerHTML = html || "<p>Note not found.</p>";
+    } catch (err) {
+      const body = els.modalBody.querySelector(".note-text");
+      if (body) body.textContent = "Could not load note.";
+      console.error("NET note load failed:", err);
+    }
   }
 
   function createHighlightFromSelection(withNote) {
@@ -1788,7 +1835,7 @@
       acceptNode(node) {
         const parent = node.parentElement;
         if (!parent) return NodeFilter.FILTER_REJECT;
-        if (parent.closest(".note-link, .verse-number, .search-inline")) return NodeFilter.FILTER_REJECT;
+        if (parent.closest(".note-link, .net-note-link, .verse-number, .search-inline")) return NodeFilter.FILTER_REJECT;
         if (!regex.test(node.nodeValue)) return NodeFilter.FILTER_REJECT;
         regex.lastIndex = 0;
         return NodeFilter.FILTER_ACCEPT;

@@ -384,6 +384,26 @@ const TranslationsModule = (() => {
   function isLoaded(translationId) { return !!translationsCache[translationId]; }
   function getLoadedTranslations() { return Object.keys(translationsCache); }
 
+  // ---------------------------------------------------------------------------
+  // NET Bible footnote loading (per-book lazy loading)
+  // ---------------------------------------------------------------------------
+
+  const netNotesCache = {};
+
+  async function loadNetNotes(bookKey) {
+    if (netNotesCache[bookKey]) return netNotesCache[bookKey];
+    const resp = await fetch(`translations/net-notes/${encodeURIComponent(bookKey)}.json`);
+    if (!resp.ok) throw new Error(`${resp.status}: net-notes/${bookKey}.json`);
+    const notes = await resp.json();
+    netNotesCache[bookKey] = notes;
+    return notes;
+  }
+
+  async function getNetNote(noteId, bookKey) {
+    const notes = await loadNetNotes(bookKey);
+    return notes[noteId] ?? null;
+  }
+
   return {
     init,
     getAvailableTranslations,
@@ -396,7 +416,9 @@ const TranslationsModule = (() => {
     getLoadedTranslations,
     normalizeTranslationData,
     normalizeBook,
-    toVerseId
+    toVerseId,
+    loadNetNotes,
+    getNetNote
   };
 })();
 
