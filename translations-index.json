@@ -66,6 +66,14 @@
         "https://cdn.jsdelivr.net/gh/scrollmapper/bible_databases@2024/json/eng-dby.json",
         "https://raw.githubusercontent.com/scrollmapper/bible_databases/2024/json/eng-dby.json"
       ]
+    },
+    {
+      "id": "net",
+      "name": "New English Translation (NET Bible)",
+      "file": "translations/net.json",
+      "license": "Scripture quoted by permission. Quotations designated (NET) are from the NET Bible® copyright ©1996, 2019 by Biblical Studies Press, L.L.C. Used by permission. All rights reserved.",
+      "source": "NETBIBLE21.epub",
+      "verse_count": 31039
     }
   ]
 }
