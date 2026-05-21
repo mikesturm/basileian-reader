@@ -97,7 +97,6 @@ function buildFromStrongsPackage() {
 
   for (const [key, val] of Object.entries(strongsPkg)) {
     if (!key.startsWith('G') && !key.startsWith('H')) continue;
-    if (!key.startsWith('G')) continue; // Greek only for now
 
     const entry = {
       number: key,
