@@ -2,6 +2,31 @@
   "schema_version": "2.0",
   "canon_name": "Basileian Canon (Jesus Tradition)",
   "canon_version": "v3",
+  "reader_guide": {
+    "title": "Note to the Reader",
+    "narrative": "The canon is arranged in three tiers, distinguishing not degrees of authority but kinds of source. Different reading purposes call for different subsets, and the reader is encouraged to choose the subset appropriate to the task.",
+    "reading_paths": [
+      {
+        "name": "Strongest core",
+        "description": "The most strongly attested Jesus tradition — material with multiple early independent witnesses, or material from sources who explicitly relayed received tradition.",
+        "subset": ["tier1_a_mark", "tier1_b_q", "tier2_a_last_supper", "tier2_b_appearances", "tier2_c_dominical_sayings"],
+        "rationale": "This is the leanest historically conservative reading of the canon. It corresponds approximately to what could be defended on the criterion of multiple attestation alone."
+      },
+      {
+        "name": "Full reliable canon",
+        "description": "Adds the gospel evangelists' special material, the corroborated Thomas selections, the Johannine narrative material, and the explicitly received non-gospel traditions.",
+        "subset": ["tier1_a_mark", "tier1_b_q", "tier1_c_special_l", "tier1_d_special_m", "tier1_e_thomas", "tier1_f_john", "tier2_a_last_supper", "tier2_b_appearances", "tier2_c_dominical_sayings", "tier2_d_pauline_claims", "tier2_e_ascension", "tier2_f_agraphon", "tier2_g_didache"],
+        "rationale": "Inclusion at this level rests on the broader reliability filter rather than multiple attestation strictly understood. Per-section introductory notes make the editorial judgments visible."
+      },
+      {
+        "name": "With candidate apocryphal material",
+        "description": "Engages the four papyri, the Gospel of Peter passion fragment, and the Jewish-Christian gospel citations alongside the relevant Tier 1 or 2 material they parallel or supplement.",
+        "subset": "all sections",
+        "rationale": "Tier 3 sources are included not because they reach the same evidentiary threshold as the canonical material, but because there are responsible scholarly arguments for early independent tradition in each fragment selected. Approach Tier 3 with the case for inclusion made carefully fragment by fragment, and with skepticism preserved."
+      }
+    ],
+    "tier_structure_note": "The tier structure tracks type of source, not theological weight. The hermeneutical key to the whole canon — Jesus's articulation of the two great commandments at Mark 12:28–34 and parallels — sits in Tier 1A; the eucharistic words sit in Tier 2A; the earliest accessible Christian eschatological tradition sits in Tier 2C."
+  },
   "description": "Original-language source texts for the Basileian / Jesus Tradition canon. The canon comprises Koine Greek New Testament and apostolic-fathers material plus Sahidic Coptic from Nag Hammadi. Greek material is presented in canon-style unaccented form preserving uncial-manuscript convention through approximately the 9th century.",
   "languages": {
     "grc": {
@@ -31,6 +56,7 @@
     "john": "Gospel of John",
     "acts": "Acts of the Apostles",
     "1cor": "1 Corinthians",
+    "1thess": "1 Thessalonians",
     "galatians": "Galatians",
     "thomas": "Gospel of Thomas (logion-keyed)",
     "didache": "Didache"
@@ -44,10 +70,11 @@
     {"id": "tier1_f_john", "tier": 1, "letter": "F", "title": "The Gospel of John — Selected Pericopes", "language": "grc", "filename": "tier1_f_john.json", "completeness": "partial", "completeness_note": "11 of 12 pericopes complete; Pericope Adulterae (7:53–8:11) pending fetch from Byzantine textform."},
     {"id": "tier2_a_last_supper", "tier": 2, "letter": "A", "title": "The Last Supper Words (1 Cor 11:23–26)", "language": "grc", "filename": "tier2_a_last_supper.json", "completeness": "complete"},
     {"id": "tier2_b_appearances", "tier": 2, "letter": "B", "title": "The Resurrection Appearances List (1 Cor 15:3b–7)", "language": "grc", "filename": "tier2_b_appearances.json", "completeness": "complete"},
-    {"id": "tier2_c_pauline_claims", "tier": 2, "letter": "C", "title": "Pauline First-Person Appearance Claims and Damascus Accounts", "language": "grc", "filename": "tier2_c_pauline_claims.json", "completeness": "complete"},
-    {"id": "tier2_d_ascension", "tier": 2, "letter": "D", "title": "Ascension Narratives (Acts 1:1–11; Luke 24:50–53)", "language": "grc", "filename": "tier2_d_ascension.json", "completeness": "complete"},
-    {"id": "tier2_e_agraphon", "tier": 2, "letter": "E", "title": "Agraphon (Acts 20:35)", "language": "grc", "filename": "tier2_e_agraphon.json", "completeness": "complete"},
-    {"id": "tier2_f_didache", "tier": 2, "letter": "F", "title": "The Didache 8:2 and 9–10", "language": "grc", "filename": "tier2_f_didache.json", "completeness": "complete"},
+    {"id": "tier2_c_dominical_sayings", "tier": 2, "letter": "C", "title": "Other Dominical Sayings Cited by Paul (1 Cor 7:10–11; 9:14; 1 Thess 4:15–17)", "language": "grc", "filename": "tier2_c_dominical_sayings.json", "completeness": "complete"},
+    {"id": "tier2_d_pauline_claims", "tier": 2, "letter": "D", "title": "Pauline First-Person Appearance Claims and Damascus Accounts", "language": "grc", "filename": "tier2_d_pauline_claims.json", "completeness": "complete"},
+    {"id": "tier2_e_ascension", "tier": 2, "letter": "E", "title": "Ascension Narratives (Acts 1:1–11; Luke 24:50–53)", "language": "grc", "filename": "tier2_e_ascension.json", "completeness": "complete"},
+    {"id": "tier2_f_agraphon", "tier": 2, "letter": "F", "title": "Agraphon (Acts 20:35)", "language": "grc", "filename": "tier2_f_agraphon.json", "completeness": "complete"},
+    {"id": "tier2_g_didache", "tier": 2, "letter": "G", "title": "The Didache 8:2 and 9–10", "language": "grc", "filename": "tier2_g_didache.json", "completeness": "complete"},
     {"id": "tier3_a_egerton", "tier": 3, "letter": "A", "title": "Papyrus Egerton 2", "language": "grc", "filename": "tier3_a_egerton.json", "completeness": "placeholder", "completeness_note": "Greek text pending fetch from Bell & Skeat 1935 or Kraus, Nicklas & Kruger 2009."},
     {"id": "tier3_b_poxy_1224", "tier": 3, "letter": "B", "title": "Papyrus Oxyrhynchus 1224", "language": "grc", "filename": "tier3_b_poxy_1224.json", "completeness": "placeholder", "completeness_note": "Greek text pending fetch from Grenfell & Hunt 1914."},
     {"id": "tier3_c_poxy_840", "tier": 3, "letter": "C", "title": "Papyrus Oxyrhynchus 840", "language": "grc", "filename": "tier3_c_poxy_840.json", "completeness": "placeholder", "completeness_note": "Greek text pending fetch from Grenfell & Hunt 1908."},
