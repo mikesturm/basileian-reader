@@ -8,6 +8,7 @@
     "fetch-commentary": "node scripts/fetch-commentary.js",
     "fetch-strongs": "node scripts/fetch-strongs.js",
     "build-lexicons": "node scripts/build-lexicons.js",
+    "build:ot-concordance": "node scripts/fetch-ot-concordance.js",
     "setup-data": "npm run fetch-translations && npm run fetch-commentary && npm run build-lexicons"
   },
   "engines": {

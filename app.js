@@ -18,6 +18,25 @@
   const sectionById = new Map(sections.map(section => [section.id, section]));
   const bookByName = new Map(books.map(book => [book.name, book]));
 
+  const OT_BOOK_KEYS = [
+    'genesis','exodus','leviticus','numbers','deuteronomy','joshua','judges','ruth',
+    '1samuel','2samuel','1kings','2kings','1chronicles','2chronicles','ezra',
+    'nehemiah','esther','job','psalms','proverbs','ecclesiastes','songofsolomon',
+    'isaiah','jeremiah','lamentations','ezekiel','daniel','hosea','joel','amos',
+    'obadiah','jonah','micah','nahum','habakkuk','zephaniah','haggai','zechariah','malachi'
+  ];
+
+  const OT_CHAPTER_COUNTS = {
+    genesis:50,exodus:40,leviticus:27,numbers:36,deuteronomy:34,
+    joshua:24,judges:21,ruth:4,'1samuel':31,'2samuel':24,
+    '1kings':22,'2kings':25,'1chronicles':29,'2chronicles':36,
+    ezra:10,nehemiah:13,esther:10,job:42,psalms:150,
+    proverbs:31,ecclesiastes:12,songofsolomon:8,
+    isaiah:66,jeremiah:52,lamentations:5,ezekiel:48,daniel:12,
+    hosea:14,joel:3,amos:9,obadiah:1,jonah:4,micah:7,
+    nahum:3,habakkuk:3,zephaniah:3,haggai:2,zechariah:14,malachi:4
+  };
+
   const state = {
     tab: "reader",
     book: books[0]?.name || "",
@@ -31,6 +50,10 @@
     translationRenderRequest: 0,
     verseWords: null,     // lazy-loaded from lexicons/verse-words.json; null = not yet attempted
     ntConcordance: null,  // lazy-loaded from lexicons/strongs-nt-concordance.json
+    otConcordance: null,  // lazy-loaded from lexicons/strongs-ot-concordance.json
+    otVerseStrongs: null, // lazy-loaded from lexicons/ot-verse-strongs.json
+    otBook: null,         // active OT book key, or null when in corpus mode
+    otChapter: 1,
     lastGreekVerses: null,
     crossRefEnabled: false,
     activeCommentary: 'jfb'
@@ -116,7 +139,17 @@
     els.closeSidebar.addEventListener("click", () => els.sidebar.classList.remove("open"));
 
     els.bookSelect.addEventListener("change", () => {
-      state.book = els.bookSelect.value;
+      const val = els.bookSelect.value;
+      if (val.startsWith("__ot__")) {
+        state.otBook = val.slice(6);
+        state.otChapter = 1;
+        updateHash();
+        renderAll();
+        closeSidebarOnMobile();
+        return;
+      }
+      state.otBook = null;
+      state.book = val;
       state.chapter = getBook(state.book)?.chapters?.[0] || "All";
       state.chapterMode = true;
       state.currentSectionId = getSectionsInChapter(state.book, state.chapter)[0]?.id || getBook(state.book)?.sectionIds?.[0] || null;
@@ -242,16 +275,55 @@
 
   function renderAll() {
     renderNav();
-    renderReader();
+    if (state.otBook) {
+      renderOTChapter(state.otBook, state.otChapter);
+    } else {
+      renderReader();
+    }
     renderSearch();
     renderNotes();
   }
 
   function renderBookSelect() {
-    els.bookSelect.innerHTML = books.map(book => `<option value="${escapeAttr(book.name)}">${escapeHTML(book.name)}</option>`).join("");
+    const corpusOptions = books.map(book =>
+      `<option value="${escapeAttr(book.name)}">${escapeHTML(book.name)}</option>`
+    ).join("");
+    const otOptions = OT_BOOK_KEYS.map(key => {
+      const display = BOOK_DISPLAY_NAMES[key] || key;
+      return `<option value="__ot__${escapeAttr(key)}">${escapeHTML(display)}</option>`;
+    }).join("");
+    els.bookSelect.innerHTML =
+      `<optgroup label="Basileian Canon">${corpusOptions}</optgroup>` +
+      `<optgroup label="Old Testament (NET)">${otOptions}</optgroup>`;
+  }
+
+  function renderOTNav() {
+    els.bookSelect.value = `__ot__${state.otBook}`;
+
+    const maxCh = OT_CHAPTER_COUNTS[state.otBook] || 1;
+    els.chapterList.innerHTML = Array.from({ length: maxCh }, (_, i) => {
+      const ch = i + 1;
+      const active = ch === state.otChapter;
+      return `<button class="chip${active ? " active" : ""}" data-ot-chapter="${ch}">${ch}</button>`;
+    }).join("");
+
+    els.chapterList.querySelectorAll("[data-ot-chapter]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        state.otChapter = parseInt(btn.dataset.otChapter, 10);
+        renderAll();
+        closeSidebarOnMobile();
+      });
+    });
+
+    els.passageList.innerHTML = "";
+    els.verseList.innerHTML = "";
   }
 
   function renderNav() {
+    if (state.otBook) {
+      renderOTNav();
+      return;
+    }
     const book = getBook(state.book);
     if (!book) return;
 
@@ -428,6 +500,26 @@
       // file not yet generated; Bible button will show a graceful message
     }
     return state.ntConcordance;
+  }
+
+  async function loadOtConcordance() {
+    if (state.otConcordance !== null) return state.otConcordance;
+    state.otConcordance = {};
+    try {
+      const resp = await fetch("lexicons/strongs-ot-concordance.json", { cache: "default" });
+      if (resp.ok) state.otConcordance = await resp.json();
+    } catch { }
+    return state.otConcordance;
+  }
+
+  async function loadOtVerseStrongs() {
+    if (state.otVerseStrongs !== null) return state.otVerseStrongs;
+    state.otVerseStrongs = {};
+    try {
+      const resp = await fetch("lexicons/ot-verse-strongs.json", { cache: "default" });
+      if (resp.ok) state.otVerseStrongs = await resp.json();
+    } catch { }
+    return state.otVerseStrongs;
   }
 
   // Convert a runtime section.book name to the dot-delimited prefix used in
@@ -729,6 +821,52 @@
 
     openModal(`Bible: ${strongsNum}`, `<p class="cc-no-results">Loading…</p>`, [...backAction, ...closeAction]);
 
+    // H-prefix → OT Hebrew concordance
+    if (strongsNum.startsWith("H")) {
+      const concordance = await loadOtConcordance();
+      const verseIds = concordance[strongsNum] || [];
+
+      if (verseIds.length === 0) {
+        openModal(
+          `Bible: ${strongsNum}`,
+          `<p class="cc-no-results">No OT occurrences of ${escapeHTML(strongsNum)} in index.</p>`,
+          [...backAction, ...closeAction]
+        );
+        return;
+      }
+
+      const MAX = 250;
+      const shown = verseIds.slice(0, MAX);
+      const footer = verseIds.length > MAX
+        ? `<p class="cc-no-results">Showing ${MAX} of ${verseIds.length} occurrences.</p>` : "";
+
+      const rows = shown.map(verseId => {
+        const ref = verseIdToRef(verseId);
+        return `<button class="cc-result" data-verse-id="${escapeAttr(verseId)}" style="cursor:default">
+          <span class="cc-ref">${escapeHTML(ref)}</span>
+          <span class="cc-kjv loading" data-verse-id="${escapeAttr(verseId)}">Loading…</span>
+        </button>`;
+      }).join("");
+
+      openModal(
+        `Bible: ${strongsNum} (${verseIds.length})`,
+        `<div class="concordance-results">${rows}${footer}</div>`,
+        [...backAction, ...closeAction]
+      );
+
+      for (const verseId of shown) {
+        const el = els.modalBody.querySelector(`.cc-kjv[data-verse-id="${CSS.escape(verseId)}"]`);
+        if (!el) continue;
+        try {
+          const text = await TranslationsModule.getVerseText(verseId, "net");
+          if (text) { el.textContent = text; el.classList.remove("loading"); }
+          else el.remove();
+        } catch { el.remove(); }
+      }
+      return;
+    }
+
+    // G-prefix → NT concordance
     const concordance = await loadNtConcordance();
     const verseIds = concordance[strongsNum] || [];
 
@@ -789,6 +927,95 @@
         else el.remove();
       } catch { el.remove(); }
     }
+  }
+
+  async function renderOTChapter(book, chapter) {
+    const bookDisplay = BOOK_DISPLAY_NAMES[book] || book;
+    const heading = `<header class="chapter-heading">
+      <span class="eyebrow">Old Testament — NET Bible</span>
+      <h2>${escapeHTML(bookDisplay)} ${escapeHTML(String(chapter))}</h2>
+      <p class="muted">Loading…</p>
+    </header>`;
+    els.readerContent.innerHTML = heading;
+    els.chapterModeBtn.textContent = "Chapter view";
+
+    if (!window.TranslationsModule) return;
+
+    const verseTexts = [];
+    for (let v = 1; v <= 200; v++) {
+      const verseId = `${book}.${chapter}.${v}`;
+      const text = await TranslationsModule.getVerseText(verseId, "net");
+      if (!text) break;
+      verseTexts.push({ v, verseId, text });
+    }
+
+    if (state.otBook !== book || state.otChapter !== chapter) return; // stale render
+
+    if (!verseTexts.length) {
+      els.readerContent.innerHTML = `<header class="chapter-heading">
+        <span class="eyebrow">Old Testament — NET Bible</span>
+        <h2>${escapeHTML(bookDisplay)} ${escapeHTML(String(chapter))}</h2>
+        <p class="muted">No verses found.</p>
+      </header>`;
+      return;
+    }
+
+    const versesHTML = verseTexts.map(({ v, verseId, text }) => {
+      const rendered = text.includes("⟦") ? renderNetVerseText(text, verseId) : escapeHTML(text);
+      return `<p class="ot-verse" data-verse-id="${escapeAttr(verseId)}">
+        <span class="verse-number ot-verse-num">${v}</span>
+        <span class="ot-verse-text">${rendered}</span>
+        <button class="ot-study-btn" data-verse-id="${escapeAttr(verseId)}" title="Hebrew word study">Study</button>
+      </p>`;
+    }).join("");
+
+    const subtitle = `${verseTexts.length} verse${verseTexts.length === 1 ? "" : "s"} · NET Bible`;
+    els.readerContent.innerHTML = `<header class="chapter-heading">
+      <span class="eyebrow">Old Testament — NET Bible</span>
+      <h2>${escapeHTML(bookDisplay)} ${escapeHTML(String(chapter))}</h2>
+      <p class="muted">${subtitle}</p>
+    </header>
+    <section class="passage ot-chapter-passage">
+      <div class="passage-body ot-chapter-body">${versesHTML}</div>
+    </section>`;
+
+    els.readerContent.querySelectorAll(".net-note-link").forEach(btn => {
+      btn.addEventListener("click", event => {
+        event.preventDefault();
+        openNetNote(btn.dataset.netNote, btn.dataset.bookKey);
+      });
+    });
+
+    els.readerContent.querySelectorAll(".ot-study-btn").forEach(btn => {
+      btn.addEventListener("click", () => openOTVerseStudy(btn.dataset.verseId));
+    });
+  }
+
+  async function openOTVerseStudy(verseId) {
+    const ref = verseIdToRef(verseId);
+    const closeAction = { label: "Close", className: "button", onClick: closeModal };
+
+    openModal(`Hebrew Words: ${ref}`, `<p class="cc-no-results">Loading…</p>`, [closeAction]);
+
+    const verseStrongs = await loadOtVerseStrongs();
+    const strongsList = verseStrongs[verseId] || [];
+
+    if (!strongsList.length) {
+      openModal(`Hebrew Words: ${ref}`, `<p class="cc-no-results">No Hebrew word data for this verse.</p>`, [closeAction]);
+      return;
+    }
+
+    const rows = strongsList.map(sn =>
+      `<button class="cc-result" data-strongs="${escapeAttr(sn)}">
+        <span class="cc-ref">${escapeHTML(sn)}</span>
+      </button>`
+    ).join("");
+
+    openModal(`Hebrew Words: ${ref}`, `<div class="concordance-results">${rows}</div>`, [closeAction]);
+
+    els.modalBody.querySelectorAll(".cc-result[data-strongs]").forEach(btn => {
+      btn.addEventListener("click", () => openStrongsModal(btn.dataset.strongs));
+    });
   }
 
   function renderTranslatedPassage(section) {
@@ -1181,7 +1408,7 @@
           onClick: () => openInterlinearModal(backVerses)
         });
       }
-      if (state.verseWords && Object.keys(state.verseWords).length > 0) {
+      if (strongsNum.startsWith("G") && state.verseWords && Object.keys(state.verseWords).length > 0) {
         actions.push({
           label: "Corpus",
           className: "button secondary",
@@ -1641,6 +1868,20 @@
   }
 
   function goPrevious() {
+    if (state.otBook) {
+      if (state.otChapter > 1) {
+        state.otChapter--;
+      } else {
+        const idx = OT_BOOK_KEYS.indexOf(state.otBook);
+        if (idx > 0) {
+          state.otBook = OT_BOOK_KEYS[idx - 1];
+          state.otChapter = OT_CHAPTER_COUNTS[state.otBook];
+        }
+      }
+      renderAll();
+      scrollToTopReader();
+      return;
+    }
     if (state.chapterMode) {
       const book = getBook(state.book);
       const idx = book.chapters.indexOf(state.chapter);
@@ -1670,6 +1911,21 @@
   }
 
   function goNext() {
+    if (state.otBook) {
+      const maxCh = OT_CHAPTER_COUNTS[state.otBook] || 1;
+      if (state.otChapter < maxCh) {
+        state.otChapter++;
+      } else {
+        const idx = OT_BOOK_KEYS.indexOf(state.otBook);
+        if (idx < OT_BOOK_KEYS.length - 1) {
+          state.otBook = OT_BOOK_KEYS[idx + 1];
+          state.otChapter = 1;
+        }
+      }
+      renderAll();
+      scrollToTopReader();
+      return;
+    }
     if (state.chapterMode) {
       const book = getBook(state.book);
       const idx = book.chapters.indexOf(state.chapter);
