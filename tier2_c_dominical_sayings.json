@@ -1,0 +1,75 @@
+{
+  "id": "tier2_c_dominical_sayings",
+  "tier": 2,
+  "letter": "C",
+  "title": "Other Dominical Sayings Cited by Paul (1 Cor 7:10–11; 9:14; 1 Thess 4:15–17)",
+  "language": "grc",
+  "source_edition": "SBLGNT (canon-style unaccented form).",
+  "convention_notes": "Text presented without diacritical marks; canon-style unaccented form; final sigma rendered as σ (medial form); medial mu rendered as µ.",
+  "date_of_composition": "1 Corinthians c. 53–55 CE; 1 Thessalonians c. 50–51 CE — the earliest extant Christian writing.",
+  "scope_note": "Three Pauline citations of dominical command beyond the eucharistic and resurrection-appearance traditions. The divorce saying (1 Cor 7:10–11) is among the most multiply-attested Jesus traditions, paralleled in Mark 10:11–12 and Q (Lk 16:18 // Mt 5:31–32). The support-for-proclaimers command (1 Cor 9:14) parallels Q (Lk 10:7 // Mt 10:7–10) and is cited explicitly as scripture at 1 Tim 5:18. The parousia saying (1 Thess 4:15–17), introduced as 'in a word of [the] Kyrios' (en logō kyrioy) using LXX prophetic-formula vocabulary, is the earliest extant Christian eschatological text and has no exact synoptic parallel.",
+  "public_domain": false,
+  "license_note": "SBLGNT license terms apply (see John section). Text-critical differences between SBLGNT and WH 1881 are minor and orthographic for these verses; future WH reconciliation will replace any divergences.",
+  "pericopes": [
+    {
+      "pericope_id": "1cor_7_10-11",
+      "reference": "1 Corinthians 7:10–11",
+      "title": "On separation in marriage (with Markan and Q parallels)",
+      "form_critical_genre": "Pauline ethical instruction citing dominical command",
+      "verses": [
+        {
+          "verse_id": "1cor.7.10",
+          "reference": "1 Corinthians 7:10",
+          "text": "τοισ δε γεγαµηκοσιν παραγγελλω ουκ εγω αλλα ο κυριοσ γυναικα απο ανδροσ µη χωρισθηναι",
+          "transliteration": "tois de gegamēkosin parangellō oyk egō alla o kyrios gynaika apo andros mē chōristhēnai"
+        },
+        {
+          "verse_id": "1cor.7.11",
+          "reference": "1 Corinthians 7:11",
+          "text": "εαν δε και χωρισθη µενετω αγαµοσ η τω ανδρι καταλλαγητω και ανδρα γυναικα µη αφιεναι",
+          "transliteration": "ean de kai chōristhē menetō agamos ē tō andri katallagētō kai andra gynaika mē aphienai"
+        }
+      ]
+    },
+    {
+      "pericope_id": "1cor_9_14",
+      "reference": "1 Corinthians 9:14",
+      "title": "Support for those announcing the euangelion",
+      "form_critical_genre": "Pauline halakhic argument citing dominical ordinance",
+      "verses": [
+        {
+          "verse_id": "1cor.9.14",
+          "reference": "1 Corinthians 9:14",
+          "text": "ουτωσ και ο κυριοσ διεταξεν τοισ το ευαγγελιον καταγγελλουσιν εκ του ευαγγελιου ζην",
+          "transliteration": "oytōs kai o kyrios dietaxen tois to eyangelion katangelloysin ek toy eyangelioy zēn"
+        }
+      ]
+    },
+    {
+      "pericope_id": "1thess_4_15-17",
+      "reference": "1 Thessalonians 4:15–17",
+      "title": "A word of the Kyrios on his parousia",
+      "form_critical_genre": "pre-Pauline / Pauline dominical citation; apocalyptic-eschatological tradition",
+      "verses": [
+        {
+          "verse_id": "1thess.4.15",
+          "reference": "1 Thessalonians 4:15",
+          "text": "τουτο γαρ υµιν λεγοµεν εν λογω κυριου οτι ηµεισ οι ζωντεσ οι περιλειποµενοι εισ την παρουσιαν του κυριου ου µη φθασωµεν τουσ κοιµηθεντασ",
+          "transliteration": "toyto gar ymin legomen en logō kyrioy oti ēmeis oi zōntes oi perileipomenoi eis tēn paroysian toy kyrioy oy mē phthasōmen toys koimēthentas"
+        },
+        {
+          "verse_id": "1thess.4.16",
+          "reference": "1 Thessalonians 4:16",
+          "text": "οτι αυτοσ ο κυριοσ εν κελευσµατι εν φωνη αρχαγγελου και εν σαλπιγγι θεου καταβησεται απ ουρανου και οι νεκροι εν χριστω αναστησονται πρωτον",
+          "transliteration": "oti aytos o kyrios en keleysmati en phōnē archangeloy kai en salpingi theoy katabēsetai ap oyranoy kai oi nekroi en christō anastēsontai prōton"
+        },
+        {
+          "verse_id": "1thess.4.17",
+          "reference": "1 Thessalonians 4:17",
+          "text": "επειτα ηµεισ οι ζωντεσ οι περιλειποµενοι αµα συν αυτοισ αρπαγησοµεθα εν νεφελαισ εισ απαντησιν του κυριου εισ αερα και ουτωσ παντοτε συν κυριω εσοµεθα",
+          "transliteration": "epeita ēmeis oi zōntes oi perileipomenoi ama syn aytois arpagēsometha en nephelais eis apantēsin toy kyrioy eis aera kai oytōs pantote syn kyriō esometha"
+        }
+      ]
+    }
+  ]
+}

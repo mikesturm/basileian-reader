@@ -5,7 +5,7 @@ This directory contains the original-language source texts of the Basileian Cano
 ## Contents
 
 - **index.json** — master directory of all section files plus metadata, schema documentation, and recommendations for parallel public-domain resources.
-- **18 section files** — one per canon section, named by tier and letter (e.g., `tier1_a_mark.json`, `tier2_f_didache.json`, `tier3_d_poxy_5575.json`).
+- **19 section files** — one per canon section, named by tier and letter (e.g., `tier1_a_mark.json`, `tier2_g_didache.json`, `tier3_d_poxy_5575.json`).
 
 ## Schema overview
 
@@ -57,10 +57,11 @@ P.Oxy 5575 is copyrighted (Egypt Exploration Society 2023) and cannot be reprodu
 | 1F John | 12 | 291 (of 12 pericopes) | 11 of 12 pericopes complete |
 | 2A Last Supper | 1 | 4 | Complete |
 | 2B Appearances | 1 | 5 | Complete |
-| 2C Pauline claims | 6 | 53 | Complete |
-| 2D Ascension | 2 | 15 | Complete |
-| 2E Agraphon | 1 | 1 | Complete |
-| 2F Didache | 3 | 13 | Complete |
+| 2C Dominical sayings | 3 | 6 | Complete |
+| 2D Pauline claims | 6 | 53 | Complete |
+| 2E Ascension | 2 | 15 | Complete |
+| 2F Agraphon | 1 | 1 | Complete |
+| 2G Didache | 3 | 13 | Complete |
 | 3A Egerton | 3 | 0 | Placeholder |
 | 3B P.Oxy 1224 | 4 | 0 | Placeholder |
 | 3C P.Oxy 840 | 1 | 0 | Placeholder |
