@@ -399,6 +399,11 @@
   margin: 0 0 0.65rem;
 }
 
+/* Tap-to-select: prevent double-tap zoom, improve tap responsiveness on touch devices */
+.passage-body {
+  touch-action: manipulation;
+}
+
 .interlinear-words {
   display: flex;
   flex-wrap: wrap;
@@ -426,6 +431,17 @@
 .iw-gloss {
   font-size: 0.68rem;
   font-style: italic;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.2;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.iw-translit {
+  font-size: 0.65rem;
   color: var(--muted);
   text-align: center;
   line-height: 1.2;

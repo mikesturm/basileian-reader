@@ -200,20 +200,14 @@
       renderReader(); // Re-render with new translation
     });
 
-    document.addEventListener("selectionchange", debounce(updateSelectionMenu, 120));
-    document.addEventListener("mouseup", () => setTimeout(updateSelectionMenu, 0));
-    document.addEventListener("touchend", () => setTimeout(updateSelectionMenu, 250));
+    els.menuHighlightBtn.addEventListener("click", () => { hideSelectionMenu(); createHighlightForTappedVerse(false); });
+    els.menuNoteBtn.addEventListener("click", () => { hideSelectionMenu(); createHighlightForTappedVerse(true); });
+    els.menuInterlinearBtn.addEventListener("click", () => { hideSelectionMenu(); if (_menuSelectionVerses.length) openInterlinearModal(_menuSelectionVerses); });
+    els.menuBibleVersesBtn.addEventListener("click", () => { hideSelectionMenu(); if (_menuSelectionVerses.length) showBibleVersesForVerses(_menuSelectionVerses); });
+    els.menuCommentaryBtn.addEventListener("click", () => { hideSelectionMenu(); if (_menuSelectionVerses.length) showCommentaryForVerses(_menuSelectionVerses); });
 
-    // Prevent mousedown on the menu from collapsing the selection before click fires.
-    els.selectionMenu.addEventListener("mousedown", event => event.preventDefault());
-    els.menuHighlightBtn.addEventListener("click", () => { hideSelectionMenu(); createHighlightFromSelection(false); });
-    els.menuNoteBtn.addEventListener("click", () => { hideSelectionMenu(); createHighlightFromSelection(true); });
-    els.menuInterlinearBtn.addEventListener("click", showInterlinearForCurrentSelection);
-    els.menuBibleVersesBtn.addEventListener("click", showBibleVersesForCurrentSelection);
-    els.menuCommentaryBtn.addEventListener("click", showCommentaryForCurrentSelection);
-
-    // Dismiss menu on click outside.
-    document.addEventListener("mousedown", event => {
+    // Dismiss menu on pointer outside (covers both mouse and touch).
+    document.addEventListener("pointerdown", event => {
       if (!els.selectionMenu.classList.contains("hidden") && !els.selectionMenu.contains(event.target)) {
         hideSelectionMenu();
       }
@@ -587,14 +581,28 @@
     }).filter(Boolean).join(" ");
   }
 
+  function transliterateGreek(text) {
+    if (!text) return '';
+    const map = {
+      'α':'a','β':'b','γ':'g','δ':'d','ε':'e','ζ':'z','η':'ē','θ':'th',
+      'ι':'i','κ':'k','λ':'l','μ':'m','ν':'n','ξ':'x','ο':'o','π':'p',
+      'ρ':'r','σ':'s','ς':'s','τ':'t','υ':'y','φ':'ph','χ':'ch','ψ':'ps','ω':'ō',
+    };
+    return text.normalize('NFD')
+      .replace(/[̀-ͯ᷀-᷿⃐-⃿︠-︯]/g, '')
+      .toLowerCase()
+      .replace(/[α-ωϲ]/gu, c => map[c] || c);
+  }
+
   function buildInterlinearWordHTML(w) {
     if (!w || !w.text) return "";
     const greek = `<span class="iw-greek">${escapeHTML(w.text)}</span>`;
     const gloss = `<span class="iw-gloss">${escapeHTML(w.gloss || "")}</span>`;
+    const translit = `<span class="iw-translit">${escapeHTML(transliterateGreek(w.text))}</span>`;
     const badge = w.strongs
       ? `<button class="iw-strongs" data-strongs="${escapeAttr(w.strongs)}">${escapeHTML(w.strongs)}</button>`
       : "";
-    return `<span class="interlinear-word">${greek}${gloss}${badge}</span>`;
+    return `<span class="interlinear-word">${greek}${gloss}${translit}${badge}</span>`;
   }
 
   function openInterlinearModal(verses) {
@@ -647,6 +655,14 @@
   function showCommentaryForCurrentSelection() {
     const verses = _menuSelectionVerses;
     hideSelectionMenu();
+    if (verses.length) openCommentaryModal(verses);
+  }
+
+  function showBibleVersesForVerses(verses) {
+    if (verses.length) openBibleVersesModal(verses);
+  }
+
+  function showCommentaryForVerses(verses) {
     if (verses.length) openCommentaryModal(verses);
   }
 
@@ -1160,6 +1176,8 @@
         if (panel) panel.classList.toggle("collapsed");
       });
     });
+
+    attachPassageTapHandlers();
   }
 
   // ---------------------------------------------------------------------------
@@ -1749,6 +1767,71 @@
     document.body.classList.remove('selection-menu-open');
   }
 
+  function showTapMenu() {
+    els.selectionMenu.style.left = '';
+    els.selectionMenu.style.top = '';
+    els.selectionMenu.classList.remove("hidden");
+    document.body.classList.add('selection-menu-open');
+  }
+
+  function getTappedVerse(el, body) {
+    const markers = [...body.querySelectorAll('.verse-number[data-chapter][data-verse]')];
+    if (!markers.length) return null;
+    let lastMarker = markers[0];
+    for (const m of markers) {
+      if (m.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        lastMarker = m;
+      }
+    }
+    const section = sectionById.get(body.dataset.sectionId);
+    const book = section?.book || state.book;
+    const bookKey = book.toLowerCase().replace(/\s+/g, '');
+    const ch = lastMarker.dataset.chapter;
+    const v = lastMarker.dataset.verse;
+    return { verseId: `${bookKey}.${ch}.${v}`, reference: `${book} ${ch}:${v}` };
+  }
+
+  function attachPassageTapHandlers() {
+    els.readerContent.querySelectorAll(".passage-body").forEach(body => {
+      body.addEventListener("click", event => {
+        if (event.target.closest("a, button, .verse-number, .note-link, .net-note-link, .user-highlight, .source-word")) return;
+        const verse = getTappedVerse(event.target, body);
+        if (!verse) return;
+        _menuSelectionVerses = [verse];
+        _menuSelectionSection = sectionById.get(body.dataset.sectionId) || null;
+        if (els.menuBibleVersesBtn) els.menuBibleVersesBtn.hidden = !(_menuSelectionSection && canTranslateSection(_menuSelectionSection));
+        if (els.menuCommentaryBtn) els.menuCommentaryBtn.hidden = false;
+        showTapMenu();
+      });
+    });
+  }
+
+  function createHighlightForTappedVerse(withNote) {
+    if (!_menuSelectionVerses.length || !_menuSelectionSection) return;
+    const body = els.readerContent.querySelector(
+      `.passage-body[data-section-id="${CSS.escape(_menuSelectionSection.id)}"]`
+    );
+    if (!body) return;
+    const parts = (_menuSelectionVerses[0].verseId || '').split('.');
+    const ch = parts[parts.length - 2];
+    const v = parts[parts.length - 1];
+    const marker = body.querySelector(`.verse-number[data-chapter="${ch}"][data-verse="${v}"]`);
+    if (!marker) return;
+    const markers = [...body.querySelectorAll('.verse-number')];
+    const idx = markers.indexOf(marker);
+    const range = document.createRange();
+    range.setStartAfter(marker);
+    if (idx < markers.length - 1) {
+      range.setEndBefore(markers[idx + 1]);
+    } else {
+      range.setEnd(body, body.childNodes.length);
+    }
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+    createHighlightFromSelection(withNote);
+  }
+
   function goToReference() {
     const raw = els.gotoInput.value.trim();
     if (!raw) return;
@@ -1883,6 +1966,15 @@
       return;
     }
     if (state.chapterMode) {
+      const sectionsInChapter = getSectionsInChapter(state.book, state.chapter);
+      const idxInChapter = sectionsInChapter.findIndex(s => s.id === state.currentSectionId);
+      if (idxInChapter > 0) {
+        state.currentSectionId = sectionsInChapter[idxInChapter - 1].id;
+        updateHash();
+        renderAll();
+        scrollToSection(state.currentSectionId);
+        return;
+      }
       const book = getBook(state.book);
       const idx = book.chapters.indexOf(state.chapter);
       if (idx > 0) {
@@ -1895,7 +1987,8 @@
           state.chapter = prevBook.chapters[prevBook.chapters.length - 1];
         }
       }
-      state.currentSectionId = getSectionsInChapter(state.book, state.chapter)[0]?.id || null;
+      const prevSections = getSectionsInChapter(state.book, state.chapter);
+      state.currentSectionId = prevSections[prevSections.length - 1]?.id || null;
     } else {
       const idx = sections.findIndex(s => s.id === state.currentSectionId);
       if (idx > 0) {
@@ -1927,6 +2020,15 @@
       return;
     }
     if (state.chapterMode) {
+      const sectionsInChapter = getSectionsInChapter(state.book, state.chapter);
+      const idxInChapter = sectionsInChapter.findIndex(s => s.id === state.currentSectionId);
+      if (idxInChapter >= 0 && idxInChapter < sectionsInChapter.length - 1) {
+        state.currentSectionId = sectionsInChapter[idxInChapter + 1].id;
+        updateHash();
+        renderAll();
+        scrollToSection(state.currentSectionId);
+        return;
+      }
       const book = getBook(state.book);
       const idx = book.chapters.indexOf(state.chapter);
       if (idx < book.chapters.length - 1) {
