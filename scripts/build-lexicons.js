@@ -115,9 +115,20 @@ function buildFromStrongsPackage() {
     }
   }
 
+  // Build a fallback gloss map from the KJV portion of each definition.
+  // Definition format: "<strongs_def> | <kjv glosses, comma-separated>"
+  const fallbackGlossMap = {};
+  for (const [key, entry] of Object.entries(strongsIndex)) {
+    if (!key.startsWith('G')) continue;
+    const kjvPart = entry.definition.split(' | ')[1] || '';
+    const firstGloss = kjvPart.split(/[,(]/)[0].trim();
+    if (firstGloss) fallbackGlossMap[key] = firstGloss;
+  }
+
   console.log(`✓ Built Strong's index: ${Object.keys(strongsIndex).length} entries`);
   console.log(`✓ Built word→Strong's map: ${Object.keys(wordStrongsMap).length} entries`);
-  return { strongsIndex, wordStrongsMap };
+  console.log(`✓ Built fallback gloss map: ${Object.keys(fallbackGlossMap).length} Greek entries`);
+  return { strongsIndex, wordStrongsMap, fallbackGlossMap };
 }
 
 // ---------------------------------------------------------------------------
@@ -204,9 +215,9 @@ function tokeniseVerse(text, wordStrongsMap, glossMap) {
     });
 }
 
-function buildVerseWordsMap(wordStrongsMap, openGNTResult) {
+function buildVerseWordsMap(wordStrongsMap, openGNTResult, fallbackGlossMap) {
   const openGNTMap  = openGNTResult?.wordMap  || null;
-  const glossMap    = openGNTResult?.glossMap  || null;
+  const glossMap    = openGNTResult?.glossMap  || fallbackGlossMap || null;
   // Merge: OpenGNT inflected-form entries take precedence over lemma-only entries
   const combinedMap = openGNTMap
     ? Object.assign({}, wordStrongsMap, openGNTMap)
@@ -272,13 +283,13 @@ function writeJSON(filePath, obj) {
 function main() {
   console.log('🔧 Basileian Lexicon Builder\n');
 
-  const { strongsIndex, wordStrongsMap } = buildFromStrongsPackage();
+  const { strongsIndex, wordStrongsMap, fallbackGlossMap } = buildFromStrongsPackage();
 
   console.log('\n📖 Loading OpenGNT inflected-form data...');
   const openGNTResult = loadOpenGNTWordMap();
 
   console.log('\n📖 Tokenising corpus...');
-  const verseWords = buildVerseWordsMap(wordStrongsMap, openGNTResult);
+  const verseWords = buildVerseWordsMap(wordStrongsMap, openGNTResult, fallbackGlossMap);
 
   console.log('\n💾 Writing lexicon files...');
   writeJSON(path.join(LEXICONS_DIR, 'strongs-index.json'), strongsIndex);
