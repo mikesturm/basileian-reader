@@ -82,6 +82,10 @@
     nextBtn: document.getElementById("nextBtn"),
     chapterModeBtn: document.getElementById("chapterModeBtn"),
     selectionMenu: document.getElementById("selectionMenu"),
+    selectionHeader: document.getElementById("selectionHeader"),
+    selectionRangeLabel: document.getElementById("selectionRangeLabel"),
+    selectionPrevBtn: document.getElementById("selectionPrevBtn"),
+    selectionNextBtn: document.getElementById("selectionNextBtn"),
     menuInterlinearBtn: document.getElementById("menuInterlinearBtn"),
     menuBibleVersesBtn: document.getElementById("menuBibleVersesBtn"),
     menuCommentaryBtn: document.getElementById("menuCommentaryBtn"),
@@ -200,6 +204,8 @@
       renderReader(); // Re-render with new translation
     });
 
+    els.selectionPrevBtn.addEventListener("click", () => expandTapSelection(-1));
+    els.selectionNextBtn.addEventListener("click", () => expandTapSelection(+1));
     els.menuHighlightBtn.addEventListener("click", () => { hideSelectionMenu(); createHighlightForTappedVerse(false); });
     els.menuNoteBtn.addEventListener("click", () => { hideSelectionMenu(); createHighlightForTappedVerse(true); });
     els.menuInterlinearBtn.addEventListener("click", () => { hideSelectionMenu(); if (_menuSelectionVerses.length) openInterlinearModal(_menuSelectionVerses); });
@@ -1700,8 +1706,10 @@
   // Cached verses from the most recent valid selection; menu buttons read this.
   let _menuSelectionVerses = [];
   let _menuSelectionSection = null;
-  let _tapAnchorMarker = null;
-  let _tapAnchorBody = null;
+  // Tap-selection state: start and end verse markers within the active passage body.
+  let _tapStartMarker = null;
+  let _tapEndMarker = null;
+  let _tapBody = null;
 
   function updateSelectionMenu() {
     const selection = window.getSelection();
@@ -1767,8 +1775,9 @@
   function hideSelectionMenu() {
     els.selectionMenu.classList.add("hidden");
     document.body.classList.remove('selection-menu-open');
-    _tapAnchorMarker = null;
-    _tapAnchorBody = null;
+    _tapStartMarker = null;
+    _tapEndMarker = null;
+    _tapBody = null;
     const sel = window.getSelection();
     if (sel) sel.removeAllRanges();
   }
@@ -1795,36 +1804,29 @@
           }
         }
 
-        const menuIsVisible = !els.selectionMenu.classList.contains("hidden");
-
-        if (menuIsVisible && _tapAnchorBody === body) {
-          // Extend the existing selection to include the newly tapped verse
-          updateTapSelection(body, allMarkers, _tapAnchorMarker, tappedMarker);
-        } else {
-          // Start a new selection
-          _tapAnchorMarker = tappedMarker;
-          _tapAnchorBody = body;
-          _menuSelectionSection = sectionById.get(body.dataset.sectionId) || null;
-          updateTapSelection(body, allMarkers, tappedMarker, tappedMarker);
-          if (els.menuBibleVersesBtn) els.menuBibleVersesBtn.hidden = !(_menuSelectionSection && canTranslateSection(_menuSelectionSection));
-          if (els.menuCommentaryBtn) els.menuCommentaryBtn.hidden = false;
-          showTapMenu();
-        }
+        // Always start a fresh single-verse selection on any tap.
+        // The ◀/▶ buttons in the menu header extend the range.
+        _tapStartMarker = tappedMarker;
+        _tapEndMarker = tappedMarker;
+        _tapBody = body;
+        _menuSelectionSection = sectionById.get(body.dataset.sectionId) || null;
+        applyTapSelection(body, allMarkers);
+        if (els.menuBibleVersesBtn) els.menuBibleVersesBtn.hidden = !(_menuSelectionSection && canTranslateSection(_menuSelectionSection));
+        if (els.menuCommentaryBtn) els.menuCommentaryBtn.hidden = false;
+        showTapMenu();
       });
     });
   }
 
-  function updateTapSelection(body, allMarkers, anchorMarker, endMarker) {
-    const anchorIdx = allMarkers.indexOf(anchorMarker);
-    const endIdx = allMarkers.indexOf(endMarker);
-    const startIdx = Math.min(anchorIdx, endIdx);
-    const lastIdx = Math.max(anchorIdx, endIdx);
+  function applyTapSelection(body, allMarkers) {
+    const startIdx = allMarkers.indexOf(_tapStartMarker);
+    const endIdx = allMarkers.indexOf(_tapEndMarker);
 
-    // Set the browser selection to the full verse range (provides visual feedback)
+    // Set browser selection for visual feedback
     const range = document.createRange();
     range.setStartAfter(allMarkers[startIdx]);
-    if (lastIdx < allMarkers.length - 1) {
-      range.setEndBefore(allMarkers[lastIdx + 1]);
+    if (endIdx < allMarkers.length - 1) {
+      range.setEndBefore(allMarkers[endIdx + 1]);
     } else {
       range.setEnd(body, body.childNodes.length);
     }
@@ -1836,16 +1838,44 @@
     const section = sectionById.get(body.dataset.sectionId);
     const book = section?.book || state.book;
     const bookKey = book.toLowerCase().replace(/\s+/g, '');
-    _menuSelectionVerses = allMarkers.slice(startIdx, lastIdx + 1).map(m => ({
+    _menuSelectionVerses = allMarkers.slice(startIdx, endIdx + 1).map(m => ({
       verseId: `${bookKey}.${m.dataset.chapter}.${m.dataset.verse}`,
       reference: `${book} ${m.dataset.chapter}:${m.dataset.verse}`,
     }));
+
+    // Update the range label in the menu header
+    if (els.selectionRangeLabel) {
+      const first = _menuSelectionVerses[0];
+      const last = _menuSelectionVerses[_menuSelectionVerses.length - 1];
+      const firstRef = first?.reference || '';
+      const lastRef = last?.reference || '';
+      els.selectionRangeLabel.textContent = first === last
+        ? firstRef
+        : `${firstRef} – ${lastRef.split(' ').pop()}`;  // e.g. "Mark 15:1 – 15:3"
+    }
+
+    // Disable expand buttons at passage boundaries
+    if (els.selectionPrevBtn) els.selectionPrevBtn.disabled = startIdx === 0;
+    if (els.selectionNextBtn) els.selectionNextBtn.disabled = endIdx === allMarkers.length - 1;
+  }
+
+  function expandTapSelection(direction) {
+    if (!_tapBody || !_tapStartMarker || !_tapEndMarker) return;
+    const allMarkers = [..._tapBody.querySelectorAll('.verse-number[data-chapter][data-verse]')];
+    const startIdx = allMarkers.indexOf(_tapStartMarker);
+    const endIdx = allMarkers.indexOf(_tapEndMarker);
+    if (direction < 0 && startIdx > 0) {
+      _tapStartMarker = allMarkers[startIdx - 1];
+    } else if (direction > 0 && endIdx < allMarkers.length - 1) {
+      _tapEndMarker = allMarkers[endIdx + 1];
+    }
+    applyTapSelection(_tapBody, allMarkers);
   }
 
   function createHighlightForTappedVerse(withNote) {
-    if (!_menuSelectionVerses.length || !_menuSelectionSection || !_tapAnchorBody) return;
+    if (!_menuSelectionVerses.length || !_menuSelectionSection || !_tapBody) return;
     // Re-apply the selection range in case the browser cleared it between tap and button click
-    const body = _tapAnchorBody;
+    const body = _tapBody;
     const allMarkers = [...body.querySelectorAll('.verse-number[data-chapter][data-verse]')];
     if (!allMarkers.length) return;
     const firstVerse = _menuSelectionVerses[0];
