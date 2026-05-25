@@ -1700,6 +1700,8 @@
   // Cached verses from the most recent valid selection; menu buttons read this.
   let _menuSelectionVerses = [];
   let _menuSelectionSection = null;
+  let _tapAnchorMarker = null;
+  let _tapAnchorBody = null;
 
   function updateSelectionMenu() {
     const selection = window.getSelection();
@@ -1765,6 +1767,10 @@
   function hideSelectionMenu() {
     els.selectionMenu.classList.add("hidden");
     document.body.classList.remove('selection-menu-open');
+    _tapAnchorMarker = null;
+    _tapAnchorBody = null;
+    const sel = window.getSelection();
+    if (sel) sel.removeAllRanges();
   }
 
   function showTapMenu() {
@@ -1774,61 +1780,86 @@
     document.body.classList.add('selection-menu-open');
   }
 
-  function getTappedVerse(el, body) {
-    const markers = [...body.querySelectorAll('.verse-number[data-chapter][data-verse]')];
-    if (!markers.length) return null;
-    let lastMarker = markers[0];
-    for (const m of markers) {
-      if (m.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING) {
-        lastMarker = m;
-      }
-    }
-    const section = sectionById.get(body.dataset.sectionId);
-    const book = section?.book || state.book;
-    const bookKey = book.toLowerCase().replace(/\s+/g, '');
-    const ch = lastMarker.dataset.chapter;
-    const v = lastMarker.dataset.verse;
-    return { verseId: `${bookKey}.${ch}.${v}`, reference: `${book} ${ch}:${v}` };
-  }
-
   function attachPassageTapHandlers() {
     els.readerContent.querySelectorAll(".passage-body").forEach(body => {
       body.addEventListener("click", event => {
-        if (event.target.closest("a, button, .verse-number, .note-link, .net-note-link, .user-highlight, .source-word")) return;
-        const verse = getTappedVerse(event.target, body);
-        if (!verse) return;
-        _menuSelectionVerses = [verse];
-        _menuSelectionSection = sectionById.get(body.dataset.sectionId) || null;
-        if (els.menuBibleVersesBtn) els.menuBibleVersesBtn.hidden = !(_menuSelectionSection && canTranslateSection(_menuSelectionSection));
-        if (els.menuCommentaryBtn) els.menuCommentaryBtn.hidden = false;
-        showTapMenu();
+        if (event.target.closest("a, button, .note-link, .net-note-link, .user-highlight, .source-word")) return;
+        const allMarkers = [...body.querySelectorAll('.verse-number[data-chapter][data-verse]')];
+        if (!allMarkers.length) return;
+
+        // Identify which verse marker was tapped
+        let tappedMarker = allMarkers[0];
+        for (const m of allMarkers) {
+          if (m.compareDocumentPosition(event.target) & Node.DOCUMENT_POSITION_FOLLOWING) {
+            tappedMarker = m;
+          }
+        }
+
+        const menuIsVisible = !els.selectionMenu.classList.contains("hidden");
+
+        if (menuIsVisible && _tapAnchorBody === body) {
+          // Extend the existing selection to include the newly tapped verse
+          updateTapSelection(body, allMarkers, _tapAnchorMarker, tappedMarker);
+        } else {
+          // Start a new selection
+          _tapAnchorMarker = tappedMarker;
+          _tapAnchorBody = body;
+          _menuSelectionSection = sectionById.get(body.dataset.sectionId) || null;
+          updateTapSelection(body, allMarkers, tappedMarker, tappedMarker);
+          if (els.menuBibleVersesBtn) els.menuBibleVersesBtn.hidden = !(_menuSelectionSection && canTranslateSection(_menuSelectionSection));
+          if (els.menuCommentaryBtn) els.menuCommentaryBtn.hidden = false;
+          showTapMenu();
+        }
       });
     });
   }
 
-  function createHighlightForTappedVerse(withNote) {
-    if (!_menuSelectionVerses.length || !_menuSelectionSection) return;
-    const body = els.readerContent.querySelector(
-      `.passage-body[data-section-id="${CSS.escape(_menuSelectionSection.id)}"]`
-    );
-    if (!body) return;
-    const parts = (_menuSelectionVerses[0].verseId || '').split('.');
-    const ch = parts[parts.length - 2];
-    const v = parts[parts.length - 1];
-    const marker = body.querySelector(`.verse-number[data-chapter="${ch}"][data-verse="${v}"]`);
-    if (!marker) return;
-    const markers = [...body.querySelectorAll('.verse-number')];
-    const idx = markers.indexOf(marker);
+  function updateTapSelection(body, allMarkers, anchorMarker, endMarker) {
+    const anchorIdx = allMarkers.indexOf(anchorMarker);
+    const endIdx = allMarkers.indexOf(endMarker);
+    const startIdx = Math.min(anchorIdx, endIdx);
+    const lastIdx = Math.max(anchorIdx, endIdx);
+
+    // Set the browser selection to the full verse range (provides visual feedback)
     const range = document.createRange();
-    range.setStartAfter(marker);
-    if (idx < markers.length - 1) {
-      range.setEndBefore(markers[idx + 1]);
+    range.setStartAfter(allMarkers[startIdx]);
+    if (lastIdx < allMarkers.length - 1) {
+      range.setEndBefore(allMarkers[lastIdx + 1]);
     } else {
       range.setEnd(body, body.childNodes.length);
     }
     const sel = window.getSelection();
     sel.removeAllRanges();
     sel.addRange(range);
+
+    // Rebuild the verse list for menu actions
+    const section = sectionById.get(body.dataset.sectionId);
+    const book = section?.book || state.book;
+    const bookKey = book.toLowerCase().replace(/\s+/g, '');
+    _menuSelectionVerses = allMarkers.slice(startIdx, lastIdx + 1).map(m => ({
+      verseId: `${bookKey}.${m.dataset.chapter}.${m.dataset.verse}`,
+      reference: `${book} ${m.dataset.chapter}:${m.dataset.verse}`,
+    }));
+  }
+
+  function createHighlightForTappedVerse(withNote) {
+    if (!_menuSelectionVerses.length || !_menuSelectionSection || !_tapAnchorBody) return;
+    // Re-apply the selection range in case the browser cleared it between tap and button click
+    const body = _tapAnchorBody;
+    const allMarkers = [...body.querySelectorAll('.verse-number[data-chapter][data-verse]')];
+    if (!allMarkers.length) return;
+    const firstVerse = _menuSelectionVerses[0];
+    const lastVerse = _menuSelectionVerses[_menuSelectionVerses.length - 1];
+    const firstParts = firstVerse.verseId.split('.');
+    const lastParts = lastVerse.verseId.split('.');
+    const startMarker = allMarkers.find(
+      m => m.dataset.chapter === firstParts[firstParts.length - 2] && m.dataset.verse === firstParts[firstParts.length - 1]
+    );
+    const endMarker = allMarkers.find(
+      m => m.dataset.chapter === lastParts[lastParts.length - 2] && m.dataset.verse === lastParts[lastParts.length - 1]
+    );
+    if (!startMarker || !endMarker) return;
+    updateTapSelection(body, allMarkers, startMarker, endMarker);
     createHighlightFromSelection(withNote);
   }
 
