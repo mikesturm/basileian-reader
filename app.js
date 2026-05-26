@@ -205,9 +205,9 @@
 
     els.menuHighlightBtn.addEventListener("click", () => commitHighlight(false));
     els.menuNoteBtn.addEventListener("click", () => commitHighlight(true));
-    els.menuInterlinearBtn.addEventListener("click", () => { hideSelectionMenu(); if (_menuSelectionVerses.length) openInterlinearModal(_menuSelectionVerses); });
-    els.menuBibleVersesBtn.addEventListener("click", () => { hideSelectionMenu(); if (_menuSelectionVerses.length) showBibleVersesForVerses(_menuSelectionVerses); });
-    els.menuCommentaryBtn.addEventListener("click", () => { hideSelectionMenu(); if (_menuSelectionVerses.length) showCommentaryForVerses(_menuSelectionVerses); });
+    els.menuInterlinearBtn.addEventListener("click", () => { const verses = _menuSelectionVerses.slice(); hideSelectionMenu(); if (verses.length) openInterlinearModal(verses); });
+    els.menuBibleVersesBtn.addEventListener("click", () => { const verses = _menuSelectionVerses.slice(); hideSelectionMenu(); if (verses.length) showBibleVersesForVerses(verses); });
+    els.menuCommentaryBtn.addEventListener("click", () => { const verses = _menuSelectionVerses.slice(); hideSelectionMenu(); if (verses.length) showCommentaryForVerses(verses); });
 
     // Close button restores selection and enables native Safari callout menu.
     els.selectionCloseBtn.addEventListener("click", () => hideSelectionMenu(true));
@@ -1564,12 +1564,13 @@
   }
 
   function createHighlightFromSelection(withNote) {
-    const selection = window.getSelection();
-    if (!selection || !selection.rangeCount || selection.isCollapsed) return;
+    // Use saved state directly: clicking the button clears the live selection
+    // before the click handler fires, so window.getSelection() would be empty.
+    const range = _savedSelectionRange;
+    const body = _selectionBody;
 
-    const range = selection.getRangeAt(0);
-    const body = closestPassageBody(range.commonAncestorContainer);
-    if (!body || !body.contains(range.startContainer) || !body.contains(range.endContainer)) {
+    if (!range || !body || range.collapsed) return;
+    if (!body.contains(range.startContainer) || !body.contains(range.endContainer)) {
       alert("Please select text within a single passage.");
       hideSelectionMenu();
       return;
@@ -1579,7 +1580,7 @@
     const offsets = getRangeOffsets(body, range);
     if (!offsets || offsets.end <= offsets.start) return;
 
-    const quote = selection.toString().trim();
+    const quote = range.toString().trim();
     if (!quote) return;
 
     const highlight = {
@@ -1594,7 +1595,8 @@
     };
 
     _savedSelectionRange = null; // prevent selectionchange from restoring
-    selection.removeAllRanges();
+    const sel = window.getSelection();
+    if (sel) sel.removeAllRanges();
     hideSelectionMenu();
 
     if (withNote) {
