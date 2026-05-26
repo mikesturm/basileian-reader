@@ -84,15 +84,12 @@
     selectionMenu: document.getElementById("selectionMenu"),
     selectionHeader: document.getElementById("selectionHeader"),
     selectionRangeLabel: document.getElementById("selectionRangeLabel"),
-    selectionPrevBtn: document.getElementById("selectionPrevBtn"),
-    selectionNextBtn: document.getElementById("selectionNextBtn"),
     menuInterlinearBtn: document.getElementById("menuInterlinearBtn"),
     menuBibleVersesBtn: document.getElementById("menuBibleVersesBtn"),
     menuCommentaryBtn: document.getElementById("menuCommentaryBtn"),
     menuHighlightBtn: document.getElementById("menuHighlightBtn"),
     menuNoteBtn: document.getElementById("menuNoteBtn"),
     selectionCloseBtn: document.getElementById("selectionCloseBtn"),
-    menuNativeSelectionBtn: document.getElementById("menuNativeSelectionBtn"),
     modalBackdrop: document.getElementById("modalBackdrop"),
     modal: document.getElementById("modal"),
     modalTitle: document.getElementById("modalTitle"),
@@ -206,23 +203,39 @@
       renderReader(); // Re-render with new translation
     });
 
-    els.selectionPrevBtn.addEventListener("click", () => expandTapSelection(-1));
-    els.selectionNextBtn.addEventListener("click", () => expandTapSelection(+1));
     els.menuHighlightBtn.addEventListener("click", () => commitHighlight(false));
     els.menuNoteBtn.addEventListener("click", () => commitHighlight(true));
     els.menuInterlinearBtn.addEventListener("click", () => { hideSelectionMenu(); if (_menuSelectionVerses.length) openInterlinearModal(_menuSelectionVerses); });
     els.menuBibleVersesBtn.addEventListener("click", () => { hideSelectionMenu(); if (_menuSelectionVerses.length) showBibleVersesForVerses(_menuSelectionVerses); });
     els.menuCommentaryBtn.addEventListener("click", () => { hideSelectionMenu(); if (_menuSelectionVerses.length) showCommentaryForVerses(_menuSelectionVerses); });
 
-    // Desktop drag selection ends on mouseup — detect a real (non-collapsed) selection
-    // and drive the menu from it. Touch drag is handled by long-press gesture handlers.
-    els.readerContent.addEventListener("mouseup", () => setTimeout(handleNativeSelectionGesture, 0));
+    // Close button restores selection and enables native Safari callout menu.
+    els.selectionCloseBtn.addEventListener("click", () => hideSelectionMenu(true));
 
-    // Close button is the only way to dismiss the selection menu (no outside-tap dismiss).
-    els.selectionCloseBtn.addEventListener("click", () => hideSelectionMenu());
+    // selectionchange fires on every text selection change (drag, double-tap, etc.).
+    // When the menu is open and selection is cleared (e.g. outside tap), restore the
+    // saved range so the menu can still act on it. When a new non-empty selection
+    // settles, show/update our menu instead of the system callout.
+    document.addEventListener('selectionchange', () => {
+      if (_programmaticSelection) return;
+      const menuVisible = !els.selectionMenu.classList.contains('hidden');
+      const sel = window.getSelection();
 
-    // Enable native system text selection for the current passage body.
-    els.menuNativeSelectionBtn.addEventListener("click", () => activateNativeSelection());
+      if (menuVisible && (!sel || sel.isCollapsed)) {
+        if (_savedSelectionRange) {
+          _programmaticSelection = true;
+          sel.removeAllRanges();
+          sel.addRange(_savedSelectionRange.cloneRange());
+          setTimeout(() => { _programmaticSelection = false; }, 0);
+        }
+        return;
+      }
+
+      if (!sel || sel.isCollapsed || !sel.toString().trim()) return;
+
+      clearTimeout(_selectionDebounceTimer);
+      _selectionDebounceTimer = setTimeout(updateSelectionMenu, 350);
+    });
 
     els.modalClose.addEventListener("click", closeModal);
     els.modalBackdrop.addEventListener("click", closeModal);
@@ -649,6 +662,7 @@
     if (!sel || !sel.rangeCount || sel.isCollapsed) return;
     const verses = findVersesInSelection(sel.getRangeAt(0));
     if (!verses.length) return;
+    _savedSelectionRange = null;
     sel.removeAllRanges();
     hideSelectionMenu();
     openInterlinearModal(verses);
@@ -658,6 +672,7 @@
     const sel = window.getSelection();
     if (!sel || !sel.rangeCount || sel.isCollapsed) return;
     const verses = findVersesInSelection(sel.getRangeAt(0));
+    _savedSelectionRange = null;
     sel.removeAllRanges();
     hideSelectionMenu();
     if (verses.length) openBibleVersesModal(verses);
@@ -1188,7 +1203,6 @@
       });
     });
 
-    attachPassageTapHandlers();
   }
 
   // ---------------------------------------------------------------------------
@@ -1579,6 +1593,7 @@
       updatedAt: Date.now()
     };
 
+    _savedSelectionRange = null; // prevent selectionchange from restoring
     selection.removeAllRanges();
     hideSelectionMenu();
 
@@ -1711,31 +1726,16 @@
   // Cached verses from the most recent valid selection; menu buttons read this.
   let _menuSelectionVerses = [];
   let _menuSelectionSection = null;
-  // Tap-selection state: start and end verse markers within the active passage body.
-  let _tapStartMarker = null;
-  let _tapEndMarker = null;
-  let _tapBody = null;
-  // "tap" = whole-verse selection via tap + ◀/▶ stepper; "native" = arbitrary
-  // (possibly sub-verse) browser text selection made by dragging.
-  let _selectionMode = "tap";
-  // True while we mutate the selection ourselves, so gesture handlers can tell
-  // our programmatic selection apart from a real user drag.
-  let _programmaticSelection = false;
-
-  // Double-tap detection state.
-  let _doubleTapTimer = null;
-  let _lastTapTime = 0;
-  let _lastTapBody = null;
-
-  // Long-press gesture state.
-  let _longPressTimer = null;
-  let _longPressActive = false;
-  let _longPressTouchId = null;
-  let _longPressStartX = 0;
-  let _longPressStartY = 0;
-
-  // Passage body that has native selection temporarily re-enabled.
+  // The passage body and range that are active when the menu is open. The range
+  // is restored when the user closes the menu so text stays selected.
+  let _selectionBody = null;
+  let _savedSelectionRange = null;
+  // Passage body that has the native callout temporarily re-enabled (after close).
   let _nativeSelectionBody = null;
+  // True while we mutate the selection ourselves (programmatic range restore).
+  let _programmaticSelection = false;
+  // Debounce timer for selectionchange → updateSelectionMenu.
+  let _selectionDebounceTimer = null;
 
   function updateSelectionMenu() {
     const selection = window.getSelection();
@@ -1755,15 +1755,11 @@
       return;
     }
 
-    _selectionMode = "native";
-    _tapBody = body;
+    _selectionBody = body;
+    _savedSelectionRange = range.cloneRange();
     _menuSelectionVerses = findVersesInSelection(range);
     _menuSelectionSection = sectionById.get(body.dataset.sectionId) || null;
 
-    // The ◀/▶ stepper only applies to whole-verse tap selections; for an
-    // arbitrary drag selection just show the covered reference range.
-    if (els.selectionPrevBtn) els.selectionPrevBtn.hidden = true;
-    if (els.selectionNextBtn) els.selectionNextBtn.hidden = true;
     if (els.selectionRangeLabel) {
       const first = _menuSelectionVerses[0];
       const last = _menuSelectionVerses[_menuSelectionVerses.length - 1];
@@ -1774,20 +1770,17 @@
           : `${first.reference} – ${last.reference.split(" ").pop()}`;
     }
 
-    // Show Bible Verses only when the section maps to a standard Bible reference.
     if (els.menuBibleVersesBtn) {
       els.menuBibleVersesBtn.hidden = !(_menuSelectionSection && canTranslateSection(_menuSelectionSection));
     }
-    // Show Commentary whenever text is selected in any passage.
     if (els.menuCommentaryBtn) {
       els.menuCommentaryBtn.hidden = !(_menuSelectionVerses && _menuSelectionVerses.length > 0);
     }
 
-    // Position on desktop (position: fixed, so rect coords are viewport-relative).
     const isMobile = window.innerWidth <= 640;
     if (!isMobile) {
       const menuW = 220;
-      const menuH = 190; // approximate
+      const menuH = 190;
       let left = rect.left;
       let top = rect.top - menuH - 10;
       if (top < 8) top = rect.bottom + 10;
@@ -1801,11 +1794,10 @@
 
     if (isMobile) {
       document.body.classList.add('selection-menu-open');
-      // After the menu renders, scroll so the selection is visible above it.
       requestAnimationFrame(() => {
         const menuH = els.selectionMenu.offsetHeight || 300;
         const clearance = 20;
-        const selBottom = rect.bottom; // viewport-relative snapshot captured above
+        const selBottom = rect.bottom;
         const visibleBottom = window.innerHeight - menuH - clearance;
         if (selBottom > visibleBottom) {
           window.scrollBy({ top: selBottom - visibleBottom, behavior: 'smooth' });
@@ -1814,366 +1806,43 @@
     }
   }
 
-  function hideSelectionMenu() {
+  // Hides the selection menu. When restoreToNative is true (close button),
+  // the text stays selected and the native Safari callout is re-enabled so
+  // the system menu can appear when the user taps the selection again.
+  function hideSelectionMenu(restoreToNative = false) {
     els.selectionMenu.classList.add("hidden");
     document.body.classList.remove('selection-menu-open');
-    if (_nativeSelectionBody) {
-      _nativeSelectionBody.classList.remove("native-selection-active");
-      _nativeSelectionBody = null;
-    }
-    _tapStartMarker = null;
-    _tapEndMarker = null;
-    _tapBody = null;
-    const sel = window.getSelection();
-    if (sel) sel.removeAllRanges();
-  }
+    clearTimeout(_selectionDebounceTimer);
 
-  function showTapMenu() {
-    els.selectionMenu.style.left = '';
-    els.selectionMenu.style.top = '';
-    els.selectionMenu.classList.remove("hidden");
-    document.body.classList.add('selection-menu-open');
-  }
-
-  function attachPassageTapHandlers() {
-    els.readerContent.querySelectorAll(".passage-body").forEach(body => {
-      // Double-tap → verse selection. Click fires reliably on both mobile and desktop,
-      // including after touch events, so we use it for timing-based double-tap detection.
-      body.addEventListener("click", event => {
-        if (event.target.closest("a, button, .note-link, .net-note-link, .user-highlight, .source-word")) return;
-        // Ignore the synthetic click that fires after a long-press drag ends.
-        if (_longPressActive) return;
-        // On desktop, a double-click (event.detail >= 2) should not trigger verse selection —
-        // that is the browser's native word-select behavior which we want to leave intact on desktop.
-        if (event.detail >= 2 && !("ontouchstart" in window)) return;
-
-        detectDoubleTap(body, event);
-      });
-
-      attachLongPressHandlers(body);
-    });
-  }
-
-  function detectDoubleTap(body, event) {
-    const now = Date.now();
-    const DOUBLE_TAP_MS = 300;
-
-    if (now - _lastTapTime < DOUBLE_TAP_MS && _lastTapBody === body) {
-      clearTimeout(_doubleTapTimer);
-      clearTimeout(_longPressTimer);
-      _doubleTapTimer = null;
-      _longPressTimer = null;
-      _longPressActive = false;
-      _lastTapTime = 0;
-      _lastTapBody = null;
-      handleDoubleTap(body, event);
-    } else {
-      _lastTapTime = now;
-      _lastTapBody = body;
-      _doubleTapTimer = setTimeout(() => {
-        _doubleTapTimer = null;
-        _lastTapTime = 0;
-        _lastTapBody = null;
-      }, DOUBLE_TAP_MS);
-    }
-  }
-
-  function handleDoubleTap(body, event) {
-    const allMarkers = [...body.querySelectorAll('.verse-number[data-chapter][data-verse]')];
-    if (!allMarkers.length) return;
-
-    const tappedMarker = markerAtPoint(allMarkers, event, body);
-
-    _selectionMode = "tap";
-    _tapStartMarker = tappedMarker;
-    _tapEndMarker = tappedMarker;
-    _tapBody = body;
-    _menuSelectionSection = sectionById.get(body.dataset.sectionId) || null;
-    applyTapSelection(body, allMarkers);
-    if (els.menuBibleVersesBtn) els.menuBibleVersesBtn.hidden = !(_menuSelectionSection && canTranslateSection(_menuSelectionSection));
-    if (els.menuCommentaryBtn) els.menuCommentaryBtn.hidden = false;
-    showTapMenu();
-  }
-
-  function getWordRangeAtPoint(x, y) {
-    let node = null, offset = 0;
-    if (document.caretRangeFromPoint) {
-      const cr = document.caretRangeFromPoint(x, y);
-      if (cr) { node = cr.startContainer; offset = cr.startOffset; }
-    } else if (document.caretPositionFromPoint) {
-      const cp = document.caretPositionFromPoint(x, y);
-      if (cp) { node = cp.offsetNode; offset = cp.offset; }
-    }
-    if (!node || node.nodeType !== Node.TEXT_NODE) return null;
-    const text = node.textContent;
-    let start = offset, end = offset;
-    while (start > 0 && /\S/.test(text[start - 1])) start--;
-    while (end < text.length && /\S/.test(text[end])) end++;
-    const range = document.createRange();
-    range.setStart(node, start);
-    range.setEnd(node, end);
-    return range;
-  }
-
-  function attachLongPressHandlers(body) {
-    const LONG_PRESS_MS = 500;
-    const MOVE_CANCEL_PX = 10;
-
-    body.addEventListener("touchstart", event => {
-      if (event.touches.length !== 1) return;
-      const touch = event.touches[0];
-      _longPressTouchId = touch.identifier;
-      _longPressStartX = touch.clientX;
-      _longPressStartY = touch.clientY;
-      _longPressActive = false;
-
-      clearTimeout(_longPressTimer);
-      _longPressTimer = setTimeout(() => {
-        _longPressActive = true;
-        const wordRange = getWordRangeAtPoint(touch.clientX, touch.clientY);
-        if (wordRange && body.contains(wordRange.startContainer)) {
-          _programmaticSelection = true;
-          const sel = window.getSelection();
-          sel.removeAllRanges();
-          sel.addRange(wordRange);
-          setTimeout(() => { _programmaticSelection = false; }, 0);
-        }
-        navigator.vibrate?.(10);
-      }, LONG_PRESS_MS);
-    }, { passive: true });
-
-    body.addEventListener("touchmove", event => {
-      const touch = [...event.changedTouches].find(t => t.identifier === _longPressTouchId);
-      if (!touch) return;
-
-      if (!_longPressActive) {
-        const dx = touch.clientX - _longPressStartX;
-        const dy = touch.clientY - _longPressStartY;
-        if (Math.sqrt(dx * dx + dy * dy) > MOVE_CANCEL_PX) {
-          clearTimeout(_longPressTimer);
-          _longPressTimer = null;
-        }
-        return;
-      }
-
-      // Long press is active: extend selection to current finger position.
-      event.preventDefault();
-      let endNode = null, endOffset = 0;
-      if (document.caretRangeFromPoint) {
-        const cr = document.caretRangeFromPoint(touch.clientX, touch.clientY);
-        if (cr) { endNode = cr.startContainer; endOffset = cr.startOffset; }
-      } else if (document.caretPositionFromPoint) {
-        const cp = document.caretPositionFromPoint(touch.clientX, touch.clientY);
-        if (cp) { endNode = cp.offsetNode; endOffset = cp.offset; }
-      }
-      if (!endNode || !body.contains(endNode)) return;
-
+    if (restoreToNative && _savedSelectionRange && _selectionBody) {
+      const body = _selectionBody;
+      body.classList.add("native-selection-active");
+      _nativeSelectionBody = body;
+      _programmaticSelection = true;
       const sel = window.getSelection();
-      if (!sel || !sel.rangeCount) return;
-      const existing = sel.getRangeAt(0).cloneRange();
-      try {
-        const testRange = existing.cloneRange();
-        testRange.setEnd(endNode, endOffset);
-        if (!testRange.collapsed) {
-          existing.setEnd(endNode, endOffset);
-        } else {
-          existing.setStart(endNode, endOffset);
-        }
-        _programmaticSelection = true;
-        sel.removeAllRanges();
-        sel.addRange(existing);
-        setTimeout(() => { _programmaticSelection = false; }, 0);
-      } catch (_) { /* ignore invalid range errors */ }
-    }, { passive: false });
-
-    body.addEventListener("touchend", () => {
-      clearTimeout(_longPressTimer);
-      _longPressTimer = null;
-      if (!_longPressActive) return;
-      _longPressActive = false;
-      _longPressTouchId = null;
-      // updateSelectionMenu reads window.getSelection() and shows the menu if valid.
-      updateSelectionMenu();
-    }, { passive: true });
-
-    body.addEventListener("touchcancel", () => {
-      clearTimeout(_longPressTimer);
-      _longPressTimer = null;
-      _longPressActive = false;
-      _longPressTouchId = null;
-    }, { passive: true });
-  }
-
-  function activateNativeSelection() {
-    const body = _tapBody;
-    // Save the current selection before hideSelectionMenu clears it.
-    const sel = window.getSelection();
-    const savedRange = (sel && sel.rangeCount) ? sel.getRangeAt(0).cloneRange() : null;
-
-    hideSelectionMenu();
-    if (!body) return;
-
-    // Re-enable native selection, then restore the range so iOS can show its callout.
-    body.classList.add("native-selection-active");
-    _nativeSelectionBody = body;
-    if (savedRange) {
+      sel.removeAllRanges();
+      sel.addRange(_savedSelectionRange.cloneRange());
+      setTimeout(() => { _programmaticSelection = false; }, 0);
       setTimeout(() => {
-        _programmaticSelection = true;
-        const s = window.getSelection();
-        s.removeAllRanges();
-        s.addRange(savedRange);
-        setTimeout(() => { _programmaticSelection = false; }, 0);
-      }, 0);
-    }
-
-    // Auto-restore after 30s so native selection doesn't stay permanently enabled.
-    setTimeout(() => {
-      body.classList.remove("native-selection-active");
-      if (_nativeSelectionBody === body) _nativeSelectionBody = null;
-    }, 30000);
-  }
-
-  function applyTapSelection(body, allMarkers) {
-    const startIdx = allMarkers.indexOf(_tapStartMarker);
-    const endIdx = allMarkers.indexOf(_tapEndMarker);
-
-    // Set browser selection for visual feedback
-    const range = document.createRange();
-    range.setStartAfter(allMarkers[startIdx]);
-    if (endIdx < allMarkers.length - 1) {
-      range.setEndBefore(allMarkers[endIdx + 1]);
+        body.classList.remove("native-selection-active");
+        if (_nativeSelectionBody === body) _nativeSelectionBody = null;
+      }, 30000);
     } else {
-      range.setEnd(body, body.childNodes.length);
-    }
-    const sel = window.getSelection();
-    _programmaticSelection = true;
-    sel.removeAllRanges();
-    sel.addRange(range);
-    setTimeout(() => { _programmaticSelection = false; }, 0);
-
-    // The stepper is hidden while a native selection is active; restore it.
-    if (els.selectionPrevBtn) els.selectionPrevBtn.hidden = false;
-    if (els.selectionNextBtn) els.selectionNextBtn.hidden = false;
-
-    // Rebuild the verse list for menu actions
-    const section = sectionById.get(body.dataset.sectionId);
-    const book = section?.book || state.book;
-    const bookKey = book.toLowerCase().replace(/\s+/g, '');
-    _menuSelectionVerses = allMarkers.slice(startIdx, endIdx + 1).map(m => ({
-      verseId: `${bookKey}.${m.dataset.chapter}.${m.dataset.verse}`,
-      reference: `${book} ${m.dataset.chapter}:${m.dataset.verse}`,
-    }));
-
-    // Update the range label in the menu header
-    if (els.selectionRangeLabel) {
-      const first = _menuSelectionVerses[0];
-      const last = _menuSelectionVerses[_menuSelectionVerses.length - 1];
-      const firstRef = first?.reference || '';
-      const lastRef = last?.reference || '';
-      els.selectionRangeLabel.textContent = first === last
-        ? firstRef
-        : `${firstRef} – ${lastRef.split(' ').pop()}`;  // e.g. "Mark 15:1 – 15:3"
-    }
-
-    // Disable expand buttons at passage boundaries
-    if (els.selectionPrevBtn) els.selectionPrevBtn.disabled = startIdx === 0;
-    if (els.selectionNextBtn) els.selectionNextBtn.disabled = endIdx === allMarkers.length - 1;
-  }
-
-  // Resolve which verse marker a tap landed on using the tapped point's caret
-  // position. Relying on event.target breaks when the tap resolves to a
-  // container (the body or a verse <p>) that wraps the markers — every marker
-  // then fails the "precedes target" test and the first verse is wrongly chosen.
-  function markerAtPoint(allMarkers, event, body) {
-    let ref = null;
-    const x = event.clientX;
-    const y = event.clientY;
-    if (typeof x === "number" && typeof y === "number") {
-      if (document.caretRangeFromPoint) {
-        const cr = document.caretRangeFromPoint(x, y);
-        if (cr) ref = cr.startContainer;
-      } else if (document.caretPositionFromPoint) {
-        const cp = document.caretPositionFromPoint(x, y);
-        if (cp) ref = cp.offsetNode;
+      if (_nativeSelectionBody) {
+        _nativeSelectionBody.classList.remove("native-selection-active");
+        _nativeSelectionBody = null;
       }
+      const sel = window.getSelection();
+      if (sel) sel.removeAllRanges();
     }
-    if (!ref || !body.contains(ref)) ref = event.target;
 
-    let tapped = allMarkers[0];
-    for (const m of allMarkers) {
-      const rel = m.compareDocumentPosition(ref);
-      // ref follows m, or ref is inside m (tap on the verse number itself).
-      if (rel & (Node.DOCUMENT_POSITION_FOLLOWING | Node.DOCUMENT_POSITION_CONTAINED_BY) || ref === m) {
-        tapped = m;
-      }
-    }
-    return tapped;
-  }
-
-  function selectionWithinBody(body) {
-    if (_programmaticSelection) return false;
-    const sel = window.getSelection();
-    if (!sel || sel.isCollapsed || !sel.toString().trim()) return false;
-    const range = sel.getRangeAt(0);
-    return body.contains(range.startContainer) && body.contains(range.endContainer);
-  }
-
-  function handleNativeSelectionGesture() {
-    if (_programmaticSelection) return;
-    const sel = window.getSelection();
-    if (!sel || sel.isCollapsed || !sel.toString().trim()) return;
-    const range = sel.getRangeAt(0);
-    const body = closestPassageBody(range.commonAncestorContainer);
-    if (!body || !body.contains(range.startContainer) || !body.contains(range.endContainer)) return;
-    updateSelectionMenu();
+    _savedSelectionRange = null;
+    _selectionBody = null;
+    _menuSelectionVerses = [];
+    _menuSelectionSection = null;
   }
 
   function commitHighlight(withNote) {
-    if (_selectionMode === "native") {
-      createHighlightFromSelection(withNote);
-    } else {
-      createHighlightForTappedVerse(withNote);
-    }
-  }
-
-  function updateTapSelection(body, allMarkers, startMarker, endMarker) {
-    _tapBody = body;
-    _tapStartMarker = startMarker;
-    _tapEndMarker = endMarker;
-    applyTapSelection(body, allMarkers);
-  }
-
-  function expandTapSelection(direction) {
-    if (!_tapBody || !_tapStartMarker || !_tapEndMarker) return;
-    const allMarkers = [..._tapBody.querySelectorAll('.verse-number[data-chapter][data-verse]')];
-    const startIdx = allMarkers.indexOf(_tapStartMarker);
-    const endIdx = allMarkers.indexOf(_tapEndMarker);
-    if (direction < 0 && startIdx > 0) {
-      _tapStartMarker = allMarkers[startIdx - 1];
-    } else if (direction > 0 && endIdx < allMarkers.length - 1) {
-      _tapEndMarker = allMarkers[endIdx + 1];
-    }
-    applyTapSelection(_tapBody, allMarkers);
-  }
-
-  function createHighlightForTappedVerse(withNote) {
-    if (!_menuSelectionVerses.length || !_menuSelectionSection || !_tapBody) return;
-    // Re-apply the selection range in case the browser cleared it between tap and button click
-    const body = _tapBody;
-    const allMarkers = [...body.querySelectorAll('.verse-number[data-chapter][data-verse]')];
-    if (!allMarkers.length) return;
-    const firstVerse = _menuSelectionVerses[0];
-    const lastVerse = _menuSelectionVerses[_menuSelectionVerses.length - 1];
-    const firstParts = firstVerse.verseId.split('.');
-    const lastParts = lastVerse.verseId.split('.');
-    const startMarker = allMarkers.find(
-      m => m.dataset.chapter === firstParts[firstParts.length - 2] && m.dataset.verse === firstParts[firstParts.length - 1]
-    );
-    const endMarker = allMarkers.find(
-      m => m.dataset.chapter === lastParts[lastParts.length - 2] && m.dataset.verse === lastParts[lastParts.length - 1]
-    );
-    if (!startMarker || !endMarker) return;
-    updateTapSelection(body, allMarkers, startMarker, endMarker);
     createHighlightFromSelection(withNote);
   }
 
