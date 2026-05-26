@@ -206,11 +206,17 @@
 
     els.selectionPrevBtn.addEventListener("click", () => expandTapSelection(-1));
     els.selectionNextBtn.addEventListener("click", () => expandTapSelection(+1));
-    els.menuHighlightBtn.addEventListener("click", () => { hideSelectionMenu(); createHighlightForTappedVerse(false); });
-    els.menuNoteBtn.addEventListener("click", () => { hideSelectionMenu(); createHighlightForTappedVerse(true); });
+    els.menuHighlightBtn.addEventListener("click", () => commitHighlight(false));
+    els.menuNoteBtn.addEventListener("click", () => commitHighlight(true));
     els.menuInterlinearBtn.addEventListener("click", () => { hideSelectionMenu(); if (_menuSelectionVerses.length) openInterlinearModal(_menuSelectionVerses); });
     els.menuBibleVersesBtn.addEventListener("click", () => { hideSelectionMenu(); if (_menuSelectionVerses.length) showBibleVersesForVerses(_menuSelectionVerses); });
     els.menuCommentaryBtn.addEventListener("click", () => { hideSelectionMenu(); if (_menuSelectionVerses.length) showCommentaryForVerses(_menuSelectionVerses); });
+
+    // A drag selection ends on mouseup/touchend without always firing a click,
+    // so detect a real (non-collapsed) selection here and drive the menu from it.
+    const onSelectionGesture = () => setTimeout(handleNativeSelectionGesture, 0);
+    els.readerContent.addEventListener("mouseup", onSelectionGesture);
+    els.readerContent.addEventListener("touchend", onSelectionGesture);
 
     // Dismiss menu on pointer outside (covers both mouse and touch).
     document.addEventListener("pointerdown", event => {
@@ -1710,6 +1716,12 @@
   let _tapStartMarker = null;
   let _tapEndMarker = null;
   let _tapBody = null;
+  // "tap" = whole-verse selection via tap + ◀/▶ stepper; "native" = arbitrary
+  // (possibly sub-verse) browser text selection made by dragging.
+  let _selectionMode = "tap";
+  // True while we mutate the selection ourselves, so gesture handlers can tell
+  // our programmatic selection apart from a real user drag.
+  let _programmaticSelection = false;
 
   function updateSelectionMenu() {
     const selection = window.getSelection();
@@ -1729,8 +1741,24 @@
       return;
     }
 
+    _selectionMode = "native";
+    _tapBody = body;
     _menuSelectionVerses = findVersesInSelection(range);
     _menuSelectionSection = sectionById.get(body.dataset.sectionId) || null;
+
+    // The ◀/▶ stepper only applies to whole-verse tap selections; for an
+    // arbitrary drag selection just show the covered reference range.
+    if (els.selectionPrevBtn) els.selectionPrevBtn.hidden = true;
+    if (els.selectionNextBtn) els.selectionNextBtn.hidden = true;
+    if (els.selectionRangeLabel) {
+      const first = _menuSelectionVerses[0];
+      const last = _menuSelectionVerses[_menuSelectionVerses.length - 1];
+      els.selectionRangeLabel.textContent = !first
+        ? ""
+        : first === last
+          ? first.reference
+          : `${first.reference} – ${last.reference.split(" ").pop()}`;
+    }
 
     // Show Bible Verses only when the section maps to a standard Bible reference.
     if (els.menuBibleVersesBtn) {
@@ -1793,19 +1821,22 @@
     els.readerContent.querySelectorAll(".passage-body").forEach(body => {
       body.addEventListener("click", event => {
         if (event.target.closest("a, button, .note-link, .net-note-link, .user-highlight, .source-word")) return;
+
+        // A drag that selected real text leaves a non-collapsed selection; defer
+        // to it so the user can highlight an arbitrary (e.g. sub-verse) span.
+        if (selectionWithinBody(body)) {
+          handleNativeSelectionGesture();
+          return;
+        }
+
         const allMarkers = [...body.querySelectorAll('.verse-number[data-chapter][data-verse]')];
         if (!allMarkers.length) return;
 
-        // Identify which verse marker was tapped
-        let tappedMarker = allMarkers[0];
-        for (const m of allMarkers) {
-          if (m.compareDocumentPosition(event.target) & Node.DOCUMENT_POSITION_FOLLOWING) {
-            tappedMarker = m;
-          }
-        }
+        const tappedMarker = markerAtPoint(allMarkers, event, body);
 
         // Always start a fresh single-verse selection on any tap.
         // The ◀/▶ buttons in the menu header extend the range.
+        _selectionMode = "tap";
         _tapStartMarker = tappedMarker;
         _tapEndMarker = tappedMarker;
         _tapBody = body;
@@ -1831,8 +1862,14 @@
       range.setEnd(body, body.childNodes.length);
     }
     const sel = window.getSelection();
+    _programmaticSelection = true;
     sel.removeAllRanges();
     sel.addRange(range);
+    setTimeout(() => { _programmaticSelection = false; }, 0);
+
+    // The stepper is hidden while a native selection is active; restore it.
+    if (els.selectionPrevBtn) els.selectionPrevBtn.hidden = false;
+    if (els.selectionNextBtn) els.selectionNextBtn.hidden = false;
 
     // Rebuild the verse list for menu actions
     const section = sectionById.get(body.dataset.sectionId);
@@ -1857,6 +1894,69 @@
     // Disable expand buttons at passage boundaries
     if (els.selectionPrevBtn) els.selectionPrevBtn.disabled = startIdx === 0;
     if (els.selectionNextBtn) els.selectionNextBtn.disabled = endIdx === allMarkers.length - 1;
+  }
+
+  // Resolve which verse marker a tap landed on using the tapped point's caret
+  // position. Relying on event.target breaks when the tap resolves to a
+  // container (the body or a verse <p>) that wraps the markers — every marker
+  // then fails the "precedes target" test and the first verse is wrongly chosen.
+  function markerAtPoint(allMarkers, event, body) {
+    let ref = null;
+    const x = event.clientX;
+    const y = event.clientY;
+    if (typeof x === "number" && typeof y === "number") {
+      if (document.caretRangeFromPoint) {
+        const cr = document.caretRangeFromPoint(x, y);
+        if (cr) ref = cr.startContainer;
+      } else if (document.caretPositionFromPoint) {
+        const cp = document.caretPositionFromPoint(x, y);
+        if (cp) ref = cp.offsetNode;
+      }
+    }
+    if (!ref || !body.contains(ref)) ref = event.target;
+
+    let tapped = allMarkers[0];
+    for (const m of allMarkers) {
+      const rel = m.compareDocumentPosition(ref);
+      // ref follows m, or ref is inside m (tap on the verse number itself).
+      if (rel & (Node.DOCUMENT_POSITION_FOLLOWING | Node.DOCUMENT_POSITION_CONTAINED_BY) || ref === m) {
+        tapped = m;
+      }
+    }
+    return tapped;
+  }
+
+  function selectionWithinBody(body) {
+    if (_programmaticSelection) return false;
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed || !sel.toString().trim()) return false;
+    const range = sel.getRangeAt(0);
+    return body.contains(range.startContainer) && body.contains(range.endContainer);
+  }
+
+  function handleNativeSelectionGesture() {
+    if (_programmaticSelection) return;
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed || !sel.toString().trim()) return;
+    const range = sel.getRangeAt(0);
+    const body = closestPassageBody(range.commonAncestorContainer);
+    if (!body || !body.contains(range.startContainer) || !body.contains(range.endContainer)) return;
+    updateSelectionMenu();
+  }
+
+  function commitHighlight(withNote) {
+    if (_selectionMode === "native") {
+      createHighlightFromSelection(withNote);
+    } else {
+      createHighlightForTappedVerse(withNote);
+    }
+  }
+
+  function updateTapSelection(body, allMarkers, startMarker, endMarker) {
+    _tapBody = body;
+    _tapStartMarker = startMarker;
+    _tapEndMarker = endMarker;
+    applyTapSelection(body, allMarkers);
   }
 
   function expandTapSelection(direction) {
