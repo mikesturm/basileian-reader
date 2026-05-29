@@ -35994,33 +35994,6 @@
     {
       "token": "και",
       "strongs": "G2532",
-      "morph": "CONJ",
-      "wh_bracketed": true
-    },
-    {
-      "token": "ανεφερετο",
-      "strongs": "G399",
-      "morph": "V-IPI-3S"
-    },
-    {
-      "token": "εισ",
-      "strongs": "G1519",
-      "morph": "PREP"
-    },
-    {
-      "token": "τον",
-      "strongs": "G3588",
-      "morph": "T-ASM"
-    },
-    {
-      "token": "ουρανον",
-      "strongs": "G3772",
-      "morph": "N-ASM",
-      "wh_bracketed": true
-    },
-    {
-      "token": "και",
-      "strongs": "G2532",
       "morph": "CONJ"
     },
     {
@@ -36054,18 +36027,6 @@
       "token": "αυτοι",
       "strongs": "G846",
       "morph": "P-NPM"
-    },
-    {
-      "token": "προσκυνησαντεσ",
-      "strongs": "G4352",
-      "morph": "V-AAP-NPM",
-      "wh_bracketed": true
-    },
-    {
-      "token": "αυτον",
-      "strongs": "G846",
-      "morph": "P-ASM",
-      "wh_bracketed": true
     },
     {
       "token": "προσκυνησαντεσ",

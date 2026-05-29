@@ -155,6 +155,10 @@ function extractTokens(str, isBeta) {
 // precedes the strongs/morph group.  Both patterns are replaced in-place
 // before the verse string is tokenized.
 function resolveWHVariants(str) {
+  // Strip double-bracketed WH-excluded multi-word phrases before any other processing.
+  // e.g. [[kai 2532 {CONJ} anefereto 399 ...]] in Luke 24:51 must be removed whole.
+  str = str.replace(/\[\[.*?\]\]/g, '');
+
   // Pattern A: | word1 | word2 | num(s) {morph}  →  word2 num(s) {morph}
   str = str.replace(
     /\|\s+[a-z'[\]]+\s+\|\s+([a-z'[\]]+)\s+\|\s+((?:\d+\s+)+\{[^}]+\})/g,
