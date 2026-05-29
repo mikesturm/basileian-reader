@@ -5,13 +5,11 @@
   "title": "The Gospel of John — Selected Pericopes",
   "title_original": "κατὰ Ἰωάννην",
   "language": "grc",
-  "source_edition": "SBLGNT (Society of Biblical Literature Greek New Testament, 2010, Holmes ed.); rendered in canon-style unaccented form.",
-  "source_format_note": "Per the canon's stated convention, the WH 1881 text would be the primary source; however, the source PDF did not include John (which was added in the v3 canon revision). SBLGNT is text-critically very close to WH (both Alexandrian-tradition); for the verses included in this canon, the differences are minor and orthographic. A future revision should reconcile to WH 1881 directly.",
+  "source_edition": "Westcott-Hort 1881 (byztxt/greektext-westcott-hort, Sandborg-Petersen ed.); rendered in canon-style unaccented form.",
   "convention_notes": "Text presented without diacritical marks (no accents, breathings, iota subscripts). Final sigma rendered as σ. μ rendered as µ for consistency with Mark and other canon-PDF sections.",
   "date_of_composition": "c. 90–100 CE",
   "scope_note": "Selected pericopes from John, focused on the narrative ministry, signs, passion, and resurrection — excluding the Johannine theological discourses (chs. 14–17) and the prologue (1:1–34) on the canon's criterion that these are interpretive elaboration rather than dominical tradition. The Pericope Adulterae (7:53–8:11) is included as a textually disputed 'floating dominical tradition.'",
-  "public_domain": false,
-  "license_note": "SBLGNT is © 2010 Society of Biblical Literature and Logos Bible Software, freely distributable but not for sale on its own. See http://sblgnt.com/license/ for terms.",
+  "public_domain": true,
   "pericopes": [
     {
       "pericope_id": "john_1_35-51",
@@ -46,8 +44,8 @@
         {
           "verse_id": "john.1.39",
           "reference": "John 1:39",
-          "text": "λεγει αυτοισ ερχεσθε και οψεσθε ηλθαν ουν και ειδαν που µενει και παρ’ αυτω εµειναν την ηµεραν εκεινην ωρα ην ωσ δεκατη",
-          "transliteration": "legei aytois erchesthe kai opsesthe ēlthan oyn kai eidan poy menei kai par’ aytō emeinan tēn ēmeran ekeinēn ōra ēn ōs dekatē"
+          "text": "λεγει αυτοισ ερχεσθε και οψεσθε ηλθαν ουν και ειδαν που µενει και παρ αυτω εµειναν την ηµεραν εκεινην ωρα ην ωσ δεκατη",
+          "transliteration": "legei aytois erchesthe kai opsesthe ēlthan oyn kai eidan poy menei kai par aytō emeinan tēn ēmeran ekeinēn ōra ēn ōs dekatē"
         },
         {
           "verse_id": "john.1.40",
@@ -58,7 +56,7 @@
         {
           "verse_id": "john.1.41",
           "reference": "John 1:41",
-          "text": "ευρισκει ουτοσ πρωτον τον αδελφον τον ιδιον σιµωνα και λεγει αυτω ευρηκαµεν τον μεσσιαν ο εστιν µεθερµηνευοµενον χριστοσ",
+          "text": "ευρισκει ουτοσ πρωτον τον αδελφον τον ιδιον σιµωνα και λεγει αυτω ευρηκαµεν τον µεσσιαν ο εστιν µεθερµηνευοµενον χριστοσ",
           "transliteration": "eyriskei oytos prōton ton adelphon ton idion simōna kai legei aytō eyrēkamen ton messian o estin methermēneyomenon christos"
         },
         {
@@ -82,14 +80,14 @@
         {
           "verse_id": "john.1.45",
           "reference": "John 1:45",
-          "text": "ευρισκει φιλιπποσ τον ναθαναηλ και λεγει αυτω ον εγραψεν μωυσησ εν τω νοµω και οι προφηται ευρηκαµεν ιησουν υιον του ιωσηφ τον απο ναζαρετ",
+          "text": "ευρισκει φιλιπποσ τον ναθαναηλ και λεγει αυτω ον εγραψεν µωυσησ εν τω νοµω και οι προφηται ευρηκαµεν ιησουν υιον του ιωσηφ τον απο ναζαρετ",
           "transliteration": "eyriskei philippos ton nathanaēl kai legei aytō on egrapsen mōysēs en tō nomō kai oi prophētai eyrēkamen iēsoyn yion toy iōsēph ton apo nazaret"
         },
         {
           "verse_id": "john.1.46",
           "reference": "John 1:46",
-          "text": "και ειπεν αυτω ναθαναηλ εκ ναζαρετ δυναται τι αγαθον ειναι λεγει αυτω ο φιλιπποσ ερχου και ιδε",
-          "transliteration": "kai eipen aytō nathanaēl ek nazaret dynatai ti agathon einai legei aytō o philippos erchoy kai ide"
+          "text": "και ειπεν αυτω ναθαναηλ εκ ναζαρετ δυναται τι αγαθον ειναι λεγει αυτω ο ο φιλιπποσ ερχου και ιδε",
+          "transliteration": "kai eipen aytō nathanaēl ek nazaret dynatai ti agathon einai legei aytō o o philippos erchoy kai ide"
         },
         {
           "verse_id": "john.1.47",
@@ -119,7 +117,7 @@
           "verse_id": "john.1.51",
           "reference": "John 1:51",
           "text": "και λεγει αυτω αµην αµην λεγω υµιν οψεσθε τον ουρανον ανεωγοτα και τουσ αγγελουσ του θεου αναβαινοντασ και καταβαινοντασ επι τον υιον του ανθρωπου",
-          "transliteration": "kai legei aytō amēn amēn legō ymin opsesthe ton oyranon aneōgota kai toys angeloys toy theoy anabainontas kai katabainontas epi ton yion toy anthrōpoy"
+          "transliteration": "kai legei aytō amēn amēn legō ymin opsesthe ton oyranon aneōgota kai toys aggeloys toy theoy anabainontas kai katabainontas epi ton yion toy anthrōpoy"
         }
       ]
     },
@@ -133,7 +131,7 @@
           "verse_id": "john.2.13",
           "reference": "John 2:13",
           "text": "και εγγυσ ην το πασχα των ιουδαιων και ανεβη εισ ιεροσολυµα ο ιησουσ",
-          "transliteration": "kai engys ēn to pascha tōn ioydaiōn kai anebē eis ierosolyma o iēsoys"
+          "transliteration": "kai eggys ēn to pascha tōn ioydaiōn kai anebē eis ierosolyma o iēsoys"
         },
         {
           "verse_id": "john.2.14",
@@ -144,8 +142,8 @@
         {
           "verse_id": "john.2.15",
           "reference": "John 2:15",
-          "text": "και ποιησασ φραγελλιον εκ σχοινιων παντασ εξεβαλεν εκ του ιερου τα τε προβατα και τουσ βοασ και των κολλυβιστων εξεχεεν τα κερµατα και τασ τραπεζασ ανεστρεψεν",
-          "transliteration": "kai poiēsas phragellion ek schoiniōn pantas exebalen ek toy ieroy ta te probata kai toys boas kai tōn kollybistōn execheen ta kermata kai tas trapezas anestrepsen"
+          "text": "και ποιησασ φραγελλιον εκ σχοινιων παντασ εξεβαλεν εκ του ιερου τα τε προβατα και τουσ βοασ και των κολλυβιστων εξεχεεν τα κερµατα το κερµα και τασ τραπεζασ ανετρεψεν",
+          "transliteration": "kai poiēsas phragellion ek schoiniōn pantas exebalen ek toy ieroy ta te probata kai toys boas kai tōn kollybistōn execheen ta kermata to kerma kai tas trapezas anetrepsen"
         },
         {
           "verse_id": "john.2.16",
@@ -168,8 +166,8 @@
         {
           "verse_id": "john.2.19",
           "reference": "John 2:19",
-          "text": "απεκριθη ιησουσ και ειπεν αυτοισ λυσατε τον ναον τουτον και εν τρισιν ηµεραισ εγερω αυτον",
-          "transliteration": "apekrithē iēsoys kai eipen aytois lysate ton naon toyton kai en trisin ēmerais egerō ayton"
+          "text": "απεκριθη ιησουσ και ειπεν αυτοισ λυσατε τον ναον τουτον και εν εν τρισιν ηµεραισ εγερω αυτον",
+          "transliteration": "apekrithē iēsoys kai eipen aytois lysate ton naon toyton kai en en trisin ēmerais egerō ayton"
         },
         {
           "verse_id": "john.2.20",
@@ -230,8 +228,8 @@
         {
           "verse_id": "john.4.9",
           "reference": "John 4:9",
-          "text": "λεγει ουν αυτω η γυνη η σαµαριτισ πωσ συ ιουδαιοσ ων παρ’ εµου πειν αιτεισ γυναικοσ σαµαριτιδοσ ουσησ ου γαρ συγχρωνται ιουδαιοι σαµαριταισ",
-          "transliteration": "legei oyn aytō ē gynē ē samaritis pōs sy ioydaios ōn par’ emoy pein aiteis gynaikos samaritidos oysēs oy gar synchrōntai ioydaioi samaritais"
+          "text": "λεγει ουν αυτω η γυνη η σαµαριτισ πωσ συ ιουδαιοσ ων παρ εµου πειν αιτεισ γυναικοσ σαµαριτιδοσ ουσησ ου ου γαρ συγχρωνται ιουδαιοι σαµαριταισ",
+          "transliteration": "legei oyn aytō ē gynē ē samaritis pōs sy ioydaios ōn par emoy pein aiteis gynaikos samaritidos oysēs oy oy gar sygchrōntai ioydaioi samaritais"
         },
         {
           "verse_id": "john.4.10",
@@ -260,8 +258,8 @@
         {
           "verse_id": "john.4.14",
           "reference": "John 4:14",
-          "text": "οσ δ’ αν πιη εκ του υδατοσ ου εγω δωσω αυτω ου µη διψησει εισ τον αιωνα αλλα το υδωρ ο δωσω αυτω γενησεται εν αυτω πηγη υδατοσ αλλοµενου εισ ζωην αιωνιον",
-          "transliteration": "os d’ an piē ek toy ydatos oy egō dōsō aytō oy mē dipsēsei eis ton aiōna alla to ydōr o dōsō aytō genēsetai en aytō pēgē ydatos allomenoy eis zōēn aiōnion"
+          "text": "οσ δ αν πιη εκ του υδατοσ ου εγω δωσω αυτω ου µη διψησει εισ τον αιωνα αλλα το υδωρ ο δωσω αυτω γενησεται εν αυτω πηγη υδατοσ αλλοµενου εισ ζωην αιωνιον",
+          "transliteration": "os d an piē ek toy ydatos oy egō dōsō aytō oy mē dipsēsei eis ton aiōna alla to ydōr o dōsō aytō genēsetai en aytō pēgē ydatos allomenoy eis zōēn aiōnion"
         },
         {
           "verse_id": "john.4.15",
@@ -272,14 +270,14 @@
         {
           "verse_id": "john.4.16",
           "reference": "John 4:16",
-          "text": "λεγει αυτη υπαγε φωνησον τον ανδρα σου και ελθε ενθαδε",
-          "transliteration": "legei aytē ypage phōnēson ton andra soy kai elthe enthade"
+          "text": "λεγει αυτη υπαγε φωνησον σου τον ανδρα τον ανδρα σου και ελθε ενθαδε",
+          "transliteration": "legei aytē ypage phōnēson soy ton andra ton andra soy kai elthe enthade"
         },
         {
           "verse_id": "john.4.17",
           "reference": "John 4:17",
-          "text": "απεκριθη η γυνη και ειπεν αυτω ουκ εχω ανδρα λεγει αυτη ο ιησουσ καλωσ ειπασ οτι ανδρα ουκ εχω",
-          "transliteration": "apekrithē ē gynē kai eipen aytō oyk echō andra legei aytē o iēsoys kalōs eipas oti andra oyk echō"
+          "text": "απεκριθη η γυνη και ειπεν αυτω αυτω ουκ εχω ανδρα λεγει αυτη ο ιησουσ καλωσ ειπασ οτι ανδρα ουκ εχω",
+          "transliteration": "apekrithē ē gynē kai eipen aytō aytō oyk echō andra legei aytē o iēsoys kalōs eipas oti andra oyk echō"
         },
         {
           "verse_id": "john.4.18",
@@ -326,8 +324,8 @@
         {
           "verse_id": "john.4.25",
           "reference": "John 4:25",
-          "text": "λεγει αυτω η γυνη οιδα οτι μεσσιασ ερχεται ο λεγοµενοσ χριστοσ οταν ελθη εκεινοσ αναγγελει ηµιν απαντα",
-          "transliteration": "legei aytō ē gynē oida oti messias erchetai o legomenos christos otan elthē ekeinos anangelei ēmin apanta"
+          "text": "λεγει αυτω η γυνη οιδα οτι µεσσιασ ερχεται ο λεγοµενοσ χριστοσ οταν ελθη εκεινοσ αναγγελει ηµιν απαντα",
+          "transliteration": "legei aytō ē gynē oida oti messias erchetai o legomenos christos otan elthē ekeinos anaggelei ēmin apanta"
         },
         {
           "verse_id": "john.4.26",
@@ -338,8 +336,8 @@
         {
           "verse_id": "john.4.27",
           "reference": "John 4:27",
-          "text": "και επι τουτω ηλθαν οι µαθηται αυτου και εθαυµαζον οτι µετα γυναικοσ ελαλει ουδεισ µεντοι ειπεν τι ζητεισ η τι λαλεισ µετ’ αυτησ",
-          "transliteration": "kai epi toytō ēlthan oi mathētai aytoy kai ethaymazon oti meta gynaikos elalei oydeis mentoi eipen ti zēteis ē ti laleis met’ aytēs"
+          "text": "και επι τουτω ηλθαν οι µαθηται αυτου και εθαυµαζον οτι µετα γυναικοσ ελαλει ουδεισ µεντοι ειπεν τι ζητεισ η τι λαλεισ µετ αυτησ",
+          "transliteration": "kai epi toytō ēlthan oi mathētai aytoy kai ethaymazon oti meta gynaikos elalei oydeis mentoi eipen ti zēteis ē ti laleis met aytēs"
         },
         {
           "verse_id": "john.4.28",
@@ -350,8 +348,8 @@
         {
           "verse_id": "john.4.29",
           "reference": "John 4:29",
-          "text": "δευτε ιδετε ανθρωπον οσ ειπε µοι παντα οσα εποιησα µητι ουτοσ εστιν ο χριστοσ",
-          "transliteration": "deyte idete anthrōpon os eipe moi panta osa epoiēsa mēti oytos estin o christos"
+          "text": "δευτε ιδετε ανθρωπον οσ ειπεν µοι παντα α οσα εποιησα µητι ουτοσ εστιν ο χριστοσ",
+          "transliteration": "deyte idete anthrōpon os eipen moi panta a osa epoiēsa mēti oytos estin o christos"
         },
         {
           "verse_id": "john.4.30",
@@ -374,8 +372,8 @@
         {
           "verse_id": "john.4.33",
           "reference": "John 4:33",
-          "text": "ελεγον ουν οι µαθηται προσ αλληλουσ μη τισ ηνεγκεν αυτω φαγειν",
-          "transliteration": "elegon oyn oi mathētai pros allēloys mē tis ēnenken aytō phagein"
+          "text": "ελεγον ουν οι µαθηται προσ αλληλουσ µη τισ ηνεγκεν αυτω φαγειν",
+          "transliteration": "elegon oyn oi mathētai pros allēloys mē tis ēnegken aytō phagein"
         },
         {
           "verse_id": "john.4.34",
@@ -416,8 +414,8 @@
         {
           "verse_id": "john.4.40",
           "reference": "John 4:40",
-          "text": "ωσ ουν ηλθον προσ αυτον οι σαµαριται ηρωτων αυτον µειναι παρ’ αυτοισ και εµεινεν εκει δυο ηµερασ",
-          "transliteration": "ōs oyn ēlthon pros ayton oi samaritai ērōtōn ayton meinai par’ aytois kai emeinen ekei dyo ēmeras"
+          "text": "ωσ ουν ηλθον προσ αυτον οι σαµαριται ηρωτων αυτον µειναι παρ αυτοισ και εµεινεν εκει δυο ηµερασ",
+          "transliteration": "ōs oyn ēlthon pros ayton oi samaritai ērōtōn ayton meinai par aytois kai emeinen ekei dyo ēmeras"
         },
         {
           "verse_id": "john.4.41",
@@ -428,8 +426,8 @@
         {
           "verse_id": "john.4.42",
           "reference": "John 4:42",
-          "text": "τη τε γυναικι ελεγον οτι ουκετι δια την σην λαλιαν πιστευοµεν αυτοι γαρ ακηκοαµεν και οιδαµεν οτι ουτοσ εστιν αληθωσ ο σωτηρ του κοσµου",
-          "transliteration": "tē te gynaiki elegon oti oyketi dia tēn sēn lalian pisteyomen aytoi gar akēkoamen kai oidamen oti oytos estin alēthōs o sōtēr toy kosmoy"
+          "text": "τη τε γυναικι ελεγον οτι οτι ουκετι δια την σην λαλιαν πιστευοµεν αυτοι γαρ ακηκοαµεν και οιδαµεν οτι ουτοσ εστιν αληθωσ ο σωτηρ του κοσµου",
+          "transliteration": "tē te gynaiki elegon oti oti oyketi dia tēn sēn lalian pisteyomen aytoi gar akēkoamen kai oidamen oti oytos estin alēthōs o sōtēr toy kosmoy"
         }
       ]
     },
@@ -442,7 +440,7 @@
         {
           "verse_id": "john.6.1",
           "reference": "John 6:1",
-          "text": "μετα ταυτα απηλθεν ο ιησουσ περαν τησ θαλασσησ τησ γαλιλαιασ τησ τιβεριαδοσ",
+          "text": "µετα ταυτα απηλθεν ο ιησουσ περαν τησ θαλασσησ τησ γαλιλαιασ τησ τιβεριαδοσ",
           "transliteration": "meta tayta apēlthen o iēsoys peran tēs thalassēs tēs galilaias tēs tiberiados"
         },
         {
@@ -461,7 +459,7 @@
           "verse_id": "john.6.4",
           "reference": "John 6:4",
           "text": "ην δε εγγυσ το πασχα η εορτη των ιουδαιων",
-          "transliteration": "ēn de engys to pascha ē eortē tōn ioydaiōn"
+          "transliteration": "ēn de eggys to pascha ē eortē tōn ioydaiōn"
         },
         {
           "verse_id": "john.6.5",
@@ -478,8 +476,8 @@
         {
           "verse_id": "john.6.7",
           "reference": "John 6:7",
-          "text": "απεκριθη αυτω φιλιπποσ διακοσιων δηναριων αρτοι ουκ αρκουσιν αυτοισ ινα εκαστοσ βραχυ τι λαβη",
-          "transliteration": "apekrithē aytō philippos diakosiōn dēnariōn artoi oyk arkoysin aytois ina ekastos brachy ti labē"
+          "text": "απεκριθη αυτω ο φιλιπποσ διακοσιων δηναριων αρτοι ουκ αρκουσιν αυτοισ ινα εκαστοσ βραχυ τι λαβη",
+          "transliteration": "apekrithē aytō o philippos diakosiōn dēnariōn artoi oyk arkoysin aytois ina ekastos brachy ti labē"
         },
         {
           "verse_id": "john.6.8",
@@ -520,8 +518,8 @@
         {
           "verse_id": "john.6.14",
           "reference": "John 6:14",
-          "text": "οι ουν ανθρωποι ιδοντεσ ο εποιησεν σηµειον ελεγον οτι ουτοσ εστιν αληθωσ ο προφητησ ο ερχοµενοσ εισ τον κοσµον",
-          "transliteration": "oi oyn anthrōpoi idontes o epoiēsen sēmeion elegon oti oytos estin alēthōs o prophētēs o erchomenos eis ton kosmon"
+          "text": "οι ουν ανθρωποι ιδοντεσ α εποιησεν σηµεια ο εποιησεν σηµειον ελεγον οτι ουτοσ εστιν αληθωσ ο προφητησ ο ερχοµενοσ εισ τον κοσµον",
+          "transliteration": "oi oyn anthrōpoi idontes a epoiēsen sēmeia o epoiēsen sēmeion elegon oti oytos estin alēthōs o prophētēs o erchomenos eis ton kosmon"
         },
         {
           "verse_id": "john.6.15",
@@ -552,8 +550,8 @@
         {
           "verse_id": "john.9.3",
           "reference": "John 9:3",
-          "text": "απεκριθη ιησουσ ουτε ουτοσ ηµαρτεν ουτε οι γονεισ αυτου αλλ’ ινα φανερωθη τα εργα του θεου εν αυτω",
-          "transliteration": "apekrithē iēsoys oyte oytos ēmarten oyte oi goneis aytoy all’ ina phanerōthē ta erga toy theoy en aytō"
+          "text": "απεκριθη ιησουσ ουτε ουτοσ ηµαρτεν ουτε οι γονεισ αυτου αλλ ινα φανερωθη τα εργα του θεου εν αυτω",
+          "transliteration": "apekrithē iēsoys oyte oytos ēmarten oyte oi goneis aytoy all ina phanerōthē ta erga toy theoy en aytō"
         },
         {
           "verse_id": "john.9.4",
@@ -570,8 +568,8 @@
         {
           "verse_id": "john.9.6",
           "reference": "John 9:6",
-          "text": "ταυτα ειπων επτυσεν χαµαι και εποιησεν πηλον εκ του πτυσµατοσ και επεχρισεν αυτου τον πηλον επι τουσ οφθαλµουσ",
-          "transliteration": "tayta eipōn eptysen chamai kai epoiēsen pēlon ek toy ptysmatos kai epechrisen aytoy ton pēlon epi toys ophthalmoys"
+          "text": "ταυτα ειπων επτυσεν χαµαι και εποιησεν πηλον εκ του πτυσµατοσ και επεθηκεν επεχρισεν αυτου τον πηλον επι τουσ οφθαλµουσ",
+          "transliteration": "tayta eipōn eptysen chamai kai epoiēsen pēlon ek toy ptysmatos kai epethēken epechrisen aytoy ton pēlon epi toys ophthalmoys"
         },
         {
           "verse_id": "john.9.7",
@@ -590,13 +588,13 @@
         {
           "verse_id": "john.11.1",
           "reference": "John 11:1",
-          "text": "ην δε τισ ασθενων λαζαροσ απο βηθανιασ εκ τησ κωµησ μαριασ και μαρθασ τησ αδελφησ αυτησ",
+          "text": "ην δε τισ ασθενων λαζαροσ απο βηθανιασ εκ τησ κωµησ µαριασ και µαρθασ τησ αδελφησ αυτησ",
           "transliteration": "ēn de tis asthenōn lazaros apo bēthanias ek tēs kōmēs marias kai marthas tēs adelphēs aytēs"
         },
         {
           "verse_id": "john.11.2",
           "reference": "John 11:2",
-          "text": "ην δε μαριαµ η αλειψασα τον κυριον µυρω και εκµαξασα τουσ ποδασ αυτου ταισ θριξιν αυτησ ησ ο αδελφοσ λαζαροσ ησθενει",
+          "text": "ην δε µαριαµ η αλειψασα τον κυριον µυρω και εκµαξασα τουσ ποδασ αυτου ταισ θριξιν αυτησ ησ ο αδελφοσ λαζαροσ ησθενει",
           "transliteration": "ēn de mariam ē aleipsasa ton kyrion myrō kai ekmaxasa toys podas aytoy tais thrixin aytēs ēs o adelphos lazaros ēsthenei"
         },
         {
@@ -608,13 +606,13 @@
         {
           "verse_id": "john.11.4",
           "reference": "John 11:4",
-          "text": "ακουσασ δε ο ιησουσ ειπεν αυτη η ασθενεια ουκ εστιν προσ θανατον αλλ’ υπερ τησ δοξησ του θεου ινα δοξασθη ο υιοσ του θεου δι’ αυτησ",
-          "transliteration": "akoysas de o iēsoys eipen aytē ē astheneia oyk estin pros thanaton all’ yper tēs doxēs toy theoy ina doxasthē o yios toy theoy di’ aytēs"
+          "text": "ακουσασ δε ο ιησουσ ειπεν αυτη η ασθενεια ουκ εστιν προσ θανατον αλλ υπερ τησ δοξησ του θεου ινα δοξασθη ο υιοσ του θεου δι αυτησ",
+          "transliteration": "akoysas de o iēsoys eipen aytē ē astheneia oyk estin pros thanaton all yper tēs doxēs toy theoy ina doxasthē o yios toy theoy di aytēs"
         },
         {
           "verse_id": "john.11.5",
           "reference": "John 11:5",
-          "text": "ηγαπα δε ο ιησουσ την μαρθαν και την αδελφην αυτησ και τον λαζαρον",
+          "text": "ηγαπα δε ο ιησουσ την µαρθαν και την αδελφην αυτησ και τον λαζαρον",
           "transliteration": "ēgapa de o iēsoys tēn marthan kai tēn adelphēn aytēs kai ton lazaron"
         },
         {
@@ -674,14 +672,14 @@
         {
           "verse_id": "john.11.15",
           "reference": "John 11:15",
-          "text": "και χαιρω δι’ υµασ ινα πιστευσητε οτι ουκ ηµην εκει αλλα αγωµεν προσ αυτον",
-          "transliteration": "kai chairō di’ ymas ina pisteysēte oti oyk ēmēn ekei alla agōmen pros ayton"
+          "text": "και χαιρω δι υµασ ινα πιστευσητε οτι ουκ ηµην εκει αλλα αγωµεν προσ αυτον",
+          "transliteration": "kai chairō di ymas ina pisteysēte oti oyk ēmēn ekei alla agōmen pros ayton"
         },
         {
           "verse_id": "john.11.16",
           "reference": "John 11:16",
-          "text": "ειπεν ουν θωµασ ο λεγοµενοσ διδυµοσ τοισ συµµαθηταισ αγωµεν και ηµεισ ινα αποθανωµεν µετ’ αυτου",
-          "transliteration": "eipen oyn thōmas o legomenos didymos tois symmathētais agōmen kai ēmeis ina apothanōmen met’ aytoy"
+          "text": "ειπεν ουν θωµασ ο λεγοµενοσ διδυµοσ τοισ συµµαθηταισ αγωµεν και ηµεισ ινα αποθανωµεν µετ αυτου",
+          "transliteration": "eipen oyn thōmas o legomenos didymos tois symmathētais agōmen kai ēmeis ina apothanōmen met aytoy"
         },
         {
           "verse_id": "john.11.17",
@@ -693,31 +691,31 @@
           "verse_id": "john.11.18",
           "reference": "John 11:18",
           "text": "ην δε η βηθανια εγγυσ των ιεροσολυµων ωσ απο σταδιων δεκαπεντε",
-          "transliteration": "ēn de ē bēthania engys tōn ierosolymōn ōs apo stadiōn dekapente"
+          "transliteration": "ēn de ē bēthania eggys tōn ierosolymōn ōs apo stadiōn dekapente"
         },
         {
           "verse_id": "john.11.19",
           "reference": "John 11:19",
-          "text": "πολλοι δε εκ των ιουδαιων εληλυθεισαν προσ την μαρθαν και μαριαµ ινα παραµυθησωνται αυτασ περι του αδελφου",
+          "text": "πολλοι δε εκ των ιουδαιων εληλυθεισαν προσ την µαρθαν και µαριαµ ινα παραµυθησωνται αυτασ περι του αδελφου",
           "transliteration": "polloi de ek tōn ioydaiōn elēlytheisan pros tēn marthan kai mariam ina paramythēsōntai aytas peri toy adelphoy"
         },
         {
           "verse_id": "john.11.20",
           "reference": "John 11:20",
-          "text": "η ουν μαρθα ωσ ηκουσεν οτι ιησουσ ερχεται υπηντησεν αυτω μαρια δε εν τω οικω εκαθεζετο",
-          "transliteration": "ē oyn martha ōs ēkoysen oti iēsoys erchetai ypēntēsen aytō maria de en tō oikō ekathezeto"
+          "text": "η ουν µαρθα ωσ ηκουσεν οτι ιησουσ ερχεται υπηντησεν αυτω µαριαµ δε εν τω οικω εκαθεζετο",
+          "transliteration": "ē oyn martha ōs ēkoysen oti iēsoys erchetai ypēntēsen aytō mariam de en tō oikō ekathezeto"
         },
         {
           "verse_id": "john.11.21",
           "reference": "John 11:21",
-          "text": "ειπεν ουν η μαρθα προσ τον ιησουν κυριε ει ησ ωδε ουκ αν απεθανεν ο αδελφοσ µου",
+          "text": "ειπεν ουν η µαρθα προσ τον ιησουν κυριε ει ησ ωδε ουκ αν απεθανεν ο αδελφοσ µου",
           "transliteration": "eipen oyn ē martha pros ton iēsoyn kyrie ei ēs ōde oyk an apethanen o adelphos moy"
         },
         {
           "verse_id": "john.11.22",
           "reference": "John 11:22",
-          "text": "και νυν οιδα οτι οσα αν αιτηση τον θεον δωσει σοι ο θεοσ",
-          "transliteration": "kai nyn oida oti osa an aitēsē ton theon dōsei soi o theos"
+          "text": "αλλα και νυν οιδα οτι οσα αν αιτηση τον θεον δωσει σοι ο θεοσ",
+          "transliteration": "alla kai nyn oida oti osa an aitēsē ton theon dōsei soi o theos"
         },
         {
           "verse_id": "john.11.23",
@@ -728,7 +726,7 @@
         {
           "verse_id": "john.11.24",
           "reference": "John 11:24",
-          "text": "λεγει αυτω η μαρθα οιδα οτι αναστησεται εν τη αναστασει εν τη εσχατη ηµερα",
+          "text": "λεγει αυτω η µαρθα οιδα οτι αναστησεται εν τη αναστασει εν τη εσχατη ηµερα",
           "transliteration": "legei aytō ē martha oida oti anastēsetai en tē anastasei en tē eschatē ēmera"
         },
         {
@@ -752,7 +750,7 @@
         {
           "verse_id": "john.11.28",
           "reference": "John 11:28",
-          "text": "και τουτο ειπουσα απηλθεν και εφωνησεν μαριαµ την αδελφην αυτησ λαθρα ειπουσα ο διδασκαλοσ παρεστιν και φωνει σε",
+          "text": "και τουτο ειπουσα απηλθεν και εφωνησεν µαριαµ την αδελφην αυτησ λαθρα ειπουσα ο διδασκαλοσ παρεστιν και φωνει σε",
           "transliteration": "kai toyto eipoysa apēlthen kai ephōnēsen mariam tēn adelphēn aytēs lathra eipoysa o didaskalos parestin kai phōnei se"
         },
         {
@@ -764,19 +762,19 @@
         {
           "verse_id": "john.11.30",
           "reference": "John 11:30",
-          "text": "ουπω δε εληλυθει ο ιησουσ εισ την κωµην αλλ’ ην ετι εν τω τοπω οπου υπηντησεν αυτω η μαρθα",
-          "transliteration": "oypō de elēlythei o iēsoys eis tēn kōmēn all’ ēn eti en tō topō opoy ypēntēsen aytō ē martha"
+          "text": "ουπω δε εληλυθει ο ιησουσ εισ την κωµην αλλ ην ετι εν τω τοπω οπου υπηντησεν αυτω η µαρθα",
+          "transliteration": "oypō de elēlythei o iēsoys eis tēn kōmēn all ēn eti en tō topō opoy ypēntēsen aytō ē martha"
         },
         {
           "verse_id": "john.11.31",
           "reference": "John 11:31",
-          "text": "οι ουν ιουδαιοι οι οντεσ µετ’ αυτησ εν τη οικια και παραµυθουµενοι αυτην ιδοντεσ την μαριαµ οτι ταχεωσ ανεστη και εξηλθεν ηκολουθησαν αυτη δοξαντεσ οτι υπαγει εισ το µνηµειον ινα κλαυση εκει",
-          "transliteration": "oi oyn ioydaioi oi ontes met’ aytēs en tē oikia kai paramythoymenoi aytēn idontes tēn mariam oti tacheōs anestē kai exēlthen ēkoloythēsan aytē doxantes oti ypagei eis to mnēmeion ina klaysē ekei"
+          "text": "οι ουν ιουδαιοι οι οντεσ µετ αυτησ εν τη οικια και παραµυθουµενοι αυτην ιδοντεσ την µαριαµ οτι ταχεωσ ανεστη και εξηλθεν ηκολουθησαν αυτη δοξαντεσ οτι υπαγει εισ το µνηµειον ινα κλαυση εκει",
+          "transliteration": "oi oyn ioydaioi oi ontes met aytēs en tē oikia kai paramythoymenoi aytēn idontes tēn mariam oti tacheōs anestē kai exēlthen ēkoloythēsan aytē doxantes oti ypagei eis to mnēmeion ina klaysē ekei"
         },
         {
           "verse_id": "john.11.32",
           "reference": "John 11:32",
-          "text": "η ουν μαριαµ ωσ ηλθεν οπου ην ιησουσ ιδουσα αυτον επεσεν αυτου προσ τουσ ποδασ λεγουσα αυτω κυριε ει ησ ωδε ουκ αν µου απεθανεν ο αδελφοσ",
+          "text": "η ουν µαριαµ ωσ ηλθεν οπου ην ιησουσ ιδουσα αυτον επεσεν αυτου προσ τουσ ποδασ λεγουσα αυτω κυριε ει ησ ωδε ουκ αν µου απεθανεν ο αδελφοσ",
           "transliteration": "ē oyn mariam ōs ēlthen opoy ēn iēsoys idoysa ayton epesen aytoy pros toys podas legoysa aytō kyrie ei ēs ōde oyk an moy apethanen o adelphos"
         },
         {
@@ -812,13 +810,13 @@
         {
           "verse_id": "john.11.38",
           "reference": "John 11:38",
-          "text": "ιησουσ ουν παλιν εµβριµωµενοσ εν εαυτω ερχεται εισ το µνηµειον ην δε σπηλαιον και λιθοσ επεκειτο επ’ αυτω",
-          "transliteration": "iēsoys oyn palin embrimōmenos en eaytō erchetai eis to mnēmeion ēn de spēlaion kai lithos epekeito ep’ aytō"
+          "text": "ιησουσ ουν παλιν εµβριµωµενοσ εν εαυτω ερχεται εισ το µνηµειον ην δε σπηλαιον και λιθοσ επεκειτο επ αυτω",
+          "transliteration": "iēsoys oyn palin embrimōmenos en eaytō erchetai eis to mnēmeion ēn de spēlaion kai lithos epekeito ep aytō"
         },
         {
           "verse_id": "john.11.39",
           "reference": "John 11:39",
-          "text": "λεγει ο ιησουσ αρατε τον λιθον λεγει αυτω η αδελφη του τετελευτηκοτοσ μαρθα κυριε ηδη οζει τεταρταιοσ γαρ εστιν",
+          "text": "λεγει ο ιησουσ αρατε τον λιθον λεγει αυτω η αδελφη του τετελευτηκοτοσ µαρθα κυριε ηδη οζει τεταρταιοσ γαρ εστιν",
           "transliteration": "legei o iēsoys arate ton lithon legei aytō ē adelphē toy teteleytēkotos martha kyrie ēdē ozei tetartaios gar estin"
         },
         {
@@ -848,8 +846,8 @@
         {
           "verse_id": "john.11.44",
           "reference": "John 11:44",
-          "text": "εξηλθεν ο τεθνηκωσ δεδεµενοσ τουσ ποδασ και τασ χειρασ κειριαισ και η οψισ αυτου σουδαριω περιεδεδετο λεγει αυτοισ ο ιησουσ λυσατε αυτον και αφετε αυτον υπαγειν",
-          "transliteration": "exēlthen o tethnēkōs dedemenos toys podas kai tas cheiras keiriais kai ē opsis aytoy soydariō periededeto legei aytois o iēsoys lysate ayton kai aphete ayton ypagein"
+          "text": "εξηλθεν ο τεθνηκωσ δεδεµενοσ τουσ ποδασ και τασ χειρασ κειριαισ και η οψισ αυτου σουδαριω περιεδεδετο λεγει ο ιησουσ αυτοισ αυτοισ ο ιησουσ λυσατε αυτον και αφετε αυτον υπαγειν",
+          "transliteration": "exēlthen o tethnēkōs dedemenos toys podas kai tas cheiras keiriais kai ē opsis aytoy soydariō periededeto legei o iēsoys aytois aytois o iēsoys lysate ayton kai aphete ayton ypagein"
         }
       ]
     },
@@ -868,20 +866,20 @@
         {
           "verse_id": "john.12.2",
           "reference": "John 12:2",
-          "text": "εποιησαν ουν αυτω δειπνον εκει και η μαρθα διηκονει ο δε λαζαροσ εισ ην εκ των ανακειµενων συν αυτω",
+          "text": "εποιησαν ουν αυτω δειπνον εκει και η µαρθα διηκονει ο δε λαζαροσ εισ ην εκ των ανακειµενων συν αυτω",
           "transliteration": "epoiēsan oyn aytō deipnon ekei kai ē martha diēkonei o de lazaros eis ēn ek tōn anakeimenōn syn aytō"
         },
         {
           "verse_id": "john.12.3",
           "reference": "John 12:3",
-          "text": "η ουν μαριαµ λαβουσα λιτραν µυρου ναρδου πιστικησ πολυτιµου ηλειψεν τουσ ποδασ του ιησου και εξεµαξεν ταισ θριξιν αυτησ τουσ ποδασ αυτου η δε οικια επληρωθη εκ τησ οσµησ του µυρου",
-          "transliteration": "ē oyn mariam laboysa litran myroy nardoy pistikēs polytimoy ēleipsen toys podas toy iēsoy kai exemaxen tais thrixin aytēs toys podas aytoy ē de oikia eplērōthē ek tēs osmēs toy myroy"
+          "text": "η ουν µαριαµ λαβουσα λιτραν µυρου ναρδου πιστικησ πολυτιµου ηλειψεν τουσ ποδασ του του ιησου και εξεµαξεν ταισ θριξιν αυτησ τουσ ποδασ αυτου η δε οικια επληρωθη εκ τησ οσµησ του µυρου",
+          "transliteration": "ē oyn mariam laboysa litran myroy nardoy pistikēs polytimoy ēleipsen toys podas toy toy iēsoy kai exemaxen tais thrixin aytēs toys podas aytoy ē de oikia eplērōthē ek tēs osmēs toy myroy"
         },
         {
           "verse_id": "john.12.4",
           "reference": "John 12:4",
-          "text": "λεγει δε ιουδασ ο ισκαριωτησ εισ των µαθητων αυτου ο µελλων αυτον παραδιδοναι",
-          "transliteration": "legei de ioydas o iskariōtēs eis tōn mathētōn aytoy o mellōn ayton paradidonai"
+          "text": "λεγει δε δε ιουδασ ο ισκαριωτησ εισ εκ των µαθητων αυτου ο µελλων αυτον παραδιδοναι",
+          "transliteration": "legei de de ioydas o iskariōtēs eis ek tōn mathētōn aytoy o mellōn ayton paradidonai"
         },
         {
           "verse_id": "john.12.5",
@@ -892,8 +890,8 @@
         {
           "verse_id": "john.12.6",
           "reference": "John 12:6",
-          "text": "ειπεν δε τουτο ουχ οτι περι των πτωχων εµελεν αυτω αλλ’ οτι κλεπτησ ην και το γλωσσοκοµον εχων τα βαλλοµενα εβασταζεν",
-          "transliteration": "eipen de toyto oych oti peri tōn ptōchōn emelen aytō all’ oti kleptēs ēn kai to glōssokomon echōn ta ballomena ebastazen"
+          "text": "ειπεν δε τουτο ουχ οτι περι των πτωχων εµελεν αυτω αλλ οτι κλεπτησ ην και το γλωσσοκοµον εχων τα βαλλοµενα εβασταζεν",
+          "transliteration": "eipen de toyto oych oti peri tōn ptōchōn emelen aytō all oti kleptēs ēn kai to glōssokomon echōn ta ballomena ebastazen"
         },
         {
           "verse_id": "john.12.7",
@@ -904,8 +902,8 @@
         {
           "verse_id": "john.12.8",
           "reference": "John 12:8",
-          "text": "τουσ πτωχουσ γαρ παντοτε εχετε µεθ’ εαυτων εµε δε ου παντοτε εχετε",
-          "transliteration": "toys ptōchoys gar pantote echete meth’ eaytōn eme de oy pantote echete"
+          "text": "τουσ πτωχουσ γαρ παντοτε εχετε µεθ εαυτων εµε δε ου παντοτε εχετε",
+          "transliteration": "toys ptōchoys gar pantote echete meth eaytōn eme de oy pantote echete"
         }
       ]
     },
@@ -924,8 +922,8 @@
         {
           "verse_id": "john.13.2",
           "reference": "John 13:2",
-          "text": "και δειπνου γινοµενου του διαβολου ηδη βεβληκοτοσ εισ την καρδιαν ινα παραδοι αυτον ιουδασ σιµωνοσ ισκαριωτου",
-          "transliteration": "kai deipnoy ginomenoy toy diaboloy ēdē beblēkotos eis tēn kardian ina paradoi ayton ioydas simōnos iskariōtoy"
+          "text": "και δειπνου γινοµενου του διαβολου ηδη βεβληκοτοσ εισ την καρδιαν ινα παραδοι αυτον ιουδασ σιµωνοσ ισκαριωτησ ισκαριωτου",
+          "transliteration": "kai deipnoy ginomenoy toy diaboloy ēdē beblēkotos eis tēn kardian ina paradoi ayton ioydas simōnos iskariōtēs iskariōtoy"
         },
         {
           "verse_id": "john.13.3",
@@ -960,8 +958,8 @@
         {
           "verse_id": "john.13.8",
           "reference": "John 13:8",
-          "text": "λεγει αυτω πετροσ ου µη νιψησ µου τουσ ποδασ εισ τον αιωνα απεκριθη ιησουσ αυτω εαν µη νιψω σε ουκ εχεισ µεροσ µετ’ εµου",
-          "transliteration": "legei aytō petros oy mē nipsēs moy toys podas eis ton aiōna apekrithē iēsoys aytō ean mē nipsō se oyk echeis meros met’ emoy"
+          "text": "λεγει αυτω πετροσ ου µη νιψησ µου τουσ ποδασ εισ τον αιωνα απεκριθη ιησουσ αυτω εαν µη νιψω σε ουκ εχεισ µεροσ µετ εµου",
+          "transliteration": "legei aytō petros oy mē nipsēs moy toys podas eis ton aiōna apekrithē iēsoys aytō ean mē nipsō se oyk echeis meros met emoy"
         },
         {
           "verse_id": "john.13.9",
@@ -972,8 +970,8 @@
         {
           "verse_id": "john.13.10",
           "reference": "John 13:10",
-          "text": "λεγει αυτω ο ιησουσ ο λελουµενοσ ουκ εχει χρειαν ει µη τουσ ποδασ νιψασθαι αλλ’ εστιν καθαροσ ολοσ και υµεισ καθαροι εστε αλλ’ ουχι παντεσ",
-          "transliteration": "legei aytō o iēsoys o leloymenos oyk echei chreian ei mē toys podas nipsasthai all’ estin katharos olos kai ymeis katharoi este all’ oychi pantes"
+          "text": "λεγει αυτω ο ιησουσ ο λελουµενοσ ουκ εχει χρειαν ει µη τουσ ποδασ ει µη τουσ ποδασ νιψασθαι αλλ εστιν καθαροσ ολοσ και υµεισ καθαροι εστε αλλ ουχι παντεσ",
+          "transliteration": "legei aytō o iēsoys o leloymenos oyk echei chreian ei mē toys podas ei mē toys podas nipsasthai all estin katharos olos kai ymeis katharoi este all oychi pantes"
         },
         {
           "verse_id": "john.13.11",
@@ -984,8 +982,8 @@
         {
           "verse_id": "john.13.12",
           "reference": "John 13:12",
-          "text": "οτε ουν ενιψεν τουσ ποδασ αυτων και ελαβεν τα ιµατια αυτου και ανεπεσεν παλιν ειπεν αυτοισ γινωσκετε τι πεποιηκα υµιν",
-          "transliteration": "ote oyn enipsen toys podas aytōn kai elaben ta imatia aytoy kai anepesen palin eipen aytois ginōskete ti pepoiēka ymin"
+          "text": "οτε ουν ενιψεν τουσ ποδασ αυτων και και ελαβεν τα ιµατια αυτου και ανεπεσεν παλιν ειπεν αυτοισ γινωσκετε τι πεποιηκα υµιν",
+          "transliteration": "ote oyn enipsen toys podas aytōn kai kai elaben ta imatia aytoy kai anepesen palin eipen aytois ginōskete ti pepoiēka ymin"
         },
         {
           "verse_id": "john.13.13",
@@ -1028,8 +1026,8 @@
         {
           "verse_id": "john.18.1",
           "reference": "John 18:1",
-          "text": "ταυτα ειπων ιησουσ εξηλθεν συν τοισ µαθηταισ αυτου περαν του χειµαρρου του κεδρων οπου ην κηποσ εισ ον εισηλθεν αυτοσ και οι µαθηται αυτου",
-          "transliteration": "tayta eipōn iēsoys exēlthen syn tois mathētais aytoy peran toy cheimarroy toy kedrōn opoy ēn kēpos eis on eisēlthen aytos kai oi mathētai aytoy"
+          "text": "ταυτα ειπων ιησουσ εξηλθεν συν τοισ µαθηταισ αυτου περαν του χειµαρρου των του κεδρων οπου ην κηποσ εισ ον εισηλθεν αυτοσ και οι µαθηται αυτου",
+          "transliteration": "tayta eipōn iēsoys exēlthen syn tois mathētais aytoy peran toy cheimarroy tōn toy kedrōn opoy ēn kēpos eis on eisēlthen aytos kai oi mathētai aytoy"
         },
         {
           "verse_id": "john.18.2",
@@ -1040,20 +1038,20 @@
         {
           "verse_id": "john.18.3",
           "reference": "John 18:3",
-          "text": "ο ουν ιουδασ λαβων την σπειραν και εκ των αρχιερεων και εκ των φαρισαιων υπηρετασ ερχεται εκει µετα φανων και λαµπαδων και οπλων",
-          "transliteration": "o oyn ioydas labōn tēn speiran kai ek tōn archiereōn kai ek tōn pharisaiōn ypēretas erchetai ekei meta phanōn kai lampadōn kai oplōn"
+          "text": "ο ουν ιουδασ λαβων την σπειραν και εκ των αρχιερεων και εκ εκ των φαρισαιων υπηρετασ ερχεται εκει µετα φανων και λαµπαδων και οπλων",
+          "transliteration": "o oyn ioydas labōn tēn speiran kai ek tōn archiereōn kai ek ek tōn pharisaiōn ypēretas erchetai ekei meta phanōn kai lampadōn kai oplōn"
         },
         {
           "verse_id": "john.18.4",
           "reference": "John 18:4",
-          "text": "ιησουσ ουν ειδωσ παντα τα ερχοµενα επ’ αυτον εξηλθεν και λεγει αυτοισ τινα ζητειτε",
-          "transliteration": "iēsoys oyn eidōs panta ta erchomena ep’ ayton exēlthen kai legei aytois tina zēteite"
+          "text": "ιησουσ ουν ειδωσ παντα τα ερχοµενα επ αυτον εξηλθεν και λεγει αυτοισ τινα ζητειτε",
+          "transliteration": "iēsoys oyn eidōs panta ta erchomena ep ayton exēlthen kai legei aytois tina zēteite"
         },
         {
           "verse_id": "john.18.5",
           "reference": "John 18:5",
-          "text": "απεκριθησαν αυτω ιησουν τον ναζωραιον λεγει αυτοισ εγω ειµι ειστηκει δε και ιουδασ ο παραδιδουσ αυτον µετ’ αυτων",
-          "transliteration": "apekrithēsan aytō iēsoyn ton nazōraion legei aytois egō eimi eistēkei de kai ioydas o paradidoys ayton met’ aytōn"
+          "text": "απεκριθησαν αυτω ιησουν τον ναζωραιον λεγει αυτοισ εγω ειµι ειστηκει δε και ιουδασ ο παραδιδουσ αυτον µετ αυτων",
+          "transliteration": "apekrithēsan aytō iēsoyn ton nazōraion legei aytois egō eimi eistēkei de kai ioydas o paradidoys ayton met aytōn"
         },
         {
           "verse_id": "john.18.6",
@@ -1082,7 +1080,7 @@
         {
           "verse_id": "john.18.10",
           "reference": "John 18:10",
-          "text": "σιµων ουν πετροσ εχων µαχαιραν ειλκυσεν αυτην και επαισεν τον του αρχιερεωσ δουλον και απεκοψεν αυτου το ωταριον το δεξιον ην δε ονοµα τω δουλω μαλχοσ",
+          "text": "σιµων ουν πετροσ εχων µαχαιραν ειλκυσεν αυτην και επαισεν τον του αρχιερεωσ δουλον και απεκοψεν αυτου το ωταριον το δεξιον ην δε ονοµα τω δουλω µαλχοσ",
           "transliteration": "simōn oyn petros echōn machairan eilkysen aytēn kai epaisen ton toy archiereōs doylon kai apekopsen aytoy to ōtarion to dexion ēn de onoma tō doylō malchos"
         },
         {
@@ -1124,14 +1122,14 @@
         {
           "verse_id": "john.18.17",
           "reference": "John 18:17",
-          "text": "λεγει ουν τω πετρω η παιδισκη η θυρωροσ μη και συ εκ των µαθητων ει του ανθρωπου τουτου λεγει εκεινοσ ουκ ειµι",
+          "text": "λεγει ουν τω πετρω η παιδισκη η θυρωροσ µη και συ εκ των µαθητων ει του ανθρωπου τουτου λεγει εκεινοσ ουκ ειµι",
           "transliteration": "legei oyn tō petrō ē paidiskē ē thyrōros mē kai sy ek tōn mathētōn ei toy anthrōpoy toytoy legei ekeinos oyk eimi"
         },
         {
           "verse_id": "john.18.18",
           "reference": "John 18:18",
-          "text": "ειστηκεισαν δε οι δουλοι και οι υπηρεται ανθρακιαν πεποιηκοτεσ οτι ψυχοσ ην και εθερµαινοντο ην δε και ο πετροσ µετ’ αυτων εστωσ και θερµαινοµενοσ",
-          "transliteration": "eistēkeisan de oi doyloi kai oi ypēretai anthrakian pepoiēkotes oti psychos ēn kai ethermainonto ēn de kai o petros met’ aytōn estōs kai thermainomenos"
+          "text": "ειστηκεισαν δε οι δουλοι και οι υπηρεται ανθρακιαν πεποιηκοτεσ οτι ψυχοσ ην και εθερµαινοντο ην δε και ο πετροσ µετ αυτων εστωσ και θερµαινοµενοσ",
+          "transliteration": "eistēkeisan de oi doyloi kai oi ypēretai anthrakian pepoiēkotes oti psychos ēn kai ethermainonto ēn de kai o petros met aytōn estōs kai thermainomenos"
         },
         {
           "verse_id": "john.18.19",
@@ -1172,14 +1170,14 @@
         {
           "verse_id": "john.18.25",
           "reference": "John 18:25",
-          "text": "ην δε σιµων πετροσ εστωσ και θερµαινοµενοσ ειπον ουν αυτω μη και συ εκ των µαθητων αυτου ει ηρνησατο εκεινοσ και ειπεν ουκ ειµι",
+          "text": "ην δε σιµων πετροσ εστωσ και θερµαινοµενοσ ειπον ουν αυτω µη και συ εκ των µαθητων αυτου ει ηρνησατο εκεινοσ και ειπεν ουκ ειµι",
           "transliteration": "ēn de simōn petros estōs kai thermainomenos eipon oyn aytō mē kai sy ek tōn mathētōn aytoy ei ērnēsato ekeinos kai eipen oyk eimi"
         },
         {
           "verse_id": "john.18.26",
           "reference": "John 18:26",
-          "text": "λεγει εισ εκ των δουλων του αρχιερεωσ συγγενησ ων ου απεκοψεν πετροσ το ωτιον ουκ εγω σε ειδον εν τω κηπω µετ’ αυτου",
-          "transliteration": "legei eis ek tōn doylōn toy archiereōs syngenēs ōn oy apekopsen petros to ōtion oyk egō se eidon en tō kēpō met’ aytoy"
+          "text": "λεγει εισ εκ των δουλων του αρχιερεωσ συγγενησ ων ου απεκοψεν πετροσ το ωτιον ουκ εγω σε ειδον εν τω κηπω µετ αυτου",
+          "transliteration": "legei eis ek tōn doylōn toy archiereōs syggenēs ōn oy apekopsen petros to ōtion oyk egō se eidon en tō kēpō met aytoy"
         },
         {
           "verse_id": "john.18.27",
@@ -1232,20 +1230,20 @@
         {
           "verse_id": "john.18.35",
           "reference": "John 18:35",
-          "text": "απεκριθη ο πιλατοσ μητι εγω ιουδαιοσ ειµι το εθνοσ το σον και οι αρχιερεισ παρεδωκαν σε εµοι τι εποιησασ",
+          "text": "απεκριθη ο πιλατοσ µητι εγω ιουδαιοσ ειµι το εθνοσ το σον και οι αρχιερεισ παρεδωκαν σε εµοι τι εποιησασ",
           "transliteration": "apekrithē o pilatos mēti egō ioydaios eimi to ethnos to son kai oi archiereis paredōkan se emoi ti epoiēsas"
         },
         {
           "verse_id": "john.18.36",
           "reference": "John 18:36",
-          "text": "απεκριθη ιησουσ η βασιλεια η εµη ουκ εστιν εκ του κοσµου τουτου ει εκ του κοσµου τουτου ην η βασιλεια η εµη οι υπηρεται οι εµοι ηγωνιζοντο αν ινα µη παραδοθω τοισ ιουδαιοισ νυν δε η βασιλεια η εµη ουκ εστιν εντευθεν",
-          "transliteration": "apekrithē iēsoys ē basileia ē emē oyk estin ek toy kosmoy toytoy ei ek toy kosmoy toytoy ēn ē basileia ē emē oi ypēretai oi emoi ēgōnizonto an ina mē paradothō tois ioydaiois nyn de ē basileia ē emē oyk estin enteythen"
+          "text": "απεκριθη ιησουσ η βασιλεια η εµη ουκ εστιν εκ του κοσµου τουτου ει εκ του κοσµου τουτου ην η βασιλεια η εµη οι υπηρεται οι εµοι ηγωνιζοντο αν αν ινα µη παραδοθω τοισ ιουδαιοισ νυν δε η βασιλεια η εµη ουκ εστιν εντευθεν",
+          "transliteration": "apekrithē iēsoys ē basileia ē emē oyk estin ek toy kosmoy toytoy ei ek toy kosmoy toytoy ēn ē basileia ē emē oi ypēretai oi emoi ēgōnizonto an an ina mē paradothō tois ioydaiois nyn de ē basileia ē emē oyk estin enteythen"
         },
         {
           "verse_id": "john.18.37",
           "reference": "John 18:37",
-          "text": "ειπεν ουν αυτω ο πιλατοσ ουκουν βασιλευσ ει συ απεκριθη ο ιησουσ συ λεγεισ οτι βασιλευσ ειµι εγω εισ τουτο γεγεννηµαι και εισ τουτο εληλυθα εισ τον κοσµον ινα µαρτυρησω τη αληθεια πασ ο ων εκ τησ αληθειασ ακουει µου τησ φωνησ",
-          "transliteration": "eipen oyn aytō o pilatos oykoyn basileys ei sy apekrithē o iēsoys sy legeis oti basileys eimi egō eis toyto gegennēmai kai eis toyto elēlytha eis ton kosmon ina martyrēsō tē alētheia pas o ōn ek tēs alētheias akoyei moy tēs phōnēs"
+          "text": "ειπεν ουν αυτω ο πιλατοσ ουκουν βασιλευσ ει συ απεκριθη ο ο ιησουσ συ λεγεισ οτι βασιλευσ ειµι εγω εισ τουτο γεγεννηµαι και εισ τουτο εληλυθα εισ τον κοσµον ινα µαρτυρησω τη αληθεια πασ ο ων εκ τησ αληθειασ ακουει µου τησ φωνησ",
+          "transliteration": "eipen oyn aytō o pilatos oykoyn basileys ei sy apekrithē o o iēsoys sy legeis oti basileys eimi egō eis toyto gegennēmai kai eis toyto elēlytha eis ton kosmon ina martyrēsō tē alētheia pas o ōn ek tēs alētheias akoyei moy tēs phōnēs"
         },
         {
           "verse_id": "john.18.38",
@@ -1256,13 +1254,13 @@
         {
           "verse_id": "john.18.39",
           "reference": "John 18:39",
-          "text": "εστιν δε συνηθεια υµιν ινα ενα απολυσω υµιν εν τω πασχα βουλεσθε ουν απολυσω υµιν τον βασιλεα των ιουδαιων",
-          "transliteration": "estin de synētheia ymin ina ena apolysō ymin en tō pascha boylesthe oyn apolysō ymin ton basilea tōn ioydaiōn"
+          "text": "εστιν δε συνηθεια υµιν ινα ενα απολυσω υµιν εν εν τω πασχα βουλεσθε ουν απολυσω υµιν τον βασιλεα των ιουδαιων",
+          "transliteration": "estin de synētheia ymin ina ena apolysō ymin en en tō pascha boylesthe oyn apolysō ymin ton basilea tōn ioydaiōn"
         },
         {
           "verse_id": "john.18.40",
           "reference": "John 18:40",
-          "text": "εκραυγασαν ουν παλιν λεγοντεσ μη τουτον αλλα τον βαραββαν ην δε ο βαραββασ ληστησ",
+          "text": "εκραυγασαν ουν παλιν λεγοντεσ µη τουτον αλλα τον βαραββαν ην δε ο βαραββασ ληστησ",
           "transliteration": "ekraygasan oyn palin legontes mē toyton alla ton barabban ēn de o barabbas lēstēs"
         },
         {
@@ -1292,8 +1290,8 @@
         {
           "verse_id": "john.19.5",
           "reference": "John 19:5",
-          "text": "εξηλθεν ουν ο ιησουσ εξω φορων τον ακανθινον στεφανον και το πορφυρουν ιµατιον και λεγει αυτοισ ιδου ο ανθρωποσ",
-          "transliteration": "exēlthen oyn o iēsoys exō phorōn ton akanthinon stephanon kai to porphyroyn imation kai legei aytois idoy o anthrōpos"
+          "text": "εξηλθεν ουν ο ο ιησουσ εξω φορων τον ακανθινον στεφανον και το πορφυρουν ιµατιον και λεγει αυτοισ ιδου ο ανθρωποσ",
+          "transliteration": "exēlthen oyn o o iēsoys exō phorōn ton akanthinon stephanon kai to porphyroyn imation kai legei aytois idoy o anthrōpos"
         },
         {
           "verse_id": "john.19.6",
@@ -1328,8 +1326,8 @@
         {
           "verse_id": "john.19.11",
           "reference": "John 19:11",
-          "text": "απεκριθη αυτω ιησουσ ουκ ειχεσ εξουσιαν κατ’ εµου ουδεµιαν ει µη ην δεδοµενον σοι ανωθεν δια τουτο ο παραδουσ µε σοι µειζονα αµαρτιαν εχει",
-          "transliteration": "apekrithē aytō iēsoys oyk eiches exoysian kat’ emoy oydemian ei mē ēn dedomenon soi anōthen dia toyto o paradoys me soi meizona amartian echei"
+          "text": "απεκριθη αυτω αυτω ιησουσ ουκ ειχεσ εξουσιαν κατ εµου ουδεµιαν ει µη ην δεδοµενον σοι ανωθεν δια τουτο ο παραδουσ µε σοι µειζονα αµαρτιαν εχει",
+          "transliteration": "apekrithē aytō aytō iēsoys oyk eiches exoysian kat emoy oydemian ei mē ēn dedomenon soi anōthen dia toyto o paradoys me soi meizona amartian echei"
         },
         {
           "verse_id": "john.19.12",
@@ -1364,14 +1362,14 @@
         {
           "verse_id": "john.19.17",
           "reference": "John 19:17",
-          "text": "και βασταζων αυτω τον σταυρον εξηλθεν εισ τον λεγοµενον κρανιου τοπον ο λεγεται εβραιστι γολγοθα",
-          "transliteration": "kai bastazōn aytō ton stayron exēlthen eis ton legomenon kranioy topon o legetai ebraisti golgotha"
+          "text": "και βασταζων εαυτω τον σταυρον εξηλθεν εισ τον λεγοµενον κρανιου τοπον ο λεγεται εβραιστι γολγοθα",
+          "transliteration": "kai bastazōn eaytō ton stayron exēlthen eis ton legomenon kranioy topon o legetai ebraisti golgotha"
         },
         {
           "verse_id": "john.19.18",
           "reference": "John 19:18",
-          "text": "οπου αυτον εσταυρωσαν και µετ’ αυτου αλλουσ δυο εντευθεν και εντευθεν µεσον δε τον ιησουν",
-          "transliteration": "opoy ayton estayrōsan kai met’ aytoy alloys dyo enteythen kai enteythen meson de ton iēsoyn"
+          "text": "οπου αυτον εσταυρωσαν και µετ αυτου αλλουσ δυο εντευθεν και εντευθεν µεσον δε τον ιησουν",
+          "transliteration": "opoy ayton estayrōsan kai met aytoy alloys dyo enteythen kai enteythen meson de ton iēsoyn"
         },
         {
           "verse_id": "john.19.19",
@@ -1383,13 +1381,13 @@
           "verse_id": "john.19.20",
           "reference": "John 19:20",
           "text": "τουτον ουν τον τιτλον πολλοι ανεγνωσαν των ιουδαιων οτι εγγυσ ην ο τοποσ τησ πολεωσ οπου εσταυρωθη ο ιησουσ και ην γεγραµµενον εβραιστι ρωµαιστι ελληνιστι",
-          "transliteration": "toyton oyn ton titlon polloi anegnōsan tōn ioydaiōn oti engys ēn o topos tēs poleōs opoy estayrōthē o iēsoys kai ēn gegrammenon ebraisti rōmaisti ellēnisti"
+          "transliteration": "toyton oyn ton titlon polloi anegnōsan tōn ioydaiōn oti eggys ēn o topos tēs poleōs opoy estayrōthē o iēsoys kai ēn gegrammenon ebraisti rōmaisti ellēnisti"
         },
         {
           "verse_id": "john.19.21",
           "reference": "John 19:21",
-          "text": "ελεγον ουν τω πιλατω οι αρχιερεισ των ιουδαιων μη γραφε ο βασιλευσ των ιουδαιων αλλ’ οτι εκεινοσ ειπεν βασιλευσ των ιουδαιων ειµι",
-          "transliteration": "elegon oyn tō pilatō oi archiereis tōn ioydaiōn mē graphe o basileys tōn ioydaiōn all’ oti ekeinos eipen basileys tōn ioydaiōn eimi"
+          "text": "ελεγον ουν τω πιλατω οι αρχιερεισ των ιουδαιων µη γραφε ο βασιλευσ των ιουδαιων αλλ οτι εκεινοσ ειπεν βασιλευσ των ιουδαιων ειµι ειµι των ιουδαιων",
+          "transliteration": "elegon oyn tō pilatō oi archiereis tōn ioydaiōn mē graphe o basileys tōn ioydaiōn all oti ekeinos eipen basileys tōn ioydaiōn eimi eimi tōn ioydaiōn"
         },
         {
           "verse_id": "john.19.22",
@@ -1400,19 +1398,19 @@
         {
           "verse_id": "john.19.23",
           "reference": "John 19:23",
-          "text": "οι ουν στρατιωται οτε εσταυρωσαν τον ιησουν ελαβον τα ιµατια αυτου και εποιησαν τεσσαρα µερη εκαστω στρατιωτη µεροσ και τον χιτωνα ην δε ο χιτων αραφοσ εκ των ανωθεν υφαντοσ δι’ ολου",
-          "transliteration": "oi oyn stratiōtai ote estayrōsan ton iēsoyn elabon ta imatia aytoy kai epoiēsan tessara merē ekastō stratiōtē meros kai ton chitōna ēn de o chitōn araphos ek tōn anōthen yphantos di’ oloy"
+          "text": "οι ουν στρατιωται οτε εσταυρωσαν τον ιησουν ελαβον τα ιµατια αυτου και εποιησαν τεσσαρα µερη εκαστω στρατιωτη µεροσ και τον χιτωνα ην δε ο χιτων αραφοσ εκ των ανωθεν υφαντοσ δι ολου",
+          "transliteration": "oi oyn stratiōtai ote estayrōsan ton iēsoyn elabon ta imatia aytoy kai epoiēsan tessara merē ekastō stratiōtē meros kai ton chitōna ēn de o chitōn araphos ek tōn anōthen yphantos di oloy"
         },
         {
           "verse_id": "john.19.24",
           "reference": "John 19:24",
-          "text": "ειπαν ουν προσ αλληλουσ μη σχισωµεν αυτον αλλα λαχωµεν περι αυτου τινοσ εσται ινα η γραφη πληρωθη η λεγουσα διεµερισαντο τα ιµατια µου εαυτοισ και επι τον ιµατισµον µου εβαλον κληρον οι µεν ουν στρατιωται ταυτα εποιησαν",
+          "text": "ειπαν ουν προσ αλληλουσ µη σχισωµεν αυτον αλλα λαχωµεν περι αυτου τινοσ εσται ινα η γραφη πληρωθη η λεγουσα διεµερισαντο τα ιµατια µου εαυτοισ και επι τον ιµατισµον µου εβαλον κληρον οι µεν ουν στρατιωται ταυτα εποιησαν",
           "transliteration": "eipan oyn pros allēloys mē schisōmen ayton alla lachōmen peri aytoy tinos estai ina ē graphē plērōthē ē legoysa diemerisanto ta imatia moy eaytois kai epi ton imatismon moy ebalon klēron oi men oyn stratiōtai tayta epoiēsan"
         },
         {
           "verse_id": "john.19.25",
           "reference": "John 19:25",
-          "text": "ειστηκεισαν δε παρα τω σταυρω του ιησου η µητηρ αυτου και η αδελφη τησ µητροσ αυτου μαρια η του κλωπα και μαρια η μαγδαληνη",
+          "text": "ειστηκεισαν δε παρα τω σταυρω του ιησου η µητηρ αυτου και η αδελφη τησ µητροσ αυτου µαρια η του κλωπα και µαρια η µαγδαληνη",
           "transliteration": "eistēkeisan de para tō stayrō toy iēsoy ē mētēr aytoy kai ē adelphē tēs mētros aytoy maria ē toy klōpa kai maria ē magdalēnē"
         },
         {
@@ -1424,20 +1422,20 @@
         {
           "verse_id": "john.19.27",
           "reference": "John 19:27",
-          "text": "ειτα λεγει τω µαθητη ιδε η µητηρ σου και απ’ εκεινησ τησ ωρασ ελαβεν ο µαθητησ αυτην εισ τα ιδια",
-          "transliteration": "eita legei tō mathētē ide ē mētēr soy kai ap’ ekeinēs tēs ōras elaben o mathētēs aytēn eis ta idia"
+          "text": "ειτα λεγει τω µαθητη ιδε η µητηρ σου και απ εκεινησ τησ ωρασ ελαβεν ο µαθητησ αυτην εισ τα ιδια",
+          "transliteration": "eita legei tō mathētē ide ē mētēr soy kai ap ekeinēs tēs ōras elaben o mathētēs aytēn eis ta idia"
         },
         {
           "verse_id": "john.19.28",
           "reference": "John 19:28",
-          "text": "μετα τουτο ειδωσ ο ιησουσ οτι ηδη παντα τετελεσται ινα τελειωθη η γραφη λεγει διψω",
+          "text": "µετα τουτο ειδωσ ο ιησουσ οτι ηδη παντα τετελεσται ινα τελειωθη η γραφη λεγει διψω",
           "transliteration": "meta toyto eidōs o iēsoys oti ēdē panta tetelestai ina teleiōthē ē graphē legei dipsō"
         },
         {
           "verse_id": "john.19.29",
           "reference": "John 19:29",
           "text": "σκευοσ εκειτο οξουσ µεστον σπογγον ουν µεστον του οξουσ υσσωπω περιθεντεσ προσηνεγκαν αυτου τω στοµατι",
-          "transliteration": "skeyos ekeito oxoys meston spongon oyn meston toy oxoys yssōpō perithentes prosēnenkan aytoy tō stomati"
+          "transliteration": "skeyos ekeito oxoys meston spoggon oyn meston toy oxoys yssōpō perithentes prosēnegkan aytoy tō stomati"
         },
         {
           "verse_id": "john.19.30",
@@ -1466,8 +1464,8 @@
         {
           "verse_id": "john.19.34",
           "reference": "John 19:34",
-          "text": "αλλ’ εισ των στρατιωτων λογχη αυτου την πλευραν ενυξεν και εξηλθεν ευθυσ αιµα και υδωρ",
-          "transliteration": "all’ eis tōn stratiōtōn lonchē aytoy tēn pleyran enyxen kai exēlthen eythys aima kai ydōr"
+          "text": "αλλ εισ των στρατιωτων λογχη αυτου την πλευραν ενυξεν και εξηλθεν ευθυσ αιµα και υδωρ",
+          "transliteration": "all eis tōn stratiōtōn logchē aytoy tēn pleyran enyxen kai exēlthen eythys aima kai ydōr"
         },
         {
           "verse_id": "john.19.35",
@@ -1490,14 +1488,14 @@
         {
           "verse_id": "john.19.38",
           "reference": "John 19:38",
-          "text": "μετα δε ταυτα ηρωτησεν τον πιλατον ιωσηφ απο αριµαθαιασ ων µαθητησ του ιησου κεκρυµµενοσ δε δια τον φοβον των ιουδαιων ινα αρη το σωµα του ιησου και επετρεψεν ο πιλατοσ ηλθεν ουν και ηρεν το σωµα αυτου",
-          "transliteration": "meta de tayta ērōtēsen ton pilaton iōsēph apo arimathaias ōn mathētēs toy iēsoy kekrymmenos de dia ton phobon tōn ioydaiōn ina arē to sōma toy iēsoy kai epetrepsen o pilatos ēlthen oyn kai ēren to sōma aytoy"
+          "text": "µετα δε ταυτα ηρωτησεν τον πιλατον ιωσηφ ο απο αριµαθαιασ ων µαθητησ του του ιησου κεκρυµµενοσ δε δια τον φοβον των ιουδαιων ινα αρη το σωµα του ιησου και επετρεψεν ο πιλατοσ ηλθεν ουν και ηρεν το σωµα αυτου",
+          "transliteration": "meta de tayta ērōtēsen ton pilaton iōsēph o apo arimathaias ōn mathētēs toy toy iēsoy kekrymmenos de dia ton phobon tōn ioydaiōn ina arē to sōma toy iēsoy kai epetrepsen o pilatos ēlthen oyn kai ēren to sōma aytoy"
         },
         {
           "verse_id": "john.19.39",
           "reference": "John 19:39",
-          "text": "ηλθεν δε και νικοδηµοσ ο ελθων προσ αυτον νυκτοσ το πρωτον φερων µιγµα σµυρνησ και αλοησ ωσ λιτρασ εκατον",
-          "transliteration": "ēlthen de kai nikodēmos o elthōn pros ayton nyktos to prōton pherōn migma smyrnēs kai aloēs ōs litras ekaton"
+          "text": "ηλθεν δε και νικοδηµοσ ο ελθων προσ αυτον νυκτοσ το πρωτον φερων ελιγµα µιγµα σµυρνησ και αλοησ ωσ λιτρασ εκατον",
+          "transliteration": "ēlthen de kai nikodēmos o elthōn pros ayton nyktos to prōton pherōn eligma migma smyrnēs kai aloēs ōs litras ekaton"
         },
         {
           "verse_id": "john.19.40",
@@ -1515,7 +1513,7 @@
           "verse_id": "john.19.42",
           "reference": "John 19:42",
           "text": "εκει ουν δια την παρασκευην των ιουδαιων οτι εγγυσ ην το µνηµειον εθηκαν τον ιησουν",
-          "transliteration": "ekei oyn dia tēn paraskeyēn tōn ioydaiōn oti engys ēn to mnēmeion ethēkan ton iēsoyn"
+          "transliteration": "ekei oyn dia tēn paraskeyēn tōn ioydaiōn oti eggys ēn to mnēmeion ethēkan ton iēsoyn"
         }
       ]
     },
@@ -1528,7 +1526,7 @@
         {
           "verse_id": "john.20.1",
           "reference": "John 20:1",
-          "text": "τη δε µια των σαββατων μαρια η μαγδαληνη ερχεται πρωι σκοτιασ ετι ουσησ εισ το µνηµειον και βλεπει τον λιθον ηρµενον εκ του µνηµειου",
+          "text": "τη δε µια των σαββατων µαρια η µαγδαληνη ερχεται πρωι σκοτιασ ετι ουσησ εισ το µνηµειον και βλεπει τον λιθον ηρµενον εκ του µνηµειου",
           "transliteration": "tē de mia tōn sabbatōn maria ē magdalēnē erchetai prōi skotias eti oysēs eis to mnēmeion kai blepei ton lithon ērmenon ek toy mnēmeioy"
         },
         {
@@ -1582,20 +1580,20 @@
         {
           "verse_id": "john.20.10",
           "reference": "John 20:10",
-          "text": "απηλθον ουν παλιν προσ αυτουσ οι µαθηται",
-          "transliteration": "apēlthon oyn palin pros aytoys oi mathētai"
+          "text": "απηλθον ουν παλιν προσ αυτουσ αυτουσ οι µαθηται",
+          "transliteration": "apēlthon oyn palin pros aytoys aytoys oi mathētai"
         },
         {
           "verse_id": "john.20.11",
           "reference": "John 20:11",
-          "text": "μαρια δε ειστηκει προσ τω µνηµειω εξω κλαιουσα ωσ ουν εκλαιεν παρεκυψεν εισ το µνηµειον",
+          "text": "µαρια δε ειστηκει προσ τω µνηµειω εξω κλαιουσα ωσ ουν εκλαιεν παρεκυψεν εισ το µνηµειον",
           "transliteration": "maria de eistēkei pros tō mnēmeiō exō klaioysa ōs oyn eklaien parekypsen eis to mnēmeion"
         },
         {
           "verse_id": "john.20.12",
           "reference": "John 20:12",
           "text": "και θεωρει δυο αγγελουσ εν λευκοισ καθεζοµενουσ ενα προσ τη κεφαλη και ενα προσ τοισ ποσιν οπου εκειτο το σωµα του ιησου",
-          "transliteration": "kai theōrei dyo angeloys en leykois kathezomenoys ena pros tē kephalē kai ena pros tois posin opoy ekeito to sōma toy iēsoy"
+          "transliteration": "kai theōrei dyo aggeloys en leykois kathezomenoys ena pros tē kephalē kai ena pros tois posin opoy ekeito to sōma toy iēsoy"
         },
         {
           "verse_id": "john.20.13",
@@ -1618,20 +1616,20 @@
         {
           "verse_id": "john.20.16",
           "reference": "John 20:16",
-          "text": "λεγει αυτη ιησουσ μαριαµ στραφεισα εκεινη λεγει αυτω εβραιστι ραββουνι ο λεγεται διδασκαλε",
+          "text": "λεγει αυτη ιησουσ µαριαµ στραφεισα εκεινη λεγει αυτω εβραιστι ραββουνι ο λεγεται διδασκαλε",
           "transliteration": "legei aytē iēsoys mariam strapheisa ekeinē legei aytō ebraisti rabboyni o legetai didaskale"
         },
         {
           "verse_id": "john.20.17",
           "reference": "John 20:17",
-          "text": "λεγει αυτη ιησουσ μη µου απτου ουπω γαρ αναβεβηκα προσ τον πατερα πορευου δε προσ τουσ αδελφουσ µου και ειπε αυτοισ αναβαινω προσ τον πατερα µου και πατερα υµων και θεον µου και θεον υµων",
+          "text": "λεγει αυτη ιησουσ µη µου απτου ουπω γαρ αναβεβηκα προσ τον πατερα πορευου δε προσ τουσ αδελφουσ µου και ειπε αυτοισ αναβαινω προσ τον πατερα µου και πατερα υµων και θεον µου και θεον υµων",
           "transliteration": "legei aytē iēsoys mē moy aptoy oypō gar anabebēka pros ton patera poreyoy de pros toys adelphoys moy kai eipe aytois anabainō pros ton patera moy kai patera ymōn kai theon moy kai theon ymōn"
         },
         {
           "verse_id": "john.20.18",
           "reference": "John 20:18",
-          "text": "ερχεται μαριαµ η μαγδαληνη αγγελλουσα τοισ µαθηταισ οτι εωρακα τον κυριον και ταυτα ειπεν αυτη",
-          "transliteration": "erchetai mariam ē magdalēnē angelloysa tois mathētais oti eōraka ton kyrion kai tayta eipen aytē"
+          "text": "ερχεται µαριαµ η µαγδαληνη αγγελλουσα τοισ µαθηταισ οτι εωρακα τον κυριον και ταυτα ειπεν αυτη",
+          "transliteration": "erchetai mariam ē magdalēnē aggelloysa tois mathētais oti eōraka ton kyrion kai tayta eipen aytē"
         },
         {
           "verse_id": "john.20.19",
@@ -1642,8 +1640,8 @@
         {
           "verse_id": "john.20.20",
           "reference": "John 20:20",
-          "text": "και τουτο ειπων εδειξεν τασ χειρασ και την πλευραν αυτοισ εχαρησαν ουν οι µαθηται ιδοντεσ τον κυριον",
-          "transliteration": "kai toyto eipōn edeixen tas cheiras kai tēn pleyran aytois echarēsan oyn oi mathētai idontes ton kyrion"
+          "text": "και τουτο ειπων εδειξεν και τασ χειρασ και την πλευραν αυτοισ εχαρησαν ουν οι µαθηται ιδοντεσ τον κυριον",
+          "transliteration": "kai toyto eipōn edeixen kai tas cheiras kai tēn pleyran aytois echarēsan oyn oi mathētai idontes ton kyrion"
         },
         {
           "verse_id": "john.20.21",
@@ -1666,8 +1664,8 @@
         {
           "verse_id": "john.20.24",
           "reference": "John 20:24",
-          "text": "θωµασ δε εισ εκ των δωδεκα ο λεγοµενοσ διδυµοσ ουκ ην µετ’ αυτων οτε ηλθεν ιησουσ",
-          "transliteration": "thōmas de eis ek tōn dōdeka o legomenos didymos oyk ēn met’ aytōn ote ēlthen iēsoys"
+          "text": "θωµασ δε εισ εκ των δωδεκα ο λεγοµενοσ διδυµοσ ουκ ην µετ αυτων οτε ηλθεν ιησουσ",
+          "transliteration": "thōmas de eis ek tōn dōdeka o legomenos didymos oyk ēn met aytōn ote ēlthen iēsoys"
         },
         {
           "verse_id": "john.20.25",
@@ -1678,8 +1676,8 @@
         {
           "verse_id": "john.20.26",
           "reference": "John 20:26",
-          "text": "και µεθ’ ηµερασ οκτω παλιν ησαν εσω οι µαθηται αυτου και θωµασ µετ’ αυτων ερχεται ο ιησουσ των θυρων κεκλεισµενων και εστη εισ το µεσον και ειπεν ειρηνη υµιν",
-          "transliteration": "kai meth’ ēmeras oktō palin ēsan esō oi mathētai aytoy kai thōmas met’ aytōn erchetai o iēsoys tōn thyrōn kekleismenōn kai estē eis to meson kai eipen eirēnē ymin"
+          "text": "και µεθ ηµερασ οκτω παλιν ησαν εσω οι µαθηται αυτου και θωµασ µετ αυτων ερχεται ο ιησουσ των θυρων κεκλεισµενων και εστη εισ το µεσον και ειπεν ειρηνη υµιν",
+          "transliteration": "kai meth ēmeras oktō palin ēsan esō oi mathētai aytoy kai thōmas met aytōn erchetai o iēsoys tōn thyrōn kekleismenōn kai estē eis to meson kai eipen eirēnē ymin"
         },
         {
           "verse_id": "john.20.27",
@@ -1696,8 +1694,8 @@
         {
           "verse_id": "john.20.29",
           "reference": "John 20:29",
-          "text": "λεγει αυτω ο ιησουσ οτι εωρακασ µε πεπιστευκασ µακαριοι οι µη ιδοντεσ και πιστευσαντεσ",
-          "transliteration": "legei aytō o iēsoys oti eōrakas me pepisteykas makarioi oi mē idontes kai pisteysantes"
+          "text": "λεγει αυτω ο ο ιησουσ οτι εωρακασ µε πεπιστευκασ µακαριοι οι µη ιδοντεσ και πιστευσαντεσ",
+          "transliteration": "legei aytō o o iēsoys oti eōrakas me pepisteykas makarioi oi mē idontes kai pisteysantes"
         }
       ]
     },
@@ -1710,7 +1708,7 @@
         {
           "verse_id": "john.21.1",
           "reference": "John 21:1",
-          "text": "μετα ταυτα εφανερωσεν εαυτον παλιν ο ιησουσ τοισ µαθηταισ επι τησ θαλασσησ τησ τιβεριαδοσ εφανερωσεν δε ουτωσ",
+          "text": "µετα ταυτα εφανερωσεν εαυτον παλιν ο ιησουσ τοισ µαθηταισ επι τησ θαλασσησ τησ τιβεριαδοσ εφανερωσεν δε ουτωσ",
           "transliteration": "meta tayta ephanerōsen eayton palin o iēsoys tois mathētais epi tēs thalassēs tēs tiberiados ephanerōsen de oytōs"
         },
         {
@@ -1728,8 +1726,8 @@
         {
           "verse_id": "john.21.4",
           "reference": "John 21:4",
-          "text": "πρωιασ δε ηδη γενοµενησ εστη ιησουσ εισ τον αιγιαλον ου µεντοι ηδεισαν οι µαθηται οτι ιησουσ εστιν",
-          "transliteration": "prōias de ēdē genomenēs estē iēsoys eis ton aigialon oy mentoi ēdeisan oi mathētai oti iēsoys estin"
+          "text": "πρωιασ δε ηδη γινοµενησ γενοµενησ εστη ιησουσ εισ τον αιγιαλον ου µεντοι ηδεισαν οι µαθηται οτι ιησουσ εστιν",
+          "transliteration": "prōias de ēdē ginomenēs genomenēs estē iēsoys eis ton aigialon oy mentoi ēdeisan oi mathētai oti iēsoys estin"
         },
         {
           "verse_id": "john.21.5",
@@ -1764,8 +1762,8 @@
         {
           "verse_id": "john.21.10",
           "reference": "John 21:10",
-          "text": "λεγει αυτοισ ο ιησουσ ενεγκατε απο των οψαριων ων επιασατε νυν",
-          "transliteration": "legei aytois o iēsoys enenkate apo tōn opsariōn ōn epiasate nyn"
+          "text": "λεγει αυτοισ ο ο ιησουσ ενεγκατε απο των οψαριων ων επιασατε νυν",
+          "transliteration": "legei aytois o o iēsoys enegkate apo tōn opsariōn ōn epiasate nyn"
         },
         {
           "verse_id": "john.21.11",
@@ -1776,20 +1774,20 @@
         {
           "verse_id": "john.21.12",
           "reference": "John 21:12",
-          "text": "λεγει αυτοισ ο ιησουσ δευτε αριστησατε ουδεισ δε ετολµα των µαθητων εξετασαι αυτον συ τισ ει ειδοτεσ οτι ο κυριοσ εστιν",
-          "transliteration": "legei aytois o iēsoys deyte aristēsate oydeis de etolma tōn mathētōn exetasai ayton sy tis ei eidotes oti o kyrios estin"
+          "text": "λεγει αυτοισ ο ο ιησουσ δευτε αριστησατε ουδεισ δε ετολµα των µαθητων εξετασαι αυτον συ τισ ει ειδοτεσ οτι ο κυριοσ εστιν",
+          "transliteration": "legei aytois o o iēsoys deyte aristēsate oydeis de etolma tōn mathētōn exetasai ayton sy tis ei eidotes oti o kyrios estin"
         },
         {
           "verse_id": "john.21.13",
           "reference": "John 21:13",
-          "text": "ερχεται ο ιησουσ και λαµβανει τον αρτον και διδωσιν αυτοισ και το οψαριον οµοιωσ",
-          "transliteration": "erchetai o iēsoys kai lambanei ton arton kai didōsin aytois kai to opsarion omoiōs"
+          "text": "ερχεται ιησουσ και λαµβανει τον αρτον και διδωσιν αυτοισ και το οψαριον οµοιωσ",
+          "transliteration": "erchetai iēsoys kai lambanei ton arton kai didōsin aytois kai to opsarion omoiōs"
         },
         {
           "verse_id": "john.21.14",
           "reference": "John 21:14",
-          "text": "τουτο ηδη τριτον εφανερωθη ο ιησουσ τοισ µαθηταισ εγερθεισ εκ νεκρων",
-          "transliteration": "toyto ēdē triton ephanerōthē o iēsoys tois mathētais egertheis ek nekrōn"
+          "text": "τουτο ηδη τριτον εφανερωθη ιησουσ τοισ µαθηταισ εγερθεισ εκ νεκρων",
+          "transliteration": "toyto ēdē triton ephanerōthē iēsoys tois mathētais egertheis ek nekrōn"
         },
         {
           "verse_id": "john.21.15",
@@ -1800,20 +1798,20 @@
         {
           "verse_id": "john.21.16",
           "reference": "John 21:16",
-          "text": "λεγει αυτω παλιν δευτερον σιµων ιωαννου αγαπασ µε λεγει αυτω ναι κυριε συ οιδασ οτι φιλω σε λεγει αυτω ποιµαινε τα προβατα µου",
-          "transliteration": "legei aytō palin deyteron simōn iōannoy agapas me legei aytō nai kyrie sy oidas oti philō se legei aytō poimaine ta probata moy"
+          "text": "λεγει αυτω παλιν δευτερον σιµων ιωαννου αγαπασ µε λεγει αυτω ναι κυριε συ οιδασ οτι φιλω σε λεγει αυτω ποιµαινε τα προβατια προβατα µου",
+          "transliteration": "legei aytō palin deyteron simōn iōannoy agapas me legei aytō nai kyrie sy oidas oti philō se legei aytō poimaine ta probatia probata moy"
         },
         {
           "verse_id": "john.21.17",
           "reference": "John 21:17",
-          "text": "λεγει αυτω το τριτον σιµων ιωαννου φιλεισ µε ελυπηθη ο πετροσ οτι ειπεν αυτω το τριτον φιλεισ µε και ειπεν αυτω κυριε παντα συ οιδασ συ γινωσκεισ οτι φιλω σε λεγει αυτω ο ιησουσ βοσκε τα προβατα µου",
-          "transliteration": "legei aytō to triton simōn iōannoy phileis me elypēthē o petros oti eipen aytō to triton phileis me kai eipen aytō kyrie panta sy oidas sy ginōskeis oti philō se legei aytō o iēsoys boske ta probata moy"
+          "text": "λεγει αυτω το τριτον σιµων ιωαννου φιλεισ µε ελυπηθη ο πετροσ οτι ειπεν αυτω το τριτον φιλεισ µε και ειπεν λεγει αυτω κυριε παντα συ οιδασ συ γινωσκεισ οτι φιλω σε λεγει αυτω ιησουσ ο ιησουσ βοσκε τα προβατια προβατα µου",
+          "transliteration": "legei aytō to triton simōn iōannoy phileis me elypēthē o petros oti eipen aytō to triton phileis me kai eipen legei aytō kyrie panta sy oidas sy ginōskeis oti philō se legei aytō iēsoys o iēsoys boske ta probatia probata moy"
         },
         {
           "verse_id": "john.21.18",
           "reference": "John 21:18",
-          "text": "αµην αµην λεγω σοι οτε ησ νεωτεροσ εζωννυεσ σεαυτον και περιεπατεισ οπου ηθελεσ οταν δε γηρασησ εκτενεισ τασ χειρασ σου και αλλοσ σε ζωσει και οισει οπου ου θελεισ",
-          "transliteration": "amēn amēn legō soi ote ēs neōteros ezōnnyes seayton kai periepateis opoy ētheles otan de gērasēs ekteneis tas cheiras soy kai allos se zōsei kai oisei opoy oy theleis"
+          "text": "αµην αµην λεγω σοι οτε ησ νεωτεροσ εζωννυεσ σεαυτον και περιεπατεισ οπου ηθελεσ οταν δε γηρασησ εκτενεισ τασ χειρασ σου και αλλοσ ζωσει σε σε ζωσει και οισει οπου ου θελεισ",
+          "transliteration": "amēn amēn legō soi ote ēs neōteros ezōnnyes seayton kai periepateis opoy ētheles otan de gērasēs ekteneis tas cheiras soy kai allos zōsei se se zōsei kai oisei opoy oy theleis"
         },
         {
           "verse_id": "john.21.19",
@@ -1842,8 +1840,8 @@
         {
           "verse_id": "john.21.23",
           "reference": "John 21:23",
-          "text": "εξηλθεν ουν ουτοσ ο λογοσ εισ τουσ αδελφουσ οτι ο µαθητησ εκεινοσ ουκ αποθνησκει ουκ ειπεν δε αυτω ο ιησουσ οτι ουκ αποθνησκει αλλ’ εαν αυτον θελω µενειν εωσ ερχοµαι τι προσ σε",
-          "transliteration": "exēlthen oyn oytos o logos eis toys adelphoys oti o mathētēs ekeinos oyk apothnēskei oyk eipen de aytō o iēsoys oti oyk apothnēskei all’ ean ayton thelō menein eōs erchomai ti pros se"
+          "text": "εξηλθεν ουν ουτοσ ο λογοσ εισ τουσ αδελφουσ οτι ο µαθητησ εκεινοσ ουκ αποθνησκει ουκ ειπεν δε αυτω ο ιησουσ οτι ουκ αποθνησκει αλλ εαν αυτον θελω µενειν εωσ ερχοµαι τι προσ σε τι προσ σε",
+          "transliteration": "exēlthen oyn oytos o logos eis toys adelphoys oti o mathētēs ekeinos oyk apothnēskei oyk eipen de aytō o iēsoys oti oyk apothnēskei all ean ayton thelō menein eōs erchomai ti pros se ti pros se"
         }
       ]
     },
@@ -1852,10 +1850,83 @@
       "reference": "John 7:53 – 8:11",
       "title": "The woman caught in moicheia (textually disputed; floating dominical tradition)",
       "form_critical_genre": "controversy/forgiveness narrative; textually disputed",
-      "text_critical_note": "Absent from earliest manuscripts (P66, P75, Sinaiticus, Vaticanus). SBLGNT excludes it on the same text-critical grounds. Preserved in this canon as a 'floating dominical tradition' on the same basis as Lk 23:34a.",
-      "text_status": "pending_source_fetch",
-      "follow_up_needed": "Fetch Greek text from Byzantine textform / Textus Receptus or NA28 brackets. Available in Stephanus 1550 (public domain) or Robinson-Pierpont Byzantine Textform 2018 (public domain). Either source provides the standard text of the pericope as it appears in the manuscript tradition.",
-      "verses": []
+      "text_critical_note": "Absent from the earliest Alexandrian manuscripts (P66, P75, Sinaiticus, Vaticanus) and from WH 1881 entirely. Present in the Byzantine tradition. Text here follows Robinson-Pierpont 2018 (public domain). Preserved in the canon as a floating dominical tradition on the same basis as Luke 23:34a.",
+      "verses": [
+        {
+          "verse_id": "john.7.53",
+          "reference": "John 7:53",
+          "text": "και επορευθη εκαστοσ εισ τον οικον αυτου",
+          "transliteration": "kai eporeythē ekastos eis ton oikon aytoy"
+        },
+        {
+          "verse_id": "john.8.1",
+          "reference": "John 8:1",
+          "text": "ιησουσ δε επορευθη εισ το οροσ των ελαιων",
+          "transliteration": "iēsoys de eporeythē eis to oros tōn elaiōn"
+        },
+        {
+          "verse_id": "john.8.2",
+          "reference": "John 8:2",
+          "text": "ορθρου δε παλιν παρεγενετο εισ το ιερον και πασ ο λαοσ ηρχετο και καθισασ εδιδασκεν αυτουσ",
+          "transliteration": "orthroy de palin paregeneto eis to ieron kai pas o laos ērcheto kai kathisas edidasken aytoys"
+        },
+        {
+          "verse_id": "john.8.3",
+          "reference": "John 8:3",
+          "text": "αγουσιν δε οι γραµµατεισ και οι φαρισαιοι προσ αυτον γυναικα εν µοιχεια καταληφθεισαν και στησαντεσ αυτην εν µεσω",
+          "transliteration": "agoysin de oi grammateis kai oi pharisaioi pros ayton gynaika en moicheia katalēphtheisan kai stēsantes aytēn en mesō"
+        },
+        {
+          "verse_id": "john.8.4",
+          "reference": "John 8:4",
+          "text": "λεγουσιν αυτω πειραζοντεσ διδασκαλε αυτη η γυνη κατεληφθη επ αυτοφορω µοιχευοµενη",
+          "transliteration": "legoysin aytō peirazontes didaskale aytē ē gynē katelēphthē ep aytophorō moicheyomenē"
+        },
+        {
+          "verse_id": "john.8.5",
+          "reference": "John 8:5",
+          "text": "εν δε τω νοµω µωσησ ηµιν ενετειλατο τασ τοιαυτασ λιθοβολεισθαι συ ουν τι λεγεισ",
+          "transliteration": "en de tō nomō mōsēs ēmin eneteilato tas toiaytas lithoboleisthai sy oyn ti legeis"
+        },
+        {
+          "verse_id": "john.8.6",
+          "reference": "John 8:6",
+          "text": "τουτο δε ελεγον πειραζοντεσ αυτον ινα εχωσιν κατηγορειν αυτου ο δε ιησουσ κατω κυψασ τω δακτυλω εγραφεν εισ την γην µη προσποιουµενοσ",
+          "transliteration": "toyto de elegon peirazontes ayton ina echōsin katēgorein aytoy o de iēsoys katō kypsas tō daktylō egraphen eis tēn gēn mē prospoioymenos"
+        },
+        {
+          "verse_id": "john.8.7",
+          "reference": "John 8:7",
+          "text": "ωσ δε επεµενον ερωτωντεσ αυτον ανακυψασ ειπεν προσ αυτουσ ο αναµαρτητοσ υµων πρωτον επ αυτην τον λιθον βαλετω",
+          "transliteration": "ōs de epemenon erōtōntes ayton anakypsas eipen pros aytoys o anamartētos ymōn prōton ep aytēn ton lithon baletō"
+        },
+        {
+          "verse_id": "john.8.8",
+          "reference": "John 8:8",
+          "text": "και παλιν κατω κυψασ εγραφεν εισ την γην",
+          "transliteration": "kai palin katō kypsas egraphen eis tēn gēn"
+        },
+        {
+          "verse_id": "john.8.9",
+          "reference": "John 8:9",
+          "text": "οι δε ακουσαντεσ και υπο τησ συνειδησεωσ ελεγχοµενοι εξηρχοντο εισ καθ εισ αρξαµενοι απο των πρεσβυτερων και κατελειφθη µονοσ ο ιησουσ και η γυνη εν µεσω ουσα",
+          "transliteration": "oi de akoysantes kai ypo tēs syneidēseōs elegchomenoi exērchonto eis kath eis arxamenoi apo tōn presbyterōn kai kateleiphthē monos o iēsoys kai ē gynē en mesō oysa"
+        },
+        {
+          "verse_id": "john.8.10",
+          "reference": "John 8:10",
+          "text": "ανακυψασ δε ο ιησουσ και µηδενα θεασαµενοσ πλην τησ γυναικοσ ειπεν αυτη που εισιν εκεινοι οι κατηγοροι σου ουδεισ σε κατεκρινεν",
+          "transliteration": "anakypsas de o iēsoys kai mēdena theasamenos plēn tēs gynaikos eipen aytē poy eisin ekeinoi oi katēgoroi soy oydeis se katekrinen"
+        },
+        {
+          "verse_id": "john.8.11",
+          "reference": "John 8:11",
+          "text": "η δε ειπεν ουδεισ κυριε ειπεν δε ο ιησουσ ουδε εγω σε κρινω πορευου και µηκετι αµαρτανε",
+          "transliteration": "ē de eipen oydeis kyrie eipen de o iēsoys oyde egō se krinō poreyoy kai mēketi amartane"
+        }
+      ],
+      "source_edition": "Robinson-Pierpont Byzantine Majority Text 2018 (byztxt/byzantine-majority-text); rendered in canon-style unaccented form. Absent from WH 1881.",
+      "wh_status": "absent_in_wh"
     }
   ]
 }

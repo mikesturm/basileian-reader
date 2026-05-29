@@ -4,11 +4,10 @@
   "letter": "B",
   "title": "The Resurrection Appearances List (1 Cor 15:3b–7)",
   "language": "grc",
-  "source_edition": "SBLGNT (canon-style unaccented form).",
+  "source_edition": "Westcott-Hort 1881 (byztxt/greektext-westcott-hort, Sandborg-Petersen ed.); rendered in canon-style unaccented form.",
   "date_of_composition": "1 Corinthians c. 53–55 CE; pre-Pauline tradition formula likely 30s–40s CE.",
   "scope_note": "Pre-Pauline credal formula listing the resurrection appearances. Begins mid-verse 3 ('that Anointed died for our hamartiai...').",
-  "public_domain": false,
-  "license_note": "SBLGNT license terms apply.",
+  "public_domain": true,
   "pericopes": [
     {
       "pericope_id": "1cor_15_3-7",

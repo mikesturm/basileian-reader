@@ -27,7 +27,7 @@
     ],
     "tier_structure_note": "The tier structure tracks type of source, not theological weight. The hermeneutical key to the whole canon — Jesus's articulation of the two great commandments at Mark 12:28–34 and parallels — sits in Tier 1A; the eucharistic words sit in Tier 2A; the earliest accessible Christian eschatological tradition sits in Tier 2C."
   },
-  "description": "Original-language source texts for the Basileian / Jesus Tradition canon. The canon comprises Koine Greek New Testament and apostolic-fathers material plus Sahidic Coptic from Nag Hammadi. Greek material is presented in canon-style unaccented form preserving uncial-manuscript convention through approximately the 9th century.",
+  "description": "Original-language source texts for the Basileian / Jesus Tradition canon. The canon comprises Koine Greek New Testament and apostolic-fathers material plus Sahidic Coptic from Nag Hammadi. All NT Greek material follows Westcott-Hort 1881 (public domain); John 7:53–8:11 follows Robinson-Pierpont 2018 (public domain). Greek is presented in canon-style unaccented form preserving uncial-manuscript convention through approximately the 9th century. A parallel token layer (lexicons/wh-tokens.json) provides per-token Strong's G-numbers and morphological tags for all WH/RP2005-sourced verses.",
   "languages": {
     "grc": {
       "name": "Koine Greek",
@@ -67,7 +67,7 @@
     {"id": "tier1_c_special_l", "tier": 1, "letter": "C", "title": "Special L — Lukan Material with Strong Coherence", "language": "grc", "filename": "tier1_c_special_l.json", "completeness": "complete"},
     {"id": "tier1_d_special_m", "tier": 1, "letter": "D", "title": "Special M — Matthean Material with Strong Coherence", "language": "grc", "filename": "tier1_d_special_m.json", "completeness": "complete"},
     {"id": "tier1_e_thomas", "tier": 1, "letter": "E", "title": "The Gospel of Thomas — Selected Sayings", "language": "cop", "filename": "tier1_e_thomas.json", "completeness": "partial", "completeness_note": "16 of 57 logia have Coptic text; 41 are pending source-fetch from public-domain Nag Hammadi editions."},
-    {"id": "tier1_f_john", "tier": 1, "letter": "F", "title": "The Gospel of John — Selected Pericopes", "language": "grc", "filename": "tier1_f_john.json", "completeness": "partial", "completeness_note": "11 of 12 pericopes complete; Pericope Adulterae (7:53–8:11) pending fetch from Byzantine textform."},
+    {"id": "tier1_f_john", "tier": 1, "letter": "F", "title": "The Gospel of John — Selected Pericopes", "language": "grc", "filename": "tier1_f_john.json", "completeness": "complete", "completeness_note": "All 12 pericopes complete. 291 verses from WH 1881; Pericope Adulterae (7:53–8:11, 12 verses) from Robinson-Pierpont 2018, marked wh_status=absent_in_wh."},
     {"id": "tier2_a_last_supper", "tier": 2, "letter": "A", "title": "The Last Supper Words (1 Cor 11:23–26)", "language": "grc", "filename": "tier2_a_last_supper.json", "completeness": "complete"},
     {"id": "tier2_b_appearances", "tier": 2, "letter": "B", "title": "The Resurrection Appearances List (1 Cor 15:3b–7)", "language": "grc", "filename": "tier2_b_appearances.json", "completeness": "complete"},
     {"id": "tier2_c_dominical_sayings", "tier": 2, "letter": "C", "title": "Other Dominical Sayings Cited by Paul (1 Cor 7:10–11; 9:14; 1 Thess 4:15–17)", "language": "grc", "filename": "tier2_c_dominical_sayings.json", "completeness": "complete"},
@@ -112,13 +112,15 @@
     ]
   },
   "future_revisions": {
-    "description": "This corpus is intentionally minimal — text + transliteration + verse_id, no token-level data. Subsequent revisions can layer additional data without changing the existing structure.",
+    "description": "This corpus is intentionally minimal — text + transliteration + verse_id plus a parallel token layer. Subsequent revisions can layer additional data without changing the existing structure.",
+    "completed_layers": [
+      {"layer": "wh_reconciliation", "status": "done", "description": "All NT sections now sourced from WH 1881 (byztxt/greektext-westcott-hort). John 7:53–8:11 (Pericope Adulterae, absent from WH) sourced from Robinson-Pierpont 2018. SBLGNT terms no longer apply to this corpus."},
+      {"layer": "token_data", "status": "done", "description": "Per-token Strong's G-number and Robinson morphological tag for all WH/RP2005-sourced verses (386 verse entries). Stored as parallel file lexicons/wh-tokens.json keyed by verse_id. Produced by ingest-wh.js from the byztxt WH parsed source."}
+    ],
     "planned_layers": [
-      {"layer": "token_data", "description": "Per-word lemma, Strong's number, morphological tag. Source: MorphGNT for Greek, Coptic SCRIPTORIUM for Coptic. Does not require schema changes — adds 'tokens' array per verse alongside existing 'text' field."},
       {"layer": "complete_apocrypha", "description": "Fetch and integrate the Greek text of P.Egerton 2, P.Oxy 1224, P.Oxy 840, Gospel of Peter, and Jewish-Christian gospel citations from public-domain primary editions."},
       {"layer": "complete_thomas", "description": "Fetch the remaining 41 Coptic logia from public-domain Nag Hammadi editions to complete the Thomas section."},
-      {"layer": "pericope_adulterae", "description": "Fetch Greek text of John 7:53–8:11 from a Byzantine-textform source (Stephanus 1550 or Robinson-Pierpont)."},
-      {"layer": "wh_reconciliation", "description": "Reconcile John, Tier 2 NT material, and any other SBLGNT-sourced sections to the WH 1881 text directly, replacing minor SBLGNT divergences."}
+      {"layer": "coptic_token_data", "description": "Per-token lemma and morphology for Thomas via Coptic SCRIPTORIUM (CC-BY licensed). Schema parallel to wh-tokens.json."}
     ]
   }
 }

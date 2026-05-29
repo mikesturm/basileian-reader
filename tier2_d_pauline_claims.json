@@ -4,11 +4,10 @@
   "letter": "D",
   "title": "Pauline First-Person Appearance Claims",
   "language": "grc",
-  "source_edition": "SBLGNT (canon-style unaccented form).",
+  "source_edition": "Westcott-Hort 1881 (byztxt/greektext-westcott-hort, Sandborg-Petersen ed.); rendered in canon-style unaccented form.",
   "date_of_composition": "1 Corinthians c. 53–55 CE; Galatians c. 48–55 CE.",
   "scope_note": "Paul's first-person claims of having encountered the risen Anointed. The Galatians 1:16 ἐν ἐµοί ('in me') is a major interpretive crux for the visionary-vs-bodily nature of the encounter; preserved untranslated in the canon's English rendering. Also includes the three Acts Damascus-encounter accounts (Lukan narration in 9:1-19; Pauline first-person retellings within Lukan narrative in 22:6-21 and 26:12-18).",
-  "public_domain": false,
-  "license_note": "SBLGNT license terms apply.",
+  "public_domain": true,
   "pericopes": [
     {
       "pericope_id": "1cor_9_1",
@@ -59,20 +58,20 @@
         {
           "verse_id": "galatians.1.11",
           "reference": "Galatians 1:11",
-          "text": "γνωριζω γαρ υµιν αδελφοι το ευαγγελιον το ευαγγελισθεν υπ’ εµου οτι ουκ εστιν κατα ανθρωπον",
-          "transliteration": "gnōrizō gar ymin adelphoi to eyangelion to eyangelisthen yp’ emoy oti oyk estin kata anthrōpon"
+          "text": "γνωριζω γαρ υµιν αδελφοι το ευαγγελιον το ευαγγελισθεν υπ εµου οτι ουκ εστιν κατα ανθρωπον",
+          "transliteration": "gnōrizō gar ymin adelphoi to eyaggelion to eyaggelisthen yp emoy oti oyk estin kata anthrōpon"
         },
         {
           "verse_id": "galatians.1.12",
           "reference": "Galatians 1:12",
-          "text": "ουδε γαρ εγω παρα ανθρωπου παρελαβον αυτο ουτε εδιδαχθην αλλα δι’ αποκαλυψεωσ ιησου χριστου",
-          "transliteration": "oyde gar egō para anthrōpoy parelabon ayto oyte edidachthēn alla di’ apokalypseōs iēsoy christoy"
+          "text": "ουδε γαρ εγω παρα ανθρωπου παρελαβον αυτο ουτε εδιδαχθην αλλα δι αποκαλυψεωσ ιησου χριστου",
+          "transliteration": "oyde gar egō para anthrōpoy parelabon ayto oyte edidachthēn alla di apokalypseōs iēsoy christoy"
         },
         {
           "verse_id": "galatians.1.13",
           "reference": "Galatians 1:13",
-          "text": "ηκουσατε γαρ την εµην αναστροφην ποτε εν τω ιουδαισµω οτι καθ’ υπερβολην εδιωκον την εκκλησιαν του θεου και επορθουν αυτην",
-          "transliteration": "ēkoysate gar tēn emēn anastrophēn pote en tō ioydaismō oti kath’ yperbolēn ediōkon tēn ekklēsian toy theoy kai eporthoyn aytēn"
+          "text": "ηκουσατε γαρ την εµην αναστροφην ποτε εν τω ιουδαισµω οτι καθ υπερβολην εδιωκον την εκκλησιαν του θεου και επορθουν αυτην",
+          "transliteration": "ēkoysate gar tēn emēn anastrophēn pote en tō ioydaismō oti kath yperbolēn ediōkon tēn ekklēsian toy theoy kai eporthoyn aytēn"
         },
         {
           "verse_id": "galatians.1.14",
@@ -83,14 +82,14 @@
         {
           "verse_id": "galatians.1.15",
           "reference": "Galatians 1:15",
-          "text": "οτε δε ευδοκησεν ο αφορισασ µε εκ κοιλιασ µητροσ µου και καλεσασ δια τησ χαριτοσ αυτου",
-          "transliteration": "ote de eydokēsen o aphorisas me ek koilias mētros moy kai kalesas dia tēs charitos aytoy"
+          "text": "οτε δε ευδοκησεν ο θεοσ ο αφορισασ µε εκ κοιλιασ µητροσ µου και καλεσασ δια τησ χαριτοσ αυτου",
+          "transliteration": "ote de eydokēsen o theos o aphorisas me ek koilias mētros moy kai kalesas dia tēs charitos aytoy"
         },
         {
           "verse_id": "galatians.1.16",
           "reference": "Galatians 1:16",
           "text": "αποκαλυψαι τον υιον αυτου εν εµοι ινα ευαγγελιζωµαι αυτον εν τοισ εθνεσιν ευθεωσ ου προσανεθεµην σαρκι και αιµατι",
-          "transliteration": "apokalypsai ton yion aytoy en emoi ina eyangelizōmai ayton en tois ethnesin eytheōs oy prosanethemēn sarki kai aimati"
+          "transliteration": "apokalypsai ton yion aytoy en emoi ina eyaggelizōmai ayton en tois ethnesin eytheōs oy prosanethemēn sarki kai aimati"
         },
         {
           "verse_id": "galatians.1.17",
@@ -115,14 +114,14 @@
         {
           "verse_id": "acts.9.2",
           "reference": "Acts 9:2",
-          "text": "ητησατο παρ’ αυτου επιστολασ εισ δαµασκον προσ τασ συναγωγασ οπωσ εαν τινασ ευρη τησ οδου οντασ ανδρασ τε και γυναικασ δεδεµενουσ αγαγη εισ ιερουσαληµ",
-          "transliteration": "ētēsato par’ aytoy epistolas eis damaskon pros tas synagōgas opōs ean tinas eyrē tēs odoy ontas andras te kai gynaikas dedemenoys agagē eis ieroysalēm"
+          "text": "ητησατο παρ αυτου επιστολασ εισ δαµασκον προσ τασ συναγωγασ οπωσ εαν τινασ ευρη τησ οδου οντασ ανδρασ τε και γυναικασ δεδεµενουσ αγαγη εισ ιερουσαληµ",
+          "transliteration": "ētēsato par aytoy epistolas eis damaskon pros tas synagōgas opōs ean tinas eyrē tēs odoy ontas andras te kai gynaikas dedemenoys agagē eis ieroysalēm"
         },
         {
           "verse_id": "acts.9.3",
           "reference": "Acts 9:3",
           "text": "εν δε τω πορευεσθαι εγενετο αυτον εγγιζειν τη δαµασκω εξαιφνησ τε αυτον περιηστραψεν φωσ εκ του ουρανου",
-          "transliteration": "en de tō poreyesthai egeneto ayton engizein tē damaskō exaiphnēs te ayton periēstrapsen phōs ek toy oyranoy"
+          "transliteration": "en de tō poreyesthai egeneto ayton eggizein tē damaskō exaiphnēs te ayton periēstrapsen phōs ek toy oyranoy"
         },
         {
           "verse_id": "acts.9.4",
@@ -169,14 +168,14 @@
         {
           "verse_id": "acts.9.11",
           "reference": "Acts 9:11",
-          "text": "ο δε κυριοσ προσ αυτον αναστασ πορευθητι επι την ρυµην την καλουµενην ευθειαν και ζητησον εν οικια ιουδα σαυλον ονοµατι ταρσεα ιδου γαρ προσευχεται",
-          "transliteration": "o de kyrios pros ayton anastas poreythēti epi tēn rymēn tēn kaloymenēn eytheian kai zētēson en oikia ioyda saylon onomati tarsea idoy gar proseychetai"
+          "text": "ο δε κυριοσ προσ αυτον αναστα αναστασ πορευθητι επι την ρυµην την καλουµενην ευθειαν και ζητησον εν οικια ιουδα σαυλον ονοµατι ταρσεα ιδου γαρ προσευχεται",
+          "transliteration": "o de kyrios pros ayton anasta anastas poreythēti epi tēn rymēn tēn kaloymenēn eytheian kai zētēson en oikia ioyda saylon onomati tarsea idoy gar proseychetai"
         },
         {
           "verse_id": "acts.9.12",
           "reference": "Acts 9:12",
-          "text": "και ειδεν ανδρα εν οραµατι ανανιαν ονοµατι εισελθοντα και επιθεντα αυτω χειρασ οπωσ αναβλεψη",
-          "transliteration": "kai eiden andra en oramati ananian onomati eiselthonta kai epithenta aytō cheiras opōs anablepsē"
+          "text": "και ειδεν ανδρα εν οραµατι ανανιαν ονοµατι εισελθοντα και επιθεντα αυτω τασ χειρασ οπωσ αναβλεψη",
+          "transliteration": "kai eiden andra en oramati ananian onomati eiselthonta kai epithenta aytō tas cheiras opōs anablepsē"
         },
         {
           "verse_id": "acts.9.13",
@@ -193,8 +192,8 @@
         {
           "verse_id": "acts.9.15",
           "reference": "Acts 9:15",
-          "text": "ειπεν δε προσ αυτον ο κυριοσ πορευου οτι σκευοσ εκλογησ εστιν µοι ουτοσ του βαστασαι το ονοµα µου ενωπιον εθνων τε και βασιλεων υιων τε ισραηλ",
-          "transliteration": "eipen de pros ayton o kyrios poreyoy oti skeyos eklogēs estin moi oytos toy bastasai to onoma moy enōpion ethnōn te kai basileōn yiōn te israēl"
+          "text": "ειπεν δε προσ αυτον ο κυριοσ πορευου οτι σκευοσ εκλογησ εστιν µοι ουτοσ του βαστασαι το ονοµα µου ενωπιον των εθνων τε και βασιλεων υιων τε ισραηλ",
+          "transliteration": "eipen de pros ayton o kyrios poreyoy oti skeyos eklogēs estin moi oytos toy bastasai to onoma moy enōpion tōn ethnōn te kai basileōn yiōn te israēl"
         },
         {
           "verse_id": "acts.9.16",
@@ -205,8 +204,8 @@
         {
           "verse_id": "acts.9.17",
           "reference": "Acts 9:17",
-          "text": "απηλθεν δε ανανιασ και εισηλθεν εισ την οικιαν και επιθεισ επ’ αυτον τασ χειρασ ειπεν σαουλ αδελφε ο κυριοσ απεσταλκεν µε ιησουσ ο οφθεισ σοι εν τη οδω η ηρχου οπωσ αναβλεψησ και πλησθησ πνευµατοσ αγιου",
-          "transliteration": "apēlthen de ananias kai eisēlthen eis tēn oikian kai epitheis ep’ ayton tas cheiras eipen saoyl adelphe o kyrios apestalken me iēsoys o ophtheis soi en tē odō ē ērchoy opōs anablepsēs kai plēsthēs pneymatos agioy"
+          "text": "απηλθεν δε ανανιασ και εισηλθεν εισ την οικιαν και επιθεισ επ αυτον τασ χειρασ ειπεν σαουλ αδελφε ο κυριοσ απεσταλκεν µε ιησουσ ο οφθεισ σοι εν τη οδω η ηρχου οπωσ αναβλεψησ και πλησθησ πνευµατοσ αγιου",
+          "transliteration": "apēlthen de ananias kai eisēlthen eis tēn oikian kai epitheis ep ayton tas cheiras eipen saoyl adelphe o kyrios apestalken me iēsoys o ophtheis soi en tē odō ē ērchoy opōs anablepsēs kai plēsthēs pneymatos agioy"
         },
         {
           "verse_id": "acts.9.18",
@@ -217,8 +216,8 @@
         {
           "verse_id": "acts.9.19",
           "reference": "Acts 9:19",
-          "text": "και λαβων τροφην ενισχυσεν εγενετο δε µετα των εν δαµασκω µαθητων ηµερασ τινασ",
-          "transliteration": "kai labōn trophēn enischysen egeneto de meta tōn en damaskō mathētōn ēmeras tinas"
+          "text": "και λαβων τροφην ενισχυθη ενισχυσεν εγενετο δε µετα των εν δαµασκω µαθητων ηµερασ τινασ",
+          "transliteration": "kai labōn trophēn enischythē enischysen egeneto de meta tōn en damaskō mathētōn ēmeras tinas"
         }
       ]
     },
@@ -232,7 +231,7 @@
           "verse_id": "acts.22.6",
           "reference": "Acts 22:6",
           "text": "εγενετο δε µοι πορευοµενω και εγγιζοντι τη δαµασκω περι µεσηµβριαν εξαιφνησ εκ του ουρανου περιαστραψαι φωσ ικανον περι εµε",
-          "transliteration": "egeneto de moi poreyomenō kai engizonti tē damaskō peri mesēmbrian exaiphnēs ek toy oyranoy periastrapsai phōs ikanon peri eme"
+          "transliteration": "egeneto de moi poreyomenō kai eggizonti tē damaskō peri mesēmbrian exaiphnēs ek toy oyranoy periastrapsai phōs ikanon peri eme"
         },
         {
           "verse_id": "acts.22.7",
@@ -243,8 +242,8 @@
         {
           "verse_id": "acts.22.8",
           "reference": "Acts 22:8",
-          "text": "εγω δε απεκριθην τισ ει κυριε ειπεν τε προσ εµε εγω ειµι ιησουσ ο ναζωραιοσ ον συ διωκεισ",
-          "transliteration": "egō de apekrithēn tis ei kyrie eipen te pros eme egō eimi iēsoys o nazōraios on sy diōkeis"
+          "text": "εγω δε απεκριθην τισ ει κυριε ειπεν τε προσ εµε µε εγω ειµι ιησουσ ο ναζωραιοσ ον συ διωκεισ",
+          "transliteration": "egō de apekrithēn tis ei kyrie eipen te pros eme me egō eimi iēsoys o nazōraios on sy diōkeis"
         },
         {
           "verse_id": "acts.22.9",
@@ -273,8 +272,8 @@
         {
           "verse_id": "acts.22.13",
           "reference": "Acts 22:13",
-          "text": "ελθων προσ εµε και επιστασ ειπεν µοι σαουλ αδελφε αναβλεψον καγω αυτη τη ωρα ανεβλεψα εισ αυτον",
-          "transliteration": "elthōn pros eme kai epistas eipen moi saoyl adelphe anablepson kagō aytē tē ōra aneblepsa eis ayton"
+          "text": "ελθων προσ εµε µε και επιστασ ειπεν µοι σαουλ αδελφε αναβλεψον καγω αυτη τη ωρα ανεβλεψα εισ αυτον",
+          "transliteration": "elthōn pros eme me kai epistas eipen moi saoyl adelphe anablepson kagō aytē tē ōra aneblepsa eis ayton"
         },
         {
           "verse_id": "acts.22.14",
@@ -335,8 +334,8 @@
         {
           "verse_id": "acts.26.12",
           "reference": "Acts 26:12",
-          "text": "εν οισ πορευοµενοσ εισ την δαµασκον µετ’ εξουσιασ και επιτροπησ τησ των αρχιερεων",
-          "transliteration": "en ois poreyomenos eis tēn damaskon met’ exoysias kai epitropēs tēs tōn archiereōn"
+          "text": "εν οισ πορευοµενοσ εισ την δαµασκον µετ εξουσιασ και επιτροπησ τησ των αρχιερεων",
+          "transliteration": "en ois poreyomenos eis tēn damaskon met exoysias kai epitropēs tēs tōn archiereōn"
         },
         {
           "verse_id": "acts.26.13",
@@ -359,8 +358,8 @@
         {
           "verse_id": "acts.26.16",
           "reference": "Acts 26:16",
-          "text": "αλλα αναστηθι και στηθι επι τουσ ποδασ σου εισ τουτο γαρ ωφθην σοι προχειρισασθαι σε υπηρετην και µαρτυρα ων τε ειδεσ µε ων τε οφθησοµαι σοι",
-          "transliteration": "alla anastēthi kai stēthi epi toys podas soy eis toyto gar ōphthēn soi procheirisasthai se ypēretēn kai martyra ōn te eides me ōn te ophthēsomai soi"
+          "text": "αλλα αναστηθι και στηθι επι τουσ ποδασ σου εισ τουτο γαρ ωφθην σοι προχειρισασθαι σε υπηρετην και µαρτυρα ων τε ειδεσ µε µε ων τε οφθησοµαι σοι",
+          "transliteration": "alla anastēthi kai stēthi epi toys podas soy eis toyto gar ōphthēn soi procheirisasthai se ypēretēn kai martyra ōn te eides me me ōn te ophthēsomai soi"
         },
         {
           "verse_id": "acts.26.17",
