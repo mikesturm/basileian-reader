@@ -4,12 +4,11 @@
   "letter": "A",
   "title": "The Last Supper Words (1 Cor 11:23–26)",
   "language": "grc",
-  "source_edition": "SBLGNT (canon-style unaccented form).",
+  "source_edition": "Westcott-Hort 1881 (byztxt/greektext-westcott-hort, Sandborg-Petersen ed.); rendered in canon-style unaccented form.",
   "convention_notes": "Text presented without diacritical marks; canon-style unaccented form.",
   "date_of_composition": "1 Corinthians c. 53–55 CE; pre-Pauline tradition encoded earlier.",
   "scope_note": "The earliest written attestation of the eucharistic words, which Paul claims to have 'received' (παραλαμβάνω) and 'handed on' (παραδίδωμι) — paradosis vocabulary that the Basileian movement takes its name from.",
-  "public_domain": false,
-  "license_note": "SBLGNT license terms apply (see John section).",
+  "public_domain": true,
   "pericopes": [
     {
       "pericope_id": "1cor_11_23-26",
@@ -39,7 +38,7 @@
           "verse_id": "1cor.11.26",
           "reference": "1 Corinthians 11:26",
           "text": "οσακισ γαρ εαν εσθιητε τον αρτον τουτον και το ποτηριον πινητε τον θανατον του κυριου καταγγελλετε αχρι ου ελθη",
-          "transliteration": "osakis gar ean esthiēte ton arton toyton kai to potērion pinēte ton thanaton toy kyrioy katangellete achri oy elthē"
+          "transliteration": "osakis gar ean esthiēte ton arton toyton kai to potērion pinēte ton thanaton toy kyrioy kataggellete achri oy elthē"
         }
       ]
     }
