@@ -501,8 +501,8 @@
       const resp = await fetch("lexicons/verse-words.json");
       if (!resp.ok) return;
       state.verseWords = await resp.json();
-      // Re-evaluate the toolbar in case a selection is already active.
-      updateSelectionToolbar();
+      // Re-evaluate the selection menu in case a selection is already active.
+      updateSelectionMenu();
     } catch {
       // silently ignore — the Show Greek button just won't appear
     }
@@ -541,9 +541,14 @@
   }
 
   // Convert a runtime section.book name to the dot-delimited prefix used in
-  // verse_id values (e.g. "Mark" → "mark", "1 Corinthians" → "1corinthians").
+  // verse_id values (must match the verse_id prefixes in the tier JSON files
+  // and in lexicons/verse-words.json).
+  const BOOK_VERSE_ID_PREFIX = {
+    "1 Corinthians": "1cor",
+    "1 Thessalonians": "1thess",
+  };
   function bookToVerseIdPrefix(bookName) {
-    return (bookName || "").toLowerCase().replace(/\s+/g, "");
+    return BOOK_VERSE_ID_PREFIX[bookName] || (bookName || "").toLowerCase().replace(/\s+/g, "");
   }
 
   // Walk every .verse-number marker inside the section body and return the

@@ -238,7 +238,7 @@ for (let v = 1; v <= 11; v++) {
   PA_VERSES.push({ verse_id: `john.8.${v}`, ch: 8, v, reference: `John 8:${v}` });
 }
 
-// Section files to update (agraphon intentionally excluded per scope)
+// Section files to update (includes agraphon tier for acts.20.35 coverage)
 const SECTION_FILES = [
   'tier1_a_mark.json',
   'tier1_c_special_l.json',
@@ -249,6 +249,7 @@ const SECTION_FILES = [
   'tier2_c_dominical_sayings.json',
   'tier2_d_pauline_claims.json',
   'tier2_e_ascension.json',
+  'tier2_f_agraphon.json',
 ];
 
 const WH_SOURCE_EDITION = 'Westcott-Hort 1881 (byztxt/greektext-westcott-hort, Sandborg-Petersen ed.); rendered in canon-style unaccented form.';
