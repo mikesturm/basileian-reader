@@ -221,6 +221,8 @@ const RP_BASE = 'https://raw.githubusercontent.com/byztxt/byzantine-majority-tex
 // WH file for each book code used in our verse_ids
 const WH_FILES = {
   john:       'JOH.UWH',
+  mark:       'MR.UWH',
+  matthew:    'MT.UWH',
   '1cor':     '1CO.UWH',
   '1thess':   '1TH.UWH',
   galatians:  'GA.UWH',
@@ -238,6 +240,9 @@ for (let v = 1; v <= 11; v++) {
 
 // Section files to update (agraphon intentionally excluded per scope)
 const SECTION_FILES = [
+  'tier1_a_mark.json',
+  'tier1_c_special_l.json',
+  'tier1_d_special_m.json',
   'tier1_f_john.json',
   'tier2_a_last_supper.json',
   'tier2_b_appearances.json',
