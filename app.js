@@ -99,7 +99,8 @@
     themeToggle: document.getElementById("themeToggle"),
     translationSelect: document.getElementById("translationSelect"),
     translationStatus: document.getElementById("translationStatus"),
-    crossRefBtn: document.getElementById("crossRefBtn")
+    crossRefBtn: document.getElementById("crossRefBtn"),
+    syncToggle: document.getElementById("syncToggle")
   };
 
   function init() {
@@ -129,8 +130,28 @@
     }
 
     if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-      navigator.serviceWorker.register("sw.js?v=20260508-fix4").catch(() => {});
+      navigator.serviceWorker.register("sw.js?v=20260604-sync1").catch(() => {});
     }
+
+    if (window.SyncModule) {
+      SyncModule.init(rehydrateFromSync);
+    }
+  }
+
+  // Called by SyncModule after it merges remote state into localStorage so the
+  // running app state and UI reflect the new data.
+  function rehydrateFromSync(_merged, opts) {
+    state.highlights = loadHighlights();
+    restoreTranslationPreference();
+    restoreCrossRefPreference();
+    els.translationSelect.value = state.activeTranslation;
+    updateCrossRefButton();
+    // Only jump to the remote reading position on the first sync after page
+    // load — otherwise a background sync would yank the user mid-read.
+    if (opts && opts.isInitial && !location.hash) {
+      restoreLastPosition();
+    }
+    renderAll();
   }
 
   function bindEvents() {
@@ -190,6 +211,7 @@
       els.crossRefBtn.addEventListener("click", () => {
         state.crossRefEnabled = !state.crossRefEnabled;
         localStorage.setItem(STORAGE_CROSSREF, state.crossRefEnabled ? "1" : "");
+        if (window.SyncModule) SyncModule.noteSettingsChanged();
         updateCrossRefButton();
         renderReader();
       });
@@ -199,6 +221,7 @@
     els.translationSelect.addEventListener("change", () => {
       state.activeTranslation = els.translationSelect.value;
       localStorage.setItem(STORAGE_TRANSLATION, state.activeTranslation);
+      if (window.SyncModule) SyncModule.noteSettingsChanged();
       updateTranslationStatus("");
       renderReader(); // Re-render with new translation
     });
@@ -253,6 +276,10 @@
     });
 
     els.themeToggle.addEventListener("click", toggleTheme);
+
+    if (els.syncToggle) {
+      els.syncToggle.addEventListener("click", openSyncSettings);
+    }
 
     window.addEventListener("hashchange", () => {
       restoreFromHash();
@@ -1654,6 +1681,7 @@
     if (!confirm("Delete this highlight and note?")) return;
     state.highlights = state.highlights.filter(h => h.id !== id);
     saveHighlights();
+    if (window.SyncModule) SyncModule.noteHighlightDeleted(id);
     renderAll();
   }
 
@@ -2088,6 +2116,7 @@
       currentSectionId: state.currentSectionId,
       chapterMode: state.chapterMode
     }));
+    if (window.SyncModule) SyncModule.notePositionChanged();
   }
 
   function restoreLastPosition() {
@@ -2266,6 +2295,7 @@
 
   function saveHighlights() {
     localStorage.setItem(STORAGE_HIGHLIGHTS, JSON.stringify(state.highlights));
+    if (window.SyncModule) SyncModule.noteHighlightsChanged();
   }
 
   function normalize(str) {
@@ -2303,6 +2333,79 @@
     const current = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
     document.documentElement.dataset.theme = current;
     localStorage.setItem(STORAGE_THEME, current);
+    if (window.SyncModule) SyncModule.noteSettingsChanged();
+  }
+
+  function openSyncSettings() {
+    if (!window.SyncModule) return;
+    const s = SyncModule.status();
+    const fmt = ts => ts ? new Date(ts).toLocaleString() : "—";
+    const bgNote = s.backgroundSyncSupported
+      ? "This browser supports Background Sync (changes flush when the network returns)."
+      : "This browser doesn't support Background Sync. Sync still runs whenever you open or focus the app, and every 5 minutes while it's visible.";
+
+    const body = `
+      <p>Sync your reading position, highlights, and notes across devices via a private GitHub Gist that only you can read.</p>
+      <ol class="hint" style="padding-left:1.25em">
+        <li>Create a private gist at <a href="https://gist.github.com" target="_blank" rel="noopener">gist.github.com</a> with a file named <code>${SyncModule.GIST_FILENAME}</code> containing <code>{}</code>. Copy its ID from the URL.</li>
+        <li>Create a fine-grained or classic personal access token with the <code>gist</code> scope at <a href="https://github.com/settings/tokens" target="_blank" rel="noopener">github.com/settings/tokens</a>.</li>
+        <li>Paste both below. The token is stored only on this device's browser.</li>
+      </ol>
+      <label class="field-label" for="syncGistId">Gist ID</label>
+      <input id="syncGistId" class="control" type="text" autocomplete="off" spellcheck="false" value="${escapeAttr(s.gistId || "")}" placeholder="e.g. 4f3a9b2c1d0e...">
+      <label class="field-label" for="syncToken">GitHub token</label>
+      <input id="syncToken" class="control" type="password" autocomplete="off" spellcheck="false" placeholder="${s.configured ? "(unchanged — leave blank to keep)" : "ghp_..."}">
+      <p id="syncStatusMsg" class="hint" style="margin-top:0.75em">
+        <strong>Status:</strong> ${s.configured ? "Connected" : "Not connected"}<br>
+        Last pull: ${fmt(s.lastPulledAt)} · Last push: ${fmt(s.lastPushedAt)}
+        ${s.lastError ? `<br><span style="color:#c33">Last error: ${escapeHTML(s.lastError)}</span>` : ""}
+      </p>
+      <p class="hint">${bgNote}</p>
+    `;
+
+    const actions = [
+      { label: "Close", className: "button secondary", onClick: closeModal }
+    ];
+    if (s.configured) {
+      actions.push({ label: "Sync now", className: "button secondary", onClick: async () => {
+        const msg = document.getElementById("syncStatusMsg");
+        if (msg) msg.innerHTML = "<em>Syncing…</em>";
+        try {
+          await SyncModule.syncNow();
+          openSyncSettings();
+        } catch (err) {
+          if (msg) msg.innerHTML = `<span style="color:#c33">Sync failed: ${escapeHTML(String(err.message || err))}</span>`;
+        }
+      }});
+      actions.push({ label: "Disconnect", className: "button secondary", onClick: () => {
+        if (!confirm("Disconnect sync? Local highlights and notes stay on this device.")) return;
+        SyncModule.disconnect();
+        closeModal();
+      }});
+    }
+    actions.push({ label: s.configured ? "Save & sync" : "Connect", className: "button", onClick: async () => {
+      const gistId = document.getElementById("syncGistId").value.trim();
+      const tokenInput = document.getElementById("syncToken").value.trim();
+      const existing = SyncModule.status();
+      const token = tokenInput || (existing.configured ? null : "");
+      if (!gistId || (!tokenInput && !existing.configured)) {
+        const msg = document.getElementById("syncStatusMsg");
+        if (msg) msg.innerHTML = `<span style="color:#c33">Both Gist ID and token are required.</span>`;
+        return;
+      }
+      const msg = document.getElementById("syncStatusMsg");
+      if (msg) msg.innerHTML = "<em>Connecting…</em>";
+      try {
+        // If token left blank, reuse stored token by reading config out of localStorage.
+        const effectiveToken = tokenInput || JSON.parse(localStorage.getItem("basileian.reader.sync.config") || "{}").token;
+        await SyncModule.configure(effectiveToken, gistId);
+        closeModal();
+      } catch (err) {
+        if (msg) msg.innerHTML = `<span style="color:#c33">Connection failed: ${escapeHTML(String(err.message || err))}</span>`;
+      }
+    }});
+
+    openModal("Cross-device sync", body, actions);
   }
 
   function applyStoredTheme() {
