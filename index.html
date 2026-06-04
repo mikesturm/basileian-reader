@@ -22,6 +22,7 @@
         </div>
       </div>
       <div class="top-actions">
+        <button id="syncToggle" class="icon-button" aria-label="Sync settings" title="Sync settings">⇅</button>
         <button id="themeToggle" class="icon-button" aria-label="Toggle theme">◐</button>
       </div>
     </header>
@@ -93,7 +94,7 @@
         <section id="notesTab" class="tab-panel" aria-label="Notes">
           <div class="reader-card">
             <h2>Your highlights & notes</h2>
-            <p class="muted">Highlights and notes are stored only in this browser on this device.</p>
+            <p class="muted">Highlights and notes are stored in this browser. Tap the <strong>⇅</strong> button in the top bar to sync them across devices via a private GitHub Gist.</p>
             <div id="notesList" class="notes-list"></div>
           </div>
         </section>
@@ -151,6 +152,7 @@
   <script src="data.js?v=20260521-ot-reader1"></script>
   <script src="translations-module.js?v=20260521-ot-reader1"></script>
   <script src="commentary-module.js?v=20260521-ot-reader1"></script>
-  <script src="app.js?v=20260521-ot-reader1"></script>
+  <script src="sync-module.js?v=20260604-sync1"></script>
+  <script src="app.js?v=20260604-sync1"></script>
 </body>
 </html>

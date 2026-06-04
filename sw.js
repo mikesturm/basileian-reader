@@ -1,4 +1,4 @@
-const CACHE_NAME = "basileian-reader-v7-20260515-bible-concordance";
+const CACHE_NAME = "basileian-reader-v8-20260604-sync";
 const ASSETS = [
   "./",
   "./index.html",
@@ -8,6 +8,7 @@ const ASSETS = [
   "./data.js",
   "./translations-module.js",
   "./commentary-module.js",
+  "./sync-module.js",
   "./translations-index.json",
   "./canon.html",
   "./icon-192.png",
@@ -31,6 +32,29 @@ self.addEventListener("activate", event => {
     caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))))
   );
   self.clients.claim();
+});
+
+// Background Sync: when the platform fires a registered sync event, ask any open
+// client to push its pending state to the gist. (Sync state lives in the page's
+// localStorage, so the work has to happen in a client.) On Chrome/Edge desktop &
+// Android the client can be woken even after the tab is hidden; on iOS Safari
+// these events don't fire — SyncModule's visibilitychange/online hooks cover it.
+async function pingClientsToSync(tag) {
+  const clients = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
+  if (!clients.length) return;
+  for (const client of clients) client.postMessage({ type: "sync-request", tag });
+}
+
+self.addEventListener("sync", event => {
+  if (event.tag === "basileian-sync") {
+    event.waitUntil(pingClientsToSync(event.tag));
+  }
+});
+
+self.addEventListener("periodicsync", event => {
+  if (event.tag === "basileian-periodic-sync") {
+    event.waitUntil(pingClientsToSync(event.tag));
+  }
 });
 
 self.addEventListener("fetch", event => {
