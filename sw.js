@@ -1,4 +1,4 @@
-const CACHE_NAME = "basileian-reader-v7-20260515-bible-concordance";
+const CACHE_NAME = "basileian-reader-v8-20261014-wheel-logo";
 const ASSETS = [
   "./",
   "./index.html",
@@ -12,6 +12,10 @@ const ASSETS = [
   "./canon.html",
   "./icon-192.png",
   "./icon-512.png",
+  "./apple-touch-icon.png",
+  "./logo-mark.png",
+  "./favicon.ico",
+  "./favicon.svg",
   "./site.webmanifest"
 ];
 
